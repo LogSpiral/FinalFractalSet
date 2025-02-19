@@ -1,0 +1,126 @@
+FinalFractalTip: {
+	0: This Even not the final state of them.
+	1: ��The Ultra Fractal Of The First And The Final��
+	2: ��Dimension Cut Of Fractal��
+	3: Zenith��FinalFractal��
+}
+
+Items: {
+	FinalFractal_Old: {
+		DisplayName: Final Fractal(Old)
+		Tooltip: ""
+	}
+
+	FinalFractal: {
+		DisplayName: Final Fractal
+		Tooltip: ""
+	}
+
+	CrystalStoneSword: {
+		DisplayName: Crystal Stone Sword
+		Tooltip: ""
+	}
+
+	FirstFractal_Remastered: {
+		DisplayName: First Fractal(Remastered)
+		Tooltip: ""
+	}
+
+	FirstZenith: {
+		DisplayName: Primitive Zenith
+		Tooltip: ""
+	}
+
+	FirstZenith_Old: {
+		DisplayName: Primitive Zenith(Old)
+		Tooltip: ""
+	}
+
+	LivingWoodSword: {
+		DisplayName: Living Wood Sword
+		Tooltip: ""
+	}
+
+	LivingWoodSword_Old: {
+		DisplayName: Living Wood Sword(Old)
+		Tooltip: ""
+	}
+
+	MossStoneSword_Old: {
+		DisplayName: Moss Stone Sword(Old)
+		Tooltip: ""
+	}
+
+	PureFractal: {
+		DisplayName: Pure Fractal
+		Tooltip: ""
+	}
+
+	PureFractal_Old: {
+		DisplayName: Pure Fractal(Old)
+		Tooltip: ""
+	}
+
+	RefinedSteelBlade: {
+		DisplayName: Refined Steel Blade
+		Tooltip: ""
+	}
+
+	RefinedSteelBlade_Old: {
+		DisplayName: Refined Steel Blade(Old)
+		Tooltip: ""
+	}
+
+	RustySteelBlade: {
+		DisplayName: Rusty Steel Blade
+		Tooltip: ""
+	}
+
+	RustySteelBlade_Old: {
+		DisplayName: Rusty Steel Blade(Old)
+		Tooltip: ""
+	}
+
+	DyingStoneSword: {
+		DisplayName: Dying Stone Sword
+		Tooltip: ""
+	}
+
+	DyingStoneSword_Old: {
+		DisplayName: Dying Stone Sword(Old)
+		Tooltip: ""
+	}
+
+	WitheredWoodSword: {
+		DisplayName: Withered Wood Sword
+		Tooltip: ""
+	}
+
+	WitheredWoodSword_Old: {
+		DisplayName: Withered Wood Sword(Old)
+		Tooltip: ""
+	}
+}
+
+Projectiles: {
+	FinalFractalDimensionalSwoosh.DisplayName: Final Fractal Dimensional Slash
+	FinalFractalDimensionalSwoosh2.DisplayName: Final Fractal Dimensional Slash
+	FinalFractalDimensionalSwoosh3.DisplayName: Final Fractal Dimensional Slash
+	FinalFractalItem.DisplayName: Final Fractal
+	FinalFractalProjectile.DisplayName: Final Fractal
+	FinalFractalShadow.DisplayName: Final Fractal Shadow
+	Zenith_FirstFractal.DisplayName: Final Fractal
+	Zenith_FirstFractals.DisplayName: Final Fractal
+	FirstZenith_Blade.DisplayName: Primitive Zenith
+	FirstZenithProj.DisplayName: Primitive Zenith
+	PureFractalProj.DisplayName: Pure Fractal
+	RustySteelBladeProj.DisplayName: Rusty Steel Blade
+	DyingStoneSword_Blade.DisplayName: Dying Stone Sword
+	DyingStoneSwordProj.DisplayName: Dying Stone Sword
+	SharpStoneTears.DisplayName: Sharp Stone Tears
+	WitheredTree.DisplayName: Withered Tree
+	WitheredWood.DisplayName: Withered Wood
+	WitheredWoodSword_Blade.DisplayName: Withered Wood Sword
+	WitheredWoodSword_Blade_GivenUp.DisplayName: Withered Wood Sword
+	WitheredWoodSwordProj.DisplayName: Withered Wood Sword
+}

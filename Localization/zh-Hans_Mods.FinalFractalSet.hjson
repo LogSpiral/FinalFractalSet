@@ -1,0 +1,126 @@
+FinalFractalTip: {
+	0: 这甚至还不是它们的最终形态
+	1: 「最初与最后的究极分形」
+	2: 「分形次元斩」
+	3: 天顶「FinalFractal」
+}
+
+Items: {
+	FinalFractal_Old: {
+		DisplayName: 最终分形(旧版)
+		Tooltip: ""
+	}
+
+	FinalFractal: {
+		DisplayName: 最终分形
+		Tooltip: ""
+	}
+
+	CrystalStoneSword: {
+		DisplayName: 晶石妖刀
+		Tooltip: ""
+	}
+
+	FirstFractal_Remastered: {
+		DisplayName: 最初分形(复刻版)
+		Tooltip: ""
+	}
+
+	FirstZenith: {
+		DisplayName: 初元天穹
+		Tooltip: ""
+	}
+
+	FirstZenith_Old: {
+		DisplayName: 初元天穹(旧版)
+		Tooltip: ""
+	}
+
+	LivingWoodSword: {
+		DisplayName: 活木叶锋
+		Tooltip: ""
+	}
+
+	LivingWoodSword_Old: {
+		DisplayName: 活木叶锋(旧版)
+		Tooltip: ""
+	}
+
+	MossStoneSword_Old: {
+		DisplayName: 苔石太刀(旧版)
+		Tooltip: ""
+	}
+
+	PureFractal: {
+		DisplayName: 纯粹分形
+		Tooltip: ""
+	}
+
+	PureFractal_Old: {
+		DisplayName: 纯粹分形(旧版)
+		Tooltip: ""
+	}
+
+	RefinedSteelBlade: {
+		DisplayName: 精钢巨刃
+		Tooltip: ""
+	}
+
+	RefinedSteelBlade_Old: {
+		DisplayName: 精钢巨刃(旧版)
+		Tooltip: ""
+	}
+
+	RustySteelBlade: {
+		DisplayName: 锈蚀钢刃
+		Tooltip: ""
+	}
+
+	RustySteelBlade_Old: {
+		DisplayName: 锈蚀钢刃(旧版)
+		Tooltip: ""
+	}
+
+	DyingStoneSword: {
+		DisplayName: 枯石太刀
+		Tooltip: ""
+	}
+
+	DyingStoneSword_Old: {
+		DisplayName: 枯石太刀(旧版)
+		Tooltip: ""
+	}
+
+	WitheredWoodSword: {
+		DisplayName: 朽木刺锋
+		Tooltip: ""
+	}
+
+	WitheredWoodSword_Old: {
+		DisplayName: 朽木刺锋(旧版)
+		Tooltip: ""
+	}
+}
+
+Projectiles: {
+	FinalFractalDimensionalSwoosh.DisplayName: 最终分形次元斩
+	FinalFractalDimensionalSwoosh2.DisplayName: 最终分形次元斩
+	FinalFractalDimensionalSwoosh3.DisplayName: 最终分形次元斩
+	FinalFractalItem.DisplayName: 最终分形
+	FinalFractalProjectile.DisplayName: 最终分形
+	FinalFractalShadow.DisplayName: 最终分形之影
+	Zenith_FirstFractal.DisplayName: 初元天穹
+	Zenith_FirstFractals.DisplayName: 初元天穹
+	FirstZenith_Blade.DisplayName: 初元天穹
+	FirstZenithProj.DisplayName: 初元天穹
+	PureFractalProj.DisplayName: 纯粹分形
+	RustySteelBladeProj.DisplayName: 锈蚀钢刃
+	DyingStoneSword_Blade.DisplayName: 枯石太刀
+	DyingStoneSwordProj.DisplayName: 枯石太刀
+	SharpStoneTears.DisplayName: 枯石穿刺
+	WitheredTree.DisplayName: 朽木
+	WitheredWood.DisplayName: 朽木
+	WitheredWoodSword_Blade.DisplayName: 朽木锋刺
+	WitheredWoodSword_Blade_GivenUp.DisplayName: 朽木锋刺
+	WitheredWoodSwordProj.DisplayName: 朽木锋刺
+}
