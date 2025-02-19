@@ -5,6 +5,8 @@ VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinalFractalSet", "FinalFractalSet.csproj", "{62E4805E-3A27-4519-B702-AF9A545CAF91}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogSpiralLibrary", "..\LogSpiralLibrary\LogSpiralLibrary.csproj", "{B2C9584A-FDD3-4F9A-BFEE-2D37EED40D53}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,10 +17,10 @@ Global
 		{62E4805E-3A27-4519-B702-AF9A545CAF91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62E4805E-3A27-4519-B702-AF9A545CAF91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62E4805E-3A27-4519-B702-AF9A545CAF91}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E4C79121-92EF-4A86-93EE-86E85D3ABA29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E4C79121-92EF-4A86-93EE-86E85D3ABA29}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E4C79121-92EF-4A86-93EE-86E85D3ABA29}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E4C79121-92EF-4A86-93EE-86E85D3ABA29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2C9584A-FDD3-4F9A-BFEE-2D37EED40D53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2C9584A-FDD3-4F9A-BFEE-2D37EED40D53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2C9584A-FDD3-4F9A-BFEE-2D37EED40D53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2C9584A-FDD3-4F9A-BFEE-2D37EED40D53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
