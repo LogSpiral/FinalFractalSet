@@ -1,104 +1,164 @@
 FinalFractalTip: {
 	0: This Even not the final state of them.
-	1: ��The Ultra Fractal Of The First And The Final��
-	2: ��Dimension Cut Of Fractal��
-	3: Zenith��FinalFractal��
+	1: 「The Ultra Fractal Of The First And The Final」
+	2: 「Dimension Cut Of Fractal」
+	3: Zenith「FinalFractal」
 }
 
 Items: {
 	FinalFractal_Old: {
 		DisplayName: Final Fractal(Old)
-		Tooltip: ""
+		Tooltip:
+			'''
+			Part of it includes itself, which we called Fractal. Infinite blades rotating as hurricane, they are part of it as well.
+			(New Version W.I.P.)
+			'''
 	}
 
 	FinalFractal: {
 		DisplayName: Final Fractal
-		Tooltip: ""
+		Tooltip:
+			'''
+			Part of it includes itself, which we called Fractal. Infinite blades rotating as hurricane, they are part of it as well.
+			(New Version W.I.P.)
+			'''
 	}
 
 	CrystalStoneSword: {
 		DisplayName: Crystal Stone Sword
-		Tooltip: ""
+		Tooltip: (New Version W.I.P.)
 	}
 
 	FirstFractal_Remastered: {
 		DisplayName: First Fractal(Remastered)
-		Tooltip: ""
+		Tooltip: Denied，forgotten，faded......It will return finally。
 	}
 
 	FirstZenith: {
 		DisplayName: Primitive Zenith
-		Tooltip: ""
+		Tooltip: (New Version W.I.P.)
 	}
 
 	FirstZenith_Old: {
 		DisplayName: Primitive Zenith(Old)
-		Tooltip: ""
+		Tooltip: (New Version W.I.P.)
 	}
 
 	LivingWoodSword: {
 		DisplayName: Living Wood Sword
-		Tooltip: ""
+		Tooltip:
+			'''
+			Press Mouse Right, Then Dash And Release Many Thrones.
+			(New Version W.I.P.)
+			'''
 	}
 
 	LivingWoodSword_Old: {
 		DisplayName: Living Wood Sword(Old)
-		Tooltip: ""
+		Tooltip:
+			'''
+			Press Mouse Right, Then Dash And Release Many Thrones.
+			(New Version W.I.P.)
+			'''
 	}
 
 	MossStoneSword_Old: {
 		DisplayName: Moss Stone Sword(Old)
-		Tooltip: ""
+		Tooltip:
+			'''
+			Press Mouse Right, And Release List Of Stalagmite.
+			(New Version W.I.P.)
+			'''
 	}
 
 	PureFractal: {
 		DisplayName: Pure Fractal
-		Tooltip: ""
+		Tooltip:
+			'''
+			The Edge of Zenith Which Upgraded by the Ancient and Pure NaturalMagic.Show it, Your first Power.
+			(New Version W.I.P.)
+			'''
 	}
 
 	PureFractal_Old: {
 		DisplayName: Pure Fractal(Old)
-		Tooltip: ""
+		Tooltip:
+			'''
+			The Edge of Zenith Which Upgraded by the Ancient and Pure NaturalMagic.Show it, Your first Power.
+			(New Version W.I.P.)
+			'''
 	}
 
 	RefinedSteelBlade: {
 		DisplayName: Refined Steel Blade
-		Tooltip: ""
+		Tooltip:
+			'''
+			Press Mouse Right, And Release Many Refined Steel Shards.
+			(New Version W.I.P.)
+			'''
 	}
 
 	RefinedSteelBlade_Old: {
 		DisplayName: Refined Steel Blade(Old)
-		Tooltip: ""
+		Tooltip:
+			'''
+			Press Mouse Right, And Release Many Refined Steel Shards.
+			(New Version W.I.P.)
+			'''
 	}
 
 	RustySteelBlade: {
 		DisplayName: Rusty Steel Blade
-		Tooltip: ""
+		Tooltip:
+			'''
+			Press Mouse Right, And Release Rusty Steel Shards.
+			(New Version W.I.P.)
+			'''
 	}
 
 	RustySteelBlade_Old: {
 		DisplayName: Rusty Steel Blade(Old)
-		Tooltip: ""
+		Tooltip:
+			'''
+			Press Mouse Right, And Release Rusty Steel Shards.
+			(New Version W.I.P.)
+			'''
 	}
 
 	DyingStoneSword: {
 		DisplayName: Dying Stone Sword
-		Tooltip: ""
+		Tooltip:
+			'''
+			Press Mouse Right, And Release Stalagmites.
+			(New Version W.I.P.)
+			'''
 	}
 
 	DyingStoneSword_Old: {
 		DisplayName: Dying Stone Sword(Old)
-		Tooltip: ""
+		Tooltip:
+			'''
+			Press Mouse Right, And Release Stalagmites.
+			(New Version W.I.P.)
+			'''
 	}
 
 	WitheredWoodSword: {
 		DisplayName: Withered Wood Sword
-		Tooltip: ""
+		Tooltip:
+			'''
+			Press Mouse Right, Then Dash And Release Thrones.
+			(New Version W.I.P.)
+			'''
 	}
 
 	WitheredWoodSword_Old: {
 		DisplayName: Withered Wood Sword(Old)
-		Tooltip: ""
+		Tooltip:
+			'''
+			Press Mouse Right, Then Dash And Release Thrones.
+			(New Version W.I.P.)
+			'''
 	}
 }
 

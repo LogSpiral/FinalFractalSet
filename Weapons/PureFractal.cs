@@ -37,7 +37,7 @@ namespace FinalFractalSet.Weapons
             Item.autoReuse = true;
             Item.DamageType = DamageClass.Melee;
             Item.shoot = ProjectileType<PureFractalProj>();
-            Item.useAnimation = 30;
+            Item.useAnimation = 24;
             Item.useTime = Item.useAnimation / 3;
             Item.shootSpeed = 16f;
             Item.damage = 240;
@@ -120,11 +120,66 @@ namespace FinalFractalSet.Weapons
     }
     public class PureFractalProj : ModProjectile
     {
-        static (Color, float) GetOtherInfo(int frame) => frame switch
+        static Color GetColorInfo(int frame) => frame switch
         {
-            _ => (Color.White, 1)
+            0 => Color.Brown,
+            1 => Color.HotPink,
+            2 => Color.Blue,
+            3 => Color.DarkBlue,
+            4 => Color.MediumPurple,
+            5 => Color.Red,
+            6 => Color.DeepSkyBlue,
+            7 => Color.Green,
+            8 => Color.Orange,
+            9 => Color.Black,
+            10 => Color.Yellow,
+            11 => Color.DarkViolet,
+            12 =>Color.LightGoldenrodYellow,
+            13=>Color.LimeGreen,
+            14=>Color.DarkOliveGreen,
+            15=> Color.OrangeRed,
+            16=>Color.Cyan,
+            17=> Color.HotPink,
+            18=>Color.White,
+            19=>Color.BlueViolet,
+            20=>Color.ForestGreen,
+            21=>Color.LightCyan,
+            22=>Color.AliceBlue,
+            23=>Color.GreenYellow,
+            24=>Color.MediumSpringGreen,
+            25=>Color.Violet,
+            _ => Color.White
         };
-        static Texture2D GetPureFractalHeatMaps_Internal(int frame) => LogSpiralLibraryMod.HeatMap[0].Value;
+        static Texture2D GetPureFractalHeatMaps_Internal(int frame) => (frame switch
+        {
+            0 => ModAsset.bar_0,
+            1 => ModAsset.bar_1,
+            2 => ModAsset.bar_2,
+            3 => ModAsset.bar_3,
+            4 => ModAsset.bar_4,
+            5 => ModAsset.bar_5,
+            6 => ModAsset.bar_6,
+            7 => ModAsset.bar_7,
+            8 => ModAsset.bar_8,
+            9 => ModAsset.bar_9,
+            10 => ModAsset.bar_10,
+            11 => ModAsset.bar_11,
+            12 => ModAsset.bar_12,
+            13 => ModAsset.bar_13,
+            14 => ModAsset.bar_14,
+            15 => ModAsset.bar_15,
+            16 => ModAsset.bar_16,
+            17 => ModAsset.bar_17,
+            18 => ModAsset.bar_18,
+            19 => ModAsset.bar_19,
+            20 => ModAsset.bar_20,
+            21 => ModAsset.bar_21,
+            22 => ModAsset.bar_22,
+            23 => ModAsset.bar_23,
+            24 => ModAsset.bar_24,
+            25 => ModAsset.bar_25,
+            _ => LogSpiralLibraryMod.HeatMap[1]
+        }).Value;
         static Texture2D GetPureFractalHeatMaps(int frame)
         {
             if (HeatMapTextures[frame] == null)
@@ -181,15 +236,17 @@ namespace FinalFractalSet.Weapons
         static Texture2D[] ItemTextures = new Texture2D[26];
         static Texture2D[] HeatMapTextures = new Texture2D[26];
         static Color[] PureFractalColors = new Color[26];
-        static float[] PureFractalAirFactors = new float[26];
+        static float[] PureFractalWeaponLength = new float[26];
+
         static void RefreshData()
         {
             if (Main.netMode == NetmodeID.Server) return;
             for (int n = 0; n < 26; n++)
             {
-                (PureFractalColors[n], PureFractalAirFactors[n]) = GetOtherInfo(n);
+                PureFractalColors[n] = GetColorInfo(n);
                 ItemTextures[n] = GetPureFractalProjTexs_Internal(n);
                 HeatMapTextures[n] = GetPureFractalHeatMaps_Internal(n);
+                PureFractalWeaponLength[n] = ItemTextures[n].Size().Length();
             }
         }
         public override void SendExtraAI(BinaryWriter writer)
@@ -202,7 +259,6 @@ namespace FinalFractalSet.Weapons
         }
         Projectile projectile => Projectile;
         Color newColor => PureFractalColors[Projectile.frame];
-        float airFactor => PureFractalAirFactors[Projectile.frame];
         public override void PostAI()
         {
             Vector2 value1 = Main.player[projectile.owner].position - Main.player[projectile.owner].oldPosition;
@@ -219,6 +275,45 @@ namespace FinalFractalSet.Weapons
             projectile.oldPos[0] = projectile.Center;
             projectile.oldRot[0] = projectile.rotation;
             projectile.oldSpriteDirection[0] = projectile.spriteDirection;
+
+            if (Main.netMode == NetmodeID.Server) return;
+            int timePassed = MathHelper.Clamp(3600 - projectile.timeLeft, 0, 60);
+            if (timePassed < 4) return;
+            Vector2[] vecOuter = new Vector2[timePassed];
+            Vector2[] vecInner = new Vector2[timePassed];
+            float weaponL = PureFractalWeaponLength[projectile.frame];
+            for (int n = 0; n < timePassed; n++)
+            {
+                Vector2 offset = weaponL * (projectile.oldRot[n] - MathHelper.PiOver2).ToRotationVector2() * .5f;
+                vecOuter[n] = projectile.oldPos[n] + offset * 2;
+                vecInner[n] = projectile.oldPos[n];
+            }
+            vecOuter = vecOuter.CatMullRomCurve(2 * timePassed);
+            vecInner = vecInner.CatMullRomCurve(2 * timePassed);
+
+            int m = Math.Clamp(timePassed / 15 + 1, 1, 4);
+            Player player = Main.player[projectile.owner];
+            Vector2 center = player.MountedCenter + projectile.velocity;
+            for (int n = 0; n < m; n++)
+            {
+                var swoosh = swooshes[n];
+                swoosh.center = center;
+                var vtxs = swoosh.VertexInfos;
+                swoosh.weaponTex ??= ItemTextures[projectile.frame];
+                if (swoosh.heatMap == null)
+                {
+                    swoosh.heatMap = HeatMapTextures[projectile.frame];
+                    swoosh.ColorVector = new(0.16667f, 0.3333f, 0.5f);
+                }
+                int c = n == m - 1 && timePassed != 60 ? Math.Min(swoosh.Counts, timePassed % 15 * 3) : swoosh.Counts;
+                for (int i = 0; i < c; i++)
+                {
+                    float k = i / (c - 1f);
+                    Color color = newColor * MathHelper.SmoothStep(0, 1, 4 * k) * MathF.Pow(1 - .2f * n, 2);
+                    vtxs[2 * i] = new CustomVertexInfo(vecOuter[i + 45 * n], color, new(k, 1, 1));
+                    vtxs[2 * i + 1] = new CustomVertexInfo(vecInner[i + 45 * n], color, new(0, 0, 1));
+                }
+            }
         }
         public override void AI()
         {
@@ -262,23 +357,46 @@ namespace FinalFractalSet.Weapons
             }
             projectile.Opacity = Utils.GetLerpValue(0f, 5f, projectile.localAI[0], true) * Utils.GetLerpValue(120f, 115f, projectile.localAI[0], true);//修改透明度
         }
+        UltraSwoosh[] swooshes = new UltraSwoosh[4];
+        public override void OnSpawn(IEntitySource source)
+        {
+            if (Main.netMode == NetmodeID.Server) return;
+            for (int n = 0; n < 4; n++)
+            {
+                swooshes[n] = UltraSwoosh.NewUltraSwoosh(newColor, 30, 1, Main.player[projectile.owner].Center, null, false, colorVec: new(0.1667f, 0.3333f, 0.5f));//0.25f, 0.25f, 0.5f//0.1667f, 0.3333f, 0.5f
+                swooshes[n].autoUpdate = false;
+            }
+            swooshes[0].ModityAllRenderInfo([[new AirDistortEffectInfo(4, 0, 0.5f)], [new BloomEffectInfo(0, 1f, 1, 3, true) { useModeMK = true, downSampleLevel = 2 }]]);
+            base.OnSpawn(source);
+        }
+        public override void OnKill(int timeLeft)
+        {
+            if (Main.netMode == NetmodeID.Server) return;  
+            for (int n = 0; n < 4; n++)
+            {
+                swooshes[n].timeLeft = 0;
+            }
+            base.OnKill(timeLeft);
+        }
         public void DrawSword()
         {
             var max = 0;
             Texture2D currentTex = GetPureFractalProjTexs(projectile.frame);
-            float _scaler = currentTex.Size().Length();
+            float _scaler = PureFractalWeaponLength[projectile.frame];
             var multiValue = 1 - projectile.localAI[0] / 120f;
             var spEffect = projectile.ai[0] * projectile.velocity.X > 0 ? 0 : SpriteEffects.FlipHorizontally;
             var size = 1;
             for (int n = 0; n < Projectile.oldPos.Length; n++)
             {
-                if (projectile.oldPos[n] == default) { max = n; break; }
+                max = n;
+                if (projectile.oldPos[n] == default)
+                    break;
             }
             for (int n = 15; n < max; n += 15)
             {
                 var _fac = 1 - (float)n / max;
                 //_fac *= _fac * _fac;
-                var _color = newColor * _fac;//newColor 
+                var _color = newColor * MathF.Sqrt(_fac);//newColor 
                 _color.A = 0;
                 Main.spriteBatch.Draw(currentTex, projectile.oldPos[n - 1] - Main.screenPosition, null, _color * multiValue, projectile.oldRot[n - 1] - MathHelper.PiOver4 + (spEffect == 0 ? 0 : MathHelper.PiOver2), currentTex.Size() * new Vector2(spEffect == 0 ? 0 : 1, 1), size, spEffect, 0);
                 projectile.DrawPrettyStarSparkle(Main.spriteBatch, 0, projectile.oldPos[n - 1] + (projectile.oldRot[n - 1] - MathHelper.PiOver2).ToRotationVector2() * _scaler * size - Main.screenPosition, Color.White, _color);
@@ -343,7 +461,7 @@ namespace FinalFractalSet.Weapons
             SamplerState sampler = SamplerState.LinearWrap;
             #endregion
             #region 快乐顶点绘制_2(现在才进入正题)
-            float _scaler = currentTex.Size().Length() * airFactor;
+            float _scaler = PureFractalWeaponLength[projectile.frame];
             var bars = new List<CustomVertexInfo>();
             var multiValue = 1 - projectile.localAI[0] / 120f;
             multiValue = 4 * multiValue / (3 * multiValue + 1);
@@ -375,7 +493,7 @@ namespace FinalFractalSet.Weapons
                 ShaderSwooshUL.Parameters["uTransform"].SetValue(model * trans * projection);
                 ShaderSwooshUL.Parameters["uTime"].SetValue(-(float)LogSpiralLibraryMod.ModTime * 0.03f);
                 ShaderSwooshUL.Parameters["checkAir"].SetValue(true);
-                ShaderSwooshUL.Parameters["airFactor"].SetValue(airFactor);
+                ShaderSwooshUL.Parameters["airFactor"].SetValue(1.0f);
                 ShaderSwooshUL.Parameters["gather"].SetValue(true);
                 ShaderSwooshUL.Parameters["alphaFactor"].SetValue(2);
                 ShaderSwooshUL.Parameters["heatMapAlpha"].SetValue(false);
@@ -401,7 +519,7 @@ namespace FinalFractalSet.Weapons
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            DrawSwoosh();
+            //DrawSwoosh();
             DrawSword();
             return false;
         }

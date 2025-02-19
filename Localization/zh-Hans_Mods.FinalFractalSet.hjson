@@ -8,97 +8,157 @@ FinalFractalTip: {
 Items: {
 	FinalFractal_Old: {
 		DisplayName: 最终分形(旧版)
-		Tooltip: ""
+		Tooltip:
+			'''
+			它的一部分包含着它，这就是分形。无数的刀刃回旋着，它们是它的一部分。
+			(新版制作中)
+			'''
 	}
 
 	FinalFractal: {
 		DisplayName: 最终分形
-		Tooltip: ""
+		Tooltip:
+			'''
+			它的一部分包含着它，这就是分形。无数的刀刃回旋着，它们是它的一部分。
+			(新版制作中)
+			'''
 	}
 
 	CrystalStoneSword: {
 		DisplayName: 晶石妖刀
-		Tooltip: ""
+		Tooltip: (新版制作中)
 	}
 
 	FirstFractal_Remastered: {
 		DisplayName: 最初分形(复刻版)
-		Tooltip: ""
+		Tooltip: 否定，忘却，尘封......终有一天其将破土而出。
 	}
 
 	FirstZenith: {
 		DisplayName: 初元天穹
-		Tooltip: ""
+		Tooltip: (新版制作中)
 	}
 
 	FirstZenith_Old: {
 		DisplayName: 初元天穹(旧版)
-		Tooltip: ""
+		Tooltip: (新版制作中)
 	}
 
 	LivingWoodSword: {
-		DisplayName: 活木叶锋
-		Tooltip: ""
+		DisplayName: 灵木叶锋
+		Tooltip:
+			'''
+			右键蓄力后冲刺并释放大量荆棘
+			(新版制作中)
+			'''
 	}
 
 	LivingWoodSword_Old: {
-		DisplayName: 活木叶锋(旧版)
-		Tooltip: ""
+		DisplayName: 灵木叶锋(旧版)
+		Tooltip:
+			'''
+			右键蓄力后冲刺并释放大量荆棘
+			(新版制作中)
+			'''
 	}
 
 	MossStoneSword_Old: {
 		DisplayName: 苔石太刀(旧版)
-		Tooltip: ""
+		Tooltip:
+			'''
+			右键蓄力释放石笋阵
+			(新版制作中)
+			'''
 	}
 
 	PureFractal: {
 		DisplayName: 纯粹分形
-		Tooltip: ""
+		Tooltip:
+			'''
+			远古纯粹的自然魔法洗礼之后的天顶之锋，展露吧，你最初的锋芒。
+			(新版制作中)
+			'''
 	}
 
 	PureFractal_Old: {
 		DisplayName: 纯粹分形(旧版)
-		Tooltip: ""
+		Tooltip:
+			'''
+			远古纯粹的自然魔法洗礼之后的天顶之锋，展露吧，你最初的锋芒。
+			(新版制作中)
+			'''
 	}
 
 	RefinedSteelBlade: {
 		DisplayName: 精钢巨刃
-		Tooltip: ""
+		Tooltip:
+			'''
+			右键蓄力释放大量精钢飞刃
+			(新版制作中)
+			'''
 	}
 
 	RefinedSteelBlade_Old: {
 		DisplayName: 精钢巨刃(旧版)
-		Tooltip: ""
+		Tooltip:
+			'''
+			右键蓄力释放大量精钢飞刃
+			(新版制作中)
+			'''
 	}
 
 	RustySteelBlade: {
 		DisplayName: 锈蚀钢刃
-		Tooltip: ""
+		Tooltip:
+			'''
+			右键蓄力释放锈铁飞刃
+			(新版制作中)
+			'''
 	}
 
 	RustySteelBlade_Old: {
 		DisplayName: 锈蚀钢刃(旧版)
-		Tooltip: ""
+		Tooltip:
+			'''
+			右键蓄力释放锈铁飞刃
+			(新版制作中)
+			'''
 	}
 
 	DyingStoneSword: {
 		DisplayName: 枯石太刀
-		Tooltip: ""
+		Tooltip:
+			'''
+			右键蓄力释放石笋
+			(新版制作中)
+			'''
 	}
 
 	DyingStoneSword_Old: {
 		DisplayName: 枯石太刀(旧版)
-		Tooltip: ""
+		Tooltip:
+			'''
+			右键蓄力释放石笋
+			(新版制作中)
+			'''
 	}
 
 	WitheredWoodSword: {
 		DisplayName: 朽木刺锋
-		Tooltip: ""
+		Tooltip:
+			'''
+			右键蓄力后冲刺并释放荆棘
+			(新版制作中)
+			'''
 	}
 
 	WitheredWoodSword_Old: {
 		DisplayName: 朽木刺锋(旧版)
-		Tooltip: ""
+		Tooltip:
+			'''
+			右键蓄力后冲刺并释放荆棘
+			(新版制作中)
+			'''
 	}
 }
 

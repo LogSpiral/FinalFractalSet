@@ -7,6 +7,7 @@ using Terraria.GameContent;
 using System;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
 using Terraria.Audio;
+using System.IO;
 
 namespace FinalFractalSet.Weapons
 {
@@ -282,13 +283,21 @@ namespace FinalFractalSet.Weapons
             projectile.manualDirectionChange = true;
             projectile.penetrate = -1;
             //ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 30;
+        }
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 45;
+            base.SetStaticDefaults();
         }
         public float drawColor => projectile.ai[1];
+        UltraSwoosh swoosh;
         public override void OnSpawn(IEntitySource source)
         {
             projectile.frame = Main.rand.Next(15);
             drawPlayer = new Player();
+            if (Main.netMode == NetmodeID.Server) return;
+            swoosh = UltraSwoosh.NewUltraSwoosh(Color.Violet, 30, 1, null, ModAsset.bar_19.Value, colorVec: new(0.16667f, 0.33333f, 0.5f));
+            swoosh.autoUpdate = false;
         }
         public override void AI()
         {
@@ -336,13 +345,57 @@ namespace FinalFractalSet.Weapons
                     }
                 }
             }
-            for (int n = 29; n > 0; n--)
+            for (int n = 44; n > 0; n--)
             {
                 projectile.oldPos[n] = projectile.oldPos[n - 1];
                 projectile.oldRot[n] = projectile.oldRot[n - 1];
             }
             projectile.oldPos[0] = projectile.Center - projectile.velocity.SafeNormalize(Vector2.Zero) * 42f;
             projectile.oldRot[0] = projectile.velocity.ToRotation() + projectile.ai[0] * (projectile.localAI[0] / 60).Lerp(-180, 90, true);
+            float lightScaler = MathHelper.SmoothStep(0, 1, 1 - Math.Abs(45 - projectile.localAI[0]) / 45f);
+            if (Main.netMode == NetmodeID.Server) return;
+            switch (projectile.localAI[0]) 
+            {
+                case < 4:
+                    return;
+                case >= 45:
+                    for (int n = 0; n < 45; n++)
+                    {
+                        float k = n / 44f;
+                        Color c = Color.Violet * MathHelper.SmoothStep(0, 1, 4 * k) * lightScaler;
+                        Vector2 vec = projectile.oldPos[n] + (projectile.oldRot[n]).ToRotationVector2() * 116;
+                        swoosh.VertexInfos[2 * n] = new(vec, c, new(k, 1, 1));
+                        swoosh.VertexInfos[2 * n + 1] = new(projectile.oldPos[n], c, new(0, 0, 1));
+                    }
+                    return;
+                default:
+                    int t = (int)projectile.localAI[0];
+                    Vector2[] vecOuter = new Vector2[t];
+                    Vector2[] vecInner = new Vector2[t];
+                    for (int n = 0; n < t; n++) 
+                    {
+                        vecOuter[n] = projectile.oldPos[n] + (projectile.oldRot[n]).ToRotationVector2() * 116;
+                        vecInner[n] = projectile.oldPos[n];
+                    }
+                    vecOuter = vecOuter.CatMullRomCurve(45 - t);
+                    vecInner = vecInner.CatMullRomCurve(45 - t);
+                    for (int n = 0; n < 45; n++)
+                    {
+                        float k = n / 44f;
+                        Color c = Color.Violet * MathHelper.SmoothStep(0, 1, 4 * k) * lightScaler;
+                        swoosh.VertexInfos[2 * n] = new(vecOuter[n], c, new(k, 1, 1));
+                        swoosh.VertexInfos[2 * n + 1] = new(vecInner[n], c, new(0, 0, 1));
+                    }
+                    return;
+            }
+
+        }
+        public override void OnKill(int timeLeft)
+        {
+            if (Main.netMode == NetmodeID.Server) return;
+
+            swoosh.timeLeft = 0;
+            base.OnKill(timeLeft);
         }
         public override bool PreDraw(ref Color lightColor) 
         {
@@ -583,31 +636,27 @@ namespace FinalFractalSet.Weapons
             base.OnRelease(charged, left);
         }
         public override Rectangle? frame => projTex.Frame(2, 1, UpgradeValue(0, 1));
-        public Item sourceItem;
+        public bool Extra;
+        public virtual int ExtraItemType => ModContent.ItemType<LivingWoodSword_Old>();
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(Extra);
+            base.SendExtraAI(writer);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            Extra = reader.ReadBoolean();
+            base.ReceiveExtraAI(reader);
+        }
         public override void OnSpawn(IEntitySource source)
         {
             if (source is EntitySource_ItemUse_WithAmmo itemSource)
-            {
-                sourceItem = itemSource.Item;
-            }
+                Extra = itemSource.Item.type == ExtraItemType;
             base.OnSpawn(source);
         }
-        public virtual T UpgradeValue<T>(T normal, T extra, T defaultValue = default)
+        public T UpgradeValue<T>(T normal, T extra, T defaultValue = default)
         {
-            //var type = Player.HeldItem.type;
-            var type = sourceItem.type;
-
-            if (type == ModContent.ItemType<WitheredWoodSword_Old>())
-            {
-                return normal;
-            }
-
-            if (type == ModContent.ItemType<LivingWoodSword_Old>())
-            {
-                return extra;
-            }
-
-            return defaultValue;
+            return Extra ? extra : normal;
         }
         public override void RenderInfomation(ref BloomEffectInfo useBloom, ref AirDistortEffectInfo useDistort, ref MaskEffectInfo useMask)
         {
@@ -767,21 +816,7 @@ namespace FinalFractalSet.Weapons
             }
         }
         public override Color VertexColor(float time) => Color.Lerp(Color.DarkGray, UpgradeValue(Color.Gray, Color.Green), time);
-        public override T UpgradeValue<T>(T normal, T extra, T defaultValue = default)
-        {
-            var type = sourceItem.type;
-
-            if (type == ModContent.ItemType<DyingStoneSword_Old>())
-            {
-                return normal;
-            }
-
-            if (type == ModContent.ItemType<MossStoneSword_Old>())
-            {
-                return extra;
-            }
-            return defaultValue;
-        }
+        public override int ExtraItemType => ModContent.ItemType<MossStoneSword_Old>();
     }
     public class SharpStoneTears : ModProjectile
     {
@@ -1064,20 +1099,6 @@ namespace FinalFractalSet.Weapons
             }
         }
         public override Color VertexColor(float time) => Color.Lerp(Color.DarkGray, UpgradeValue(Color.Brown, Color.Gray), time);
-        public override T UpgradeValue<T>(T normal, T extra, T defaultValue = default)
-        {
-            var type = sourceItem.type;
-
-            if (type == ModContent.ItemType<RustySteelBlade_Old>())
-            {
-                return normal;
-            }
-
-            if (type == ModContent.ItemType<RefinedSteelBlade_Old>())
-            {
-                return extra;
-            }
-            return defaultValue;
-        }
+        public override int ExtraItemType => ModContent.ItemType<RefinedSteelBlade_Old>();
     }
 }

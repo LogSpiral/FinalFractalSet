@@ -175,7 +175,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
 
                     Main.graphics.GraphicsDevice.RasterizerState = originalState;
                     spriteBatch.End();
-                    spriteBatch.Begin();
+                    spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone,null,Main.GameViewMatrix.TransformationMatrix);
                 }
             }
             return false;
@@ -470,7 +470,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
 
                     Main.graphics.GraphicsDevice.RasterizerState = originalState;
                     spriteBatch.End();
-                    spriteBatch.Begin();
+                    spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
                 }
             }
             var tex = TextureAssets.Projectile[projectile.type].Value;
@@ -739,6 +739,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             origin21 = rectangle29.Size() / 2f;
             projectile.DrawPrettyStarSparkle(spriteBatch, spriteEffects, vector71, color84, Main.hslToRgb(drawColor, 1f, 0.5f));
             spriteBatch.Draw(texture2D4, vector71, new Microsoft.Xna.Framework.Rectangle?(rectangle29), color84, projectile.rotation, origin21, projectile.scale, spriteEffects, 0);
+
             if (Main.player[projectile.owner].name == "FFT")
             {
                 List<CustomVertexInfo> bars = [];
@@ -807,7 +808,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
 
                     Main.graphics.GraphicsDevice.RasterizerState = originalState;
                     spriteBatch.End();
-                    spriteBatch.Begin();
+                    spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
                 }
             }
             else
@@ -879,7 +880,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
 
                     Main.graphics.GraphicsDevice.RasterizerState = originalState;
                     spriteBatch.End();
-                    spriteBatch.Begin();
+                    spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
                 }
             }
             return false;

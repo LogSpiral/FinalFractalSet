@@ -497,7 +497,10 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                         Vector2 value6 = -vector35;
                         Vector2 position = value5 + value6;
                         float lerpValue2 = Main.rand.Next(0, 25);
-                        Projectile.NewProjectile(projectile.GetSource_FromThis(), position, vector34 * 2, ProjectileType<FinalFractalDimensionalSwoosh>(), projectile.damage, projectile.knockBack, projectile.owner, num83, lerpValue2);
+                        if (Main.rand.NextBool(2))
+                            Projectile.NewProjectile(projectile.GetSource_FromThis(), position, vector34 * 2, ProjectileType<FinalFractalDimensionalSwoosh>(), projectile.damage, projectile.knockBack, projectile.owner, num83, lerpValue2);
+                        else
+                            Projectile.NewProjectile(projectile.GetSource_FromThis(), position, vector34 * 2, ProjectileType<FirstZenithProj>(), projectile.damage, projectile.knockBack, projectile.owner, num83, lerpValue2);
                         //Projectile.NewProjectile(position + new Vector2(128, 112), vector34, ProjectileType<FinalFractalDimensionalSwoosh>(), projectile.damage, projectile.knockBack, projectile.owner, num83, lerpValue2);
                     }
                 }
