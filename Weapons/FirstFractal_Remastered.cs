@@ -8,6 +8,7 @@ using System;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
 using Terraria.Audio;
 using System.IO;
+using Terraria.ID;
 
 namespace FinalFractalSet.Weapons
 {
@@ -297,7 +298,9 @@ namespace FinalFractalSet.Weapons
             drawPlayer = new Player();
             if (Main.netMode == NetmodeID.Server) return;
             swoosh = UltraSwoosh.NewUltraSwoosh(Color.Violet, 30, 1, null, ModAsset.bar_19.Value, colorVec: new(0.16667f, 0.33333f, 0.5f));
+            swoosh.weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
             swoosh.autoUpdate = false;
+            swoosh.ModityAllRenderInfo([[new AirDistortEffectInfo(4, 0, 0.5f)], [new MaskEffectInfo(LogSpiralLibraryMod.Mask[2].Value, Color.Violet, 0.15f, 0.2f, new Vector2((float)LogSpiralLibraryMod.ModTime), true, false), new BloomEffectInfo(0, 1f, 1, 3, true) { useModeMK = true, downSampleLevel = 2 }]]);
         }
         public override void AI()
         {
@@ -354,7 +357,16 @@ namespace FinalFractalSet.Weapons
             projectile.oldRot[0] = projectile.velocity.ToRotation() + projectile.ai[0] * (projectile.localAI[0] / 60).Lerp(-180, 90, true);
             float lightScaler = MathHelper.SmoothStep(0, 1, 1 - Math.Abs(45 - projectile.localAI[0]) / 45f);
             if (Main.netMode == NetmodeID.Server) return;
-            switch (projectile.localAI[0]) 
+            if (swoosh == null)
+            {
+                swoosh = UltraSwoosh.NewUltraSwoosh(Color.Violet, 30, 1, null, ModAsset.bar_19.Value, colorVec: new(0.16667f, 0.33333f, 0.5f));
+                swoosh.autoUpdate = false;
+                swoosh.ModityAllRenderInfo([[new AirDistortEffectInfo(4, 0, 0.5f)], [new MaskEffectInfo(LogSpiralLibraryMod.Mask[2].Value, Color.Violet, 0.15f, 0.2f, new Vector2((float)LogSpiralLibraryMod.ModTime), true, false), new BloomEffectInfo(0, 1f, 1, 3, true) { useModeMK = true, downSampleLevel = 2 }]]);
+                swoosh.weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
+            }
+            if (swoosh != null)
+                swoosh.autoUpdate = false;
+            switch (projectile.localAI[0])
             {
                 case < 4:
                     return;
@@ -372,7 +384,7 @@ namespace FinalFractalSet.Weapons
                     int t = (int)projectile.localAI[0];
                     Vector2[] vecOuter = new Vector2[t];
                     Vector2[] vecInner = new Vector2[t];
-                    for (int n = 0; n < t; n++) 
+                    for (int n = 0; n < t; n++)
                     {
                         vecOuter[n] = projectile.oldPos[n] + (projectile.oldRot[n]).ToRotationVector2() * 116;
                         vecInner[n] = projectile.oldPos[n];
@@ -397,7 +409,7 @@ namespace FinalFractalSet.Weapons
             swoosh.timeLeft = 0;
             base.OnKill(timeLeft);
         }
-        public override bool PreDraw(ref Color lightColor) 
+        public override bool PreDraw(ref Color lightColor)
         {
             DrawOthers();
             DrawSword();
@@ -617,7 +629,12 @@ namespace FinalFractalSet.Weapons
                     }
                 }
             }
-            if (projectile.owner == Main.myPlayer) Player.velocity += (Main.MouseWorld - Player.Center).SafeNormalize(default) * UpgradeValue(16, 24) * new Vector2(1, 0.25f);
+            if (Player.whoAmI == Main.myPlayer)
+            {
+                Player.velocity += (Player.GetModPlayer<LogSpiralLibraryPlayer>().targetedMousePosition - Player.Center).SafeNormalize(default) * UpgradeValue(16, 24) * new Vector2(1, 0.25f);
+                NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, Player.whoAmI);
+                NetMessage.SendData(MessageID.ShotAnimationAndSound, -1, -1, null, Player.whoAmI);
+            }
         }
         public override void OnRelease(bool charged, bool left)
         {

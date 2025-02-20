@@ -134,20 +134,20 @@ namespace FinalFractalSet.Weapons
             9 => Color.Black,
             10 => Color.Yellow,
             11 => Color.DarkViolet,
-            12 =>Color.LightGoldenrodYellow,
-            13=>Color.LimeGreen,
-            14=>Color.DarkOliveGreen,
-            15=> Color.OrangeRed,
-            16=>Color.Cyan,
-            17=> Color.HotPink,
-            18=>Color.White,
-            19=>Color.BlueViolet,
-            20=>Color.ForestGreen,
-            21=>Color.LightCyan,
-            22=>Color.AliceBlue,
-            23=>Color.GreenYellow,
-            24=>Color.MediumSpringGreen,
-            25=>Color.Violet,
+            12 => Color.LightGoldenrodYellow,
+            13 => Color.LimeGreen,
+            14 => Color.DarkOliveGreen,
+            15 => Color.OrangeRed,
+            16 => Color.Cyan,
+            17 => Color.HotPink,
+            18 => Color.White,
+            19 => Color.BlueViolet,
+            20 => Color.ForestGreen,
+            21 => Color.LightCyan,
+            22 => Color.AliceBlue,
+            23 => Color.GreenYellow,
+            24 => Color.MediumSpringGreen,
+            25 => Color.Violet,
             _ => Color.White
         };
         static Texture2D GetPureFractalHeatMaps_Internal(int frame) => (frame switch
@@ -277,6 +277,18 @@ namespace FinalFractalSet.Weapons
             projectile.oldSpriteDirection[0] = projectile.spriteDirection;
 
             if (Main.netMode == NetmodeID.Server) return;
+            if (swooshes[0] == null)
+            {
+                for (int n = 0; n < 4; n++)
+                {
+                    swooshes[n] = UltraSwoosh.NewUltraSwoosh(newColor, 30, 1, Main.player[projectile.owner].Center, null, false, colorVec: new(0.1667f, 0.3333f, 0.5f));//0.25f, 0.25f, 0.5f//0.1667f, 0.3333f, 0.5f
+                    swooshes[n].autoUpdate = false;
+                    swooshes[n].weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
+                }
+                swooshes[0].ModityAllRenderInfo([[new AirDistortEffectInfo(4, 0, 0.5f)], [new BloomEffectInfo(0, 1f, 1, 3, true) { useModeMK = true, downSampleLevel = 2 }]]);
+            }
+            for (int n = 0; n < 4; n++)
+                if (swooshes[n] != null) swooshes[n].autoUpdate = false;
             int timePassed = MathHelper.Clamp(3600 - projectile.timeLeft, 0, 60);
             if (timePassed < 4) return;
             Vector2[] vecOuter = new Vector2[timePassed];
@@ -365,13 +377,15 @@ namespace FinalFractalSet.Weapons
             {
                 swooshes[n] = UltraSwoosh.NewUltraSwoosh(newColor, 30, 1, Main.player[projectile.owner].Center, null, false, colorVec: new(0.1667f, 0.3333f, 0.5f));//0.25f, 0.25f, 0.5f//0.1667f, 0.3333f, 0.5f
                 swooshes[n].autoUpdate = false;
+                swooshes[n].weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
+
             }
             swooshes[0].ModityAllRenderInfo([[new AirDistortEffectInfo(4, 0, 0.5f)], [new BloomEffectInfo(0, 1f, 1, 3, true) { useModeMK = true, downSampleLevel = 2 }]]);
             base.OnSpawn(source);
         }
         public override void OnKill(int timeLeft)
         {
-            if (Main.netMode == NetmodeID.Server) return;  
+            if (Main.netMode == NetmodeID.Server) return;
             for (int n = 0; n < 4; n++)
             {
                 swooshes[n].timeLeft = 0;

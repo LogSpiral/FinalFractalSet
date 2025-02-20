@@ -494,7 +494,7 @@ namespace FinalFractalSet.Weapons
         public override float factor => base.factor;
         public override Vector2 CollidingSize => base.CollidingSize;
         public override Vector2 CollidingCenter => base.CollidingCenter;
-        public override Vector2 DrawOrigin => new Vector2(12, projTex.Size().Y / FrameMax.Y - 12);
+        public override Vector2 DrawOrigin => new Vector2(12, size.Y / FrameMax.Y - 12);
         public override Color color => base.color;
         public override float MaxTimeLeft => 8;
         public override float RealRotation
@@ -996,7 +996,7 @@ namespace FinalFractalSet.Weapons
         public override Vector2 CollidingSize => base.CollidingSize;
         //public override Vector2 projCenter => base.projCenter + new Vector2(Player.direction * 16, -16);
         public override Vector2 CollidingCenter => base.CollidingCenter;//new Vector2(projTex.Size().X / 3 - 16, 16)
-        public override Vector2 DrawOrigin => new Vector2(12, projTex.Size().Y / FrameMax.Y - 12);// + new Vector2(-12, 12)
+        public override Vector2 DrawOrigin => new Vector2(12, size.Y / FrameMax.Y - 12);// + new Vector2(-12, 12)
         public override Color color => base.color;
         //public override Color VertexColor(float time) => Color.Lerp(Color.DarkGreen, UpgradeValue(Color.Brown, Color.Green), time);//Color.Lerp(UpgradeValue(Color.Brown, Color.Green), Color.DarkGreen, time)
         public override float MaxTimeLeft => 8;

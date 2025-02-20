@@ -38,6 +38,20 @@ namespace FinalFractalSet
                     }*/
                 case MessageType.FinalFractalFieldsSync: 
                     {
+                        //bool holdingFinalFractal = false;
+                        //int usingFinalFractal = 0;
+                        //bool usedFinalFractal = false;
+                        //int waitingFinalFractal = 0;
+                        //int finalFractalTier = 0;
+                        //int firstTierCounter;
+                        //if (Main.netMode == NetmodeID.Server)
+                        //{
+                        //    ModPacket packet = this.GetPacket();
+                        //    packet.Write((byte)msgType);
+                        //    packet.Write(projIndex);
+                        //    packet.Write(projFrame);
+                        //    packet.Send(-1, whoAmI);
+                        //}
                         break;
                     }
             };

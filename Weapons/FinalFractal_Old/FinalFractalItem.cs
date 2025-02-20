@@ -151,7 +151,8 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
         {
             if (player.whoAmI == Main.myPlayer)
             {
-                player.GetModPlayer<FinalFractalPlayer>().holdingFinalFractal = true;
+                var fftPlayer = player.GetModPlayer<FinalFractalPlayer>();
+                fftPlayer.holdingFinalFractal = true;
                 if (CanUseItem(player))
                 {
                     Projectile.NewProjectile(player.GetSource_ItemUse(item), player.Center.X, player.Center.Y, 0f, -1f, item.shoot, player.GetWeaponDamage(item), 8, player.whoAmI, 0f, 0f);
@@ -167,10 +168,28 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             right = reader.ReadBoolean();
+
+            var mplr = Player.GetModPlayer<FinalFractalPlayer>();
+
+            mplr.holdingFinalFractal = reader.ReadBoolean();
+            mplr.usingFinalFractal = reader.ReadInt32();
+            mplr.usedFinalFractal = reader.ReadBoolean();
+            mplr.waitingFinalFractal = reader.ReadInt32();
+            mplr.finalFractalTier = reader.ReadInt32();
+            mplr.firstTierCounter = reader.ReadInt32();
         }
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(right);
+
+            var mplr = Player.GetModPlayer<FinalFractalPlayer>();
+            writer.Write(mplr.holdingFinalFractal);
+            writer.Write(mplr.usingFinalFractal);
+            writer.Write(mplr.usedFinalFractal);
+            writer.Write(mplr.waitingFinalFractal);
+            writer.Write(mplr.finalFractalTier);
+            writer.Write(mplr.firstTierCounter);
+
         }
         private bool Right
         {
@@ -450,7 +469,10 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                     velocity = value7 / 2f;
                     //Vector2 velocity = new Vector2(num6, num7);
                     float ai5 = Main.rand.Next(-100, 101);
-                    Projectile.NewProjectileDirect(projectile.GetSource_FromThis(), player.Center, velocity, ProjectileType<PureFractalProj>(), projectile.damage, projectile.knockBack, player.whoAmI, ai5).frame = num167;
+                    var proj = Projectile.NewProjectileDirect(projectile.GetSource_FromThis(), player.Center, velocity, ProjectileType<PureFractalProj>(), projectile.damage, projectile.knockBack, player.whoAmI, ai5);
+                    proj.frame = num167;
+                    proj.netUpdate = true;
+                    proj.netUpdate2 = true;
                 }
                 {
                     Vector2 value5 = Main.MouseWorld;
@@ -497,10 +519,11 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                         Vector2 value6 = -vector35;
                         Vector2 position = value5 + value6;
                         float lerpValue2 = Main.rand.Next(0, 25);
-                        if (Main.rand.NextBool(2))
-                            Projectile.NewProjectile(projectile.GetSource_FromThis(), position, vector34 * 2, ProjectileType<FinalFractalDimensionalSwoosh>(), projectile.damage, projectile.knockBack, projectile.owner, num83, lerpValue2);
-                        else
-                            Projectile.NewProjectile(projectile.GetSource_FromThis(), position, vector34 * 2, ProjectileType<FirstZenithProj>(), projectile.damage, projectile.knockBack, projectile.owner, num83, lerpValue2);
+                        var proj = Main.rand.NextBool(2) 
+                         ? Projectile.NewProjectileDirect(projectile.GetSource_FromThis(), position, vector34 * 2, ProjectileType<FinalFractalDimensionalSwoosh>(), projectile.damage, projectile.knockBack, projectile.owner, num83, lerpValue2)
+                         : Projectile.NewProjectileDirect(projectile.GetSource_FromThis(), position, vector34 * 2, ProjectileType<FirstZenithProj>(), projectile.damage, projectile.knockBack, projectile.owner, num83, lerpValue2);
+                        proj.netUpdate = true;
+                        proj.netUpdate2 = true;
                         //Projectile.NewProjectile(position + new Vector2(128, 112), vector34, ProjectileType<FinalFractalDimensionalSwoosh>(), projectile.damage, projectile.knockBack, projectile.owner, num83, lerpValue2);
                     }
                 }
