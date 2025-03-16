@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Sequence name="RefinedSteelBlade_NewVer_Proj" AuthorName="错数螺线" Description="精钢巨刃执行序列" FileName="RefinedSteelBlade_NewVer_Proj" DisplayName="精钢巨刃" ModName="FinalFractalSet" createTime="638770326213804340" lastModifyDate="638776408547237282" passWord="" Finished="True">
+  <Group>
+    <Wraper condition="MouseLeft" IsSequence="True">
+      <Sequence>
+        <Group>
+          <Wraper>
+            <Action mode="0" Cycle="3" ModifyData="(1.00|3.00|1.00|1.00|0|1.00)" name="LogSpiralLibrary/SwooshInfo" />
+          </Wraper>
+        </Group>
+        <Group>
+          <Wraper>
+            <Action mode="1" Cycle="4" ModifyData="(1.00|2.50|1.00|0.55|0|1.00)" name="LogSpiralLibrary/SwooshInfo" />
+          </Wraper>
+        </Group>
+        <Group>
+          <Wraper>
+            <Action mode="0" Cycle="3" ModifyData="(1.00|3.00|1.00|1.00|0|1.00)" name="LogSpiralLibrary/SwooshInfo" />
+          </Wraper>
+        </Group>
+        <Group>
+          <Wraper>
+            <Action mode="0" Cycle="1" ModifyData="(1.50|3.00|1.60|2.50|10|1.20)" name="LogSpiralLibrary/SwooshInfo" />
+          </Wraper>
+        </Group>
+      </Sequence>
+    </Wraper>
+    <Wraper condition="MouseRight" IsSequence="True">
+      <Sequence>
+        <Group>
+          <Wraper>
+            <Action Cycle="1" ModifyData="(1.00|1.00|1.00|1.00|0|1.00)" ChargingRotation="2.5" AutoNext="False" name="LogSpiralLibrary/ChargingInfo" />
+          </Wraper>
+        </Group>
+        <Group>
+          <Wraper>
+            <Action Cycle="1" ModifyData="(1.00|1.00|1.00|1.00|0|1.00)" Upgraded="True" name="FinalFractalSet/SteelSpecialAttack" />
+          </Wraper>
+        </Group>
+      </Sequence>
+    </Wraper>
+  </Group>
+</Sequence>

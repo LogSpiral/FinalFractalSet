@@ -5,6 +5,27 @@ FinalFractalTip: {
 	3: 天顶「FinalFractal」
 }
 
+Configs: {
+	FinalFractalSetConfig: {
+		DisplayName: 最终分形设置
+
+		LoadOldVersionWeapons: {
+			Label: 加载旧版本武器
+			// Tooltip: ""
+		}
+	}
+
+	WoodSpecialAttack.Upgraded.Label: 升级
+	StoneSpecialAttack.Upgraded.Label: 升级
+	SteelSpecialAttack.Upgraded.Label: 升级
+}
+
+MeleeAction: {
+	WoodSpecialAttack.DisplayName: 朽木穿刺
+	StoneSpecialAttack.DisplayName: 枯石幻影剑
+	SteelSpecialAttack.DisplayName: 锈钢瞬闪
+}
+
 Items: {
 	FinalFractal_Old: {
 		DisplayName: 最终分形(旧版)
@@ -160,6 +181,81 @@ Items: {
 			(新版制作中)
 			'''
 	}
+
+	WitheredWoodSword_NewVer: {
+		DisplayName: 朽木刺锋
+		Tooltip:
+			'''
+			左键正常情况下两次突刺一次重刺
+			在被大量敌怪包围的时候会明显增加攻速
+
+			右键蓄力重击地面并释放朽木群(未完工)
+			'''
+	}
+
+	DyingStoneSword_NewVer: {
+		DisplayName: 枯石太刀
+		Tooltip:
+			'''
+			左键两次挥砍三次突刺一次重斩
+			右键蓄力释放 枯石「幻影剑」
+			'''
+	}
+
+	RustySteelBlade_NewVer: {
+		DisplayName: 锈蚀钢刃
+		Tooltip:
+			'''
+			左键三次挥砍接着四次横批
+			再三次挥砍一次接着一次重斩
+			右键蓄力释放后闪现并留下次元斩
+			'''
+	}
+
+	PureFractal_NewVer: {
+		DisplayName: 纯粹分形
+		Tooltip: "111"
+	}
+
+	FirstZenith_NewVer: {
+		DisplayName: 初元天穹
+		Tooltip: "111"
+	}
+
+	FinalFractal_NewVer: {
+		DisplayName: 最终分形
+		Tooltip: "111"
+	}
+
+	RefinedSteelBlade_NewVer: {
+		DisplayName: 精钢巨刃
+		Tooltip:
+			'''
+			左键三次挥砍接着四次横批
+			再三次挥砍一次接着一次重斩
+			右键蓄力释放后闪现并留下次元斩
+			'''
+	}
+
+	CrystalStoneSword_NewVer: {
+		DisplayName: 晶石妖刀
+		Tooltip:
+			'''
+			左键两次挥砍三次突刺一次重斩
+			右键蓄力释放 枯石「幻影剑」(未完工)
+			'''
+	}
+
+	LivingWoodSword_NewVer: {
+		DisplayName: 灵木叶锋
+		Tooltip:
+			'''
+			左键正常情况下两次突刺一次重刺
+			在被大量敌怪包围的时候会明显增加攻速
+
+			右键蓄力重击地面并释放朽木群(未完工)
+			'''
+	}
 }
 
 Projectiles: {
@@ -183,4 +279,32 @@ Projectiles: {
 	WitheredWoodSword_Blade.DisplayName: 朽木锋刺
 	WitheredWoodSword_Blade_GivenUp.DisplayName: 朽木锋刺
 	WitheredWoodSwordProj.DisplayName: 朽木锋刺
+	// FinalFractal_NewVer_Proj.DisplayName: Final Fractal_ New Ver_ Proj
+	// RustySteelBlade_NewVer_Proj.DisplayName: Rusty Steel Blade_ New Ver_ Proj
+	// PureFractal_NewVer_Proj.DisplayName: Pure Fractal_ New Ver_ Proj
+	// DyingStoneSword_NewVer_Proj.DisplayName: Dying Stone Sword_ New Ver_ Proj
+	// WitheredWoodSword_NewVer_Proj.DisplayName: Withered Wood Sword_ New Ver_ Proj
+	// WoodSAProjectile.DisplayName: Wood S A Projectile
+	// FirstZenith_NewVer_Proj.DisplayName: First Zenith_ New Ver_ Proj
+	// StoneSAProjectile.DisplayName: Stone S A Projectile
+	// SteelSAProjectile.DisplayName: Steel S A Projectile
+	// WitheredTree_NewVer.DisplayName: Withered Tree_ New Ver
+	// WitheredWood_NewVer.DisplayName: Withered Wood_ New Ver
+	// RefinedSteelBlade_NewVer_Proj.DisplayName: Refined Steel Blade_ New Ver_ Proj
+	// CrystalStoneSword_NewVer_Proj.DisplayName: Crystal Stone Sword_ New Ver_ Proj
+	// LivingWoodSword_NewVer_Proj.DisplayName: Living Wood Sword_ New Ver_ Proj
+	// ThornTree_Proj.DisplayName: Thorn Tree_ Proj
+	// Thorn_Proj.DisplayName: Thorn_ Proj
+}
+
+Buffs: {
+	StoneBuff: {
+		// DisplayName: Stone Buff
+		// Description: Mods.FinalFractalSet.Buffs.StoneBuff.Description
+	}
+
+	StoneBuffBoost: {
+		// DisplayName: Stone Buff Boost
+		// Description: Mods.FinalFractalSet.Buffs.StoneBuffBoost.Description
+	}
 }

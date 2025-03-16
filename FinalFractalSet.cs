@@ -9,17 +9,21 @@ global using LogSpiralLibrary;
 global using LogSpiralLibrary.CodeLibrary;
 global using static LogSpiralLibrary.CodeLibrary.RecipeMethods;
 global using static LogSpiralLibrary.CodeLibrary.DrawingMethods;
+using Terraria.ModLoader.Config;
 using System.IO;
+using System.ComponentModel;
+using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Melee;
+using System.Collections.Generic;
 
 namespace FinalFractalSet
 {
-	// Please read https://github.com/tModLoader/tModLoader/wiki/Basic-tModLoader-Modding-Guide#mod-skeleton-contents for more information about the various files in a mod.
-	public class FinalFractalSet : Mod
-	{
+    // Please read https://github.com/tModLoader/tModLoader/wiki/Basic-tModLoader-Modding-Guide#mod-skeleton-contents for more information about the various files in a mod.
+    public class FinalFractalSet : Mod
+    {
         public override void HandlePacket(BinaryReader reader, int whoAmI)
         {
             MessageType msgType = (MessageType)reader.ReadByte();
-            switch (msgType) 
+            switch (msgType)
             {
                 /*case MessageType.PureFractalFrameSync: 
                     {
@@ -36,7 +40,7 @@ namespace FinalFractalSet
                         Main.projectile[projIndex].frame = projFrame;
                         break;
                     }*/
-                case MessageType.FinalFractalFieldsSync: 
+                case MessageType.FinalFractalFieldsSync:
                     {
                         //bool holdingFinalFractal = false;
                         //int usingFinalFractal = 0;
@@ -54,7 +58,8 @@ namespace FinalFractalSet
                         //}
                         break;
                     }
-            };
+            }
+            ;
             base.HandlePacket(reader, whoAmI);
         }
         public override void Load()
@@ -62,10 +67,36 @@ namespace FinalFractalSet
             Instance = this;
             base.Load();
         }
+
+
+
         public static FinalFractalSet Instance;
     }
-    public enum MessageType 
+    public enum MessageType
     {
         FinalFractalFieldsSync
+    }
+
+    public class FinalFractalSetConfig : ModConfig
+    {
+        public override ConfigScope Mode => ConfigScope.ServerSide;
+
+        [ReloadRequired]
+        [DefaultValue(true)]
+        public bool LoadOldVersionWeapons;
+
+        public static FinalFractalSetConfig instance;
+
+        public static bool OldVersionEnabled => instance.LoadOldVersionWeapons;
+
+        public override void OnLoaded()
+        {
+            instance = this;
+            base.OnLoaded();
+        }
+    }
+    public abstract class FinalFractalSetAction : MeleeAction
+    {
+        public override string Category => "";
     }
 }

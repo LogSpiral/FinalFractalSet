@@ -11,6 +11,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
 {
     public class FinalFractalPlayer : ModPlayer
     {
+        public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
         public Player player => Player;
         public bool holdingFinalFractal = false;
         public int usingFinalFractal = 0;
@@ -21,6 +22,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
     }
     public class FinalFractal_Old : ModItem
     {
+        public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
         //public override void SetStaticDefaults()
         //{
         //    DisplayName.SetDefault("最终分形");
@@ -163,6 +165,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
 
     public class FinalFractalItem : ModProjectile
     {
+        public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
         private Player Player => Main.player[Projectile.owner];
         public bool right;
         public override void ReceiveExtraAI(BinaryReader reader)

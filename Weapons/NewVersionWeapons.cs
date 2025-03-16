@@ -7,6 +7,7 @@ using static LogSpiralLibrary.LogSpiralLibraryMod;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
 using Terraria.Audio;
 using Terraria.Utilities;
+using FinalFractalSet.REAL_NewVersions.Wood;
 
 namespace FinalFractalSet.Weapons
 {
@@ -61,9 +62,9 @@ namespace FinalFractalSet.Weapons
                         }
                     }
                 }
-                var proj = Projectile.NewProjectileDirect(projectile.GetSource_FromThis(), position, new Vector2(this.rand() * 2 - 1, 0) * 4, ModContent.ProjectileType<WitheredWood>(), projectile.damage / 4, projectile.knockBack * .5f, projectile.owner, rand, index);
+                var proj = Projectile.NewProjectileDirect(projectile.GetSource_FromThis(), position, new Vector2(this.rand() * 2 - 1, 0) * 4, ModContent.ProjectileType<WitheredWood_NewVer>(), projectile.damage / 4, projectile.knockBack * .5f, projectile.owner, rand, index);
                 proj.rotation = r + node.rad;//this.rand() * MathHelper.TwoPi
-                if (proj.ModProjectile is WitheredWood wood)
+                if (proj.ModProjectile is WitheredWood_NewVer wood)
                 {
                     wood.tree = new LightTree(node, random);
                 }

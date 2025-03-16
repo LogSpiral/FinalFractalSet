@@ -5,6 +5,27 @@ FinalFractalTip: {
 	3: Zenith「FinalFractal」
 }
 
+Configs: {
+	FinalFractalSetConfig: {
+		DisplayName: Final Fractal Set Config
+
+		LoadOldVersionWeapons: {
+			Label: Load Old Version Weapons
+			Tooltip: ""
+		}
+	}
+
+	WoodSpecialAttack.Upgraded.Label: Upgraded
+	StoneSpecialAttack.Upgraded.Label: Upgraded
+	SteelSpecialAttack.Upgraded.Label: Upgraded
+}
+
+MeleeAction: {
+	WoodSpecialAttack.DisplayName: Withered Wood Puncture
+	StoneSpecialAttack.DisplayName: Dying Stone Phantomsword
+	SteelSpecialAttack.DisplayName: Rusty Steel Dashing
+}
+
 Items: {
 	FinalFractal_Old: {
 		DisplayName: Final Fractal(Old)
@@ -160,6 +181,55 @@ Items: {
 			(New Version W.I.P.)
 			'''
 	}
+
+	WitheredWoodSword_NewVer: {
+		DisplayName: Withered Wood Sword
+		Tooltip:
+			'''
+			Twice light stab and a heavy stab by MouseLeft in normal
+			The speed of attack will obviously increase when encountered with lots of enermies.
+			'''
+	}
+
+	DyingStoneSword_NewVer: {
+		DisplayName: Dying Stone Sword
+		Tooltip: "111"
+	}
+
+	RustySteelBlade_NewVer: {
+		DisplayName: Rusty Steel Blade
+		Tooltip: "111"
+	}
+
+	PureFractal_NewVer: {
+		DisplayName: Pure Fractal
+		Tooltip: "111"
+	}
+
+	FirstZenith_NewVer: {
+		DisplayName: Primitive Zenith
+		Tooltip: "111"
+	}
+
+	FinalFractal_NewVer: {
+		DisplayName: Final Fractal
+		Tooltip: "111"
+	}
+
+	RefinedSteelBlade_NewVer: {
+		DisplayName: Refined Steel Blade_ New Ver
+		Tooltip: ""
+	}
+
+	CrystalStoneSword_NewVer: {
+		DisplayName: Crystal Stone Sword_ New Ver
+		Tooltip: ""
+	}
+
+	LivingWoodSword_NewVer: {
+		DisplayName: Living Wood Sword_ New Ver
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -183,4 +253,32 @@ Projectiles: {
 	WitheredWoodSword_Blade.DisplayName: Withered Wood Sword
 	WitheredWoodSword_Blade_GivenUp.DisplayName: Withered Wood Sword
 	WitheredWoodSwordProj.DisplayName: Withered Wood Sword
+	FinalFractal_NewVer_Proj.DisplayName: Final Fractal_ New Ver_ Proj
+	RustySteelBlade_NewVer_Proj.DisplayName: Rusty Steel Blade_ New Ver_ Proj
+	PureFractal_NewVer_Proj.DisplayName: Pure Fractal_ New Ver_ Proj
+	DyingStoneSword_NewVer_Proj.DisplayName: Dying Stone Sword_ New Ver_ Proj
+	WitheredWoodSword_NewVer_Proj.DisplayName: Withered Wood Sword_ New Ver_ Proj
+	WoodSAProjectile.DisplayName: Wood S A Projectile
+	FirstZenith_NewVer_Proj.DisplayName: First Zenith_ New Ver_ Proj
+	StoneSAProjectile.DisplayName: Stone S A Projectile
+	SteelSAProjectile.DisplayName: Steel S A Projectile
+	WitheredTree_NewVer.DisplayName: Withered Tree_ New Ver
+	WitheredWood_NewVer.DisplayName: Withered Wood_ New Ver
+	RefinedSteelBlade_NewVer_Proj.DisplayName: Refined Steel Blade_ New Ver_ Proj
+	CrystalStoneSword_NewVer_Proj.DisplayName: Crystal Stone Sword_ New Ver_ Proj
+	LivingWoodSword_NewVer_Proj.DisplayName: Living Wood Sword_ New Ver_ Proj
+	ThornTree_Proj.DisplayName: Thorn Tree_ Proj
+	Thorn_Proj.DisplayName: Thorn_ Proj
+}
+
+Buffs: {
+	StoneBuff: {
+		DisplayName: Stone Buff
+		Description: Mods.FinalFractalSet.Buffs.StoneBuff.Description
+	}
+
+	StoneBuffBoost: {
+		DisplayName: Stone Buff Boost
+		Description: Mods.FinalFractalSet.Buffs.StoneBuffBoost.Description
+	}
 }

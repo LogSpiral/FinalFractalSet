@@ -14,6 +14,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
 {
     public class FinalFractalProjectile : ModProjectile
     {
+        public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
         Projectile projectile => Projectile;
 
         public override void SetDefaults()
@@ -251,6 +252,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
     }
     public class FinalFractalShadow : ModProjectile
     {
+        public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
         Projectile projectile => Projectile;
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
@@ -549,6 +551,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
     }
     public class FinalFractalDimensionalSwoosh : ModProjectile
     {
+        public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
         Projectile projectile => Projectile;
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
@@ -888,6 +891,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
     }
     public class FinalFractalDimensionalSwoosh2 : ModProjectile
     {
+        public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
         Projectile projectile => Projectile;
 
         public override void SetDefaults()
@@ -1045,6 +1049,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
     }
     public class Zenith_FirstFractal : ModProjectile
     {
+        public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
         Projectile projectile => Projectile;
 
         public override void SetDefaults()
@@ -1268,6 +1273,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
     }
     public class Zenith_FirstFractals : ModProjectile
     {
+        public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
         public override void SetDefaults()
         {
             projectile.width = 16;
@@ -1476,6 +1482,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
     }
     public class FinalFractalDimensionalSwoosh3 : ModProjectile
     {
+        public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
         private Vector2 P;
         private Vector2 M;
         private float T;

@@ -142,6 +142,7 @@ namespace FinalFractalSet.Weapons
     }
     public class FirstZenith_Old : ModItem
     {
+        public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             Item.ShaderItemEffectInventory(spriteBatch, position, origin, LogSpiralLibraryMod.Misc[0].Value, Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * LogSpiralLibraryMod.ModTime) / 2 + 0.5f), scale);
@@ -172,7 +173,7 @@ namespace FinalFractalSet.Weapons
             Item.shoot = ModContent.ProjectileType<FirstZenithProj>();
             //Item.glowMask = 271;
         }
-        private bool GetSparkleGuitarTarget(out List<NPC> validTargets)
+        public static bool GetSparkleGuitarTarget(out List<NPC> validTargets)
         {
             Player player = Main.player[Main.myPlayer];
             validTargets = [];
@@ -180,7 +181,7 @@ namespace FinalFractalSet.Weapons
             for (int i = 0; i < 200; i++)
             {
                 NPC npc = Main.npc[i];
-                if (npc.CanBeChasedBy(this, false) && npc.Hitbox.Intersects(value))
+                if (npc.CanBeChasedBy(false) && npc.Hitbox.Intersects(value))
                 {
                     validTargets.Add(npc);
                 }
@@ -257,6 +258,7 @@ namespace FinalFractalSet.Weapons
     }
     public class FirstZenithProj : ModProjectile
     {
+        //public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.immune[projectile.owner] = 0;
@@ -424,7 +426,7 @@ namespace FinalFractalSet.Weapons
             player.CopyVisuals(Main.player[projectile.owner]);
             player.isFirstFractalAfterImage = true;
             player.firstFractalAfterImageOpacity = projectile.Opacity;
-            player.ResetEffects();
+            //player.ResetEffects();
             player.ResetVisibleAccessories();
             player.UpdateDyes();
             player.DisplayDollUpdate();
@@ -471,6 +473,7 @@ namespace FinalFractalSet.Weapons
     public class WitheredWoodSword_Old : ModItem
     {
         public Item item => Item;
+        public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
 
         public override void SetDefaults()
         {
@@ -576,6 +579,7 @@ namespace FinalFractalSet.Weapons
     }
     public class WitheredWoodSwordProj : VertexHammerProj
     {
+        public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
         public override string HammerName => base.HammerName;
         public override float MaxTime => (controlState == 2 ? 2f : 1f) * UpgradeValue(12, 9);
         public override float Factor => base.Factor;
@@ -687,6 +691,7 @@ namespace FinalFractalSet.Weapons
     }
     public class DyingStoneSword_Old : ModItem
     {
+        public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
         public Item item => Item;
         public override void SetDefaults()
         {
@@ -797,6 +802,7 @@ namespace FinalFractalSet.Weapons
     }
     public class DyingStoneSwordProj : WitheredWoodSwordProj
     {
+        public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
         public static void ShootSharpTears(Vector2 targetPos, Player player, Projectile projectile)
         {
             player.LimitPointToPlayerReachableArea(ref targetPos);
@@ -968,6 +974,7 @@ namespace FinalFractalSet.Weapons
     public class RustySteelBlade_Old : ModItem
     {
         public Item item => Item;
+        public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
         public override void SetDefaults()
         {
             item.damage = 70;
@@ -1060,6 +1067,7 @@ namespace FinalFractalSet.Weapons
     }
     public class RustySteelBladeProj : WitheredWoodSwordProj
     {
+        public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
         public override void OnRelease(bool charged, bool left)
         {
             if (Charged)

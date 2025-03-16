@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Sequence name="LivingWoodSword_NewVer_Proj" AuthorName="错数螺线" Description="灵木叶锋执行序列" FileName="LivingWoodSword_NewVer_Proj" DisplayName="灵木叶锋" ModName="FinalFractalSet" createTime="638770298328554249" lastModifyDate="638775834144748440" passWord="" Finished="True">
+  <Group>
+    <Wraper condition="MouseLeft" IsSequence="True">
+      <Sequence>
+        <Group>
+          <Wraper condition="SurroundThreat">
+            <Action givenCycle="4" ModifyData="(1.00|1.00|1.00|1.00|0|1.00)" rangeOffsetMin="1" rangeOffsetMax="3" name="LogSpiralLibrary/RapidlyStabInfo" />
+          </Wraper>
+          <Wraper IsSequence="True">
+            <Sequence>
+              <Group>
+                <Wraper>
+                  <Action Cycle="2" ModifyData="(1.20|1.00|1.00|1.00|0|1.00)" name="LogSpiralLibrary/StabInfo" />
+                </Wraper>
+              </Group>
+              <Group>
+                <Wraper>
+                  <Action Cycle="1" ModifyData="(1.40|1.50|1.00|1.50|5|1.00)" name="LogSpiralLibrary/StabInfo" />
+                </Wraper>
+              </Group>
+            </Sequence>
+          </Wraper>
+        </Group>
+      </Sequence>
+    </Wraper>
+    <Wraper condition="MouseRight" IsSequence="True">
+      <Sequence>
+        <Group>
+          <Wraper>
+            <Action Cycle="1" ModifyData="(1.00|2.00|1.00|1.00|0|1.00)" ChargingRotation="-2" AutoNext="False" name="LogSpiralLibrary/ChargingInfo" />
+          </Wraper>
+        </Group>
+        <Group>
+          <Wraper>
+            <Action Cycle="1" ModifyData="(1.00|2.00|1.00|1.00|0|1.00)" Upgraded="True" name="FinalFractalSet/WoodSpecialAttack" />
+          </Wraper>
+        </Group>
+      </Sequence>
+    </Wraper>
+  </Group>
+</Sequence>

@@ -10,6 +10,7 @@ namespace FinalFractalSet.Weapons
 {
     public class PureFractal_Old : ModItem
     {
+        public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             var time = ((float)Math.Sin(LogSpiralLibraryMod.ModTime / 60f * MathHelper.TwoPi) + 1) * .5f;
@@ -120,6 +121,7 @@ namespace FinalFractalSet.Weapons
     }
     public class PureFractalProj : ModProjectile
     {
+        //public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
         static Color GetColorInfo(int frame) => frame switch
         {
             0 => Color.Brown,
@@ -252,10 +254,12 @@ namespace FinalFractalSet.Weapons
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write((byte)projectile.frame);
+            writer.Write(projectile.localAI[0]);
         }
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             projectile.frame = reader.ReadByte();
+            projectile.localAI[0] = reader.ReadSingle();
         }
         Projectile projectile => Projectile;
         Color newColor => PureFractalColors[Projectile.frame];
