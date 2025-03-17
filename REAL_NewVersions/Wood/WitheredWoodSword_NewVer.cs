@@ -182,19 +182,8 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
         }
 
         [ElementCustomData]
-        public bool Upgraded = false;
-
-
-        public override void LoadAttribute(XmlReader xmlReader)
-        {
-            Upgraded = bool.Parse(xmlReader[nameof(Upgraded)] ?? "False");
-            base.LoadAttribute(xmlReader);
-        }
-        public override void SaveAttribute(XmlWriter xmlWriter)
-        {
-            xmlWriter.WriteAttributeString(nameof(Upgraded), Upgraded.ToString());
-            base.SaveAttribute(xmlWriter);
-        }
+        [DefaultValue(false)]
+        public bool Upgraded;
     }
     public class WoodSAProjectile : ModProjectile
     {

@@ -251,17 +251,6 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
         [ElementCustomData]
         [DefaultValue(false)]
         public bool Upgraded;
-
-        public override void LoadAttribute(XmlReader xmlReader)
-        {
-            Upgraded = bool.Parse(xmlReader[nameof(Upgraded)]);
-            base.LoadAttribute(xmlReader);
-        }
-        public override void SaveAttribute(XmlWriter xmlWriter)
-        {
-            xmlWriter.WriteAttributeString(nameof(Upgraded), Upgraded.ToString());
-            base.SaveAttribute(xmlWriter);
-        }
     }
     public class StoneSAProjectile : ModProjectile
     {
