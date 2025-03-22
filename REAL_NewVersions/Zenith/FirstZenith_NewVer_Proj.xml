@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Sequence name="FirstZenith_NewVer_Proj" AuthorName="错数螺线" Description="初元天穹执行序列" FileName="FirstZenith_NewVer_Proj" DisplayName="初元天穹" ModName="FinalFractalSet" createTime="638770362745953805" lastModifyDate="638774670029255784" passWord="" Finished="True">
-  <Group>
-    <Wraper>
-      <Action mode="1" Cycle="2" ModifyData="(1.00|0.50|1.00|1.00|0|1.00)" OnEndAttackDelegate="FirstZenith_NewVer_Proj/ShootFirstZenith" name="LogSpiralLibrary/SwooshInfo" />
-    </Wraper>
-  </Group>
-</Sequence>

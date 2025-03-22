@@ -5,7 +5,7 @@
       <Sequence>
         <Group>
           <Wraper condition="SurroundThreat">
-            <Action givenCycle="4" ModifyData="(1.00|1.00|1.00|1.00|0|1.00)" rangeOffsetMin="1" rangeOffsetMax="3" name="LogSpiralLibrary/RapidlyStabInfo" />
+            <Action givenCycle="4" ModifyData="(1.00|1.00|1.00|1.00|0|1.00)" OnEndAttackDelegate="LivingWoodSword_NewVer_Proj/SpawnThorn" rangeOffsetMin="1" rangeOffsetMax="3" name="LogSpiralLibrary/RapidlyStabInfo" />
           </Wraper>
           <Wraper IsSequence="True">
             <Sequence>

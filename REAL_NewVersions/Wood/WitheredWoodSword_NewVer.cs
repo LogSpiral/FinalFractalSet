@@ -25,7 +25,7 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 40;
+            Item.damage = 15;
         }
         public override void AddRecipes()
         {
@@ -36,7 +36,7 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
             ItemID.PalmWoodSword,
             ItemID.RichMahoganySword,
             ItemID.ShadewoodSword,
-            ItemID.PearlwoodSword,
+            ItemID.AshWoodSword,
             ItemID.CactusSword);
             recipe.AddIngredient(ItemID.Mushroom, 50);
             recipe.AddIngredient(ItemID.GlowingMushroom, 50);
@@ -71,13 +71,14 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 70;
+            Item.damage = 50;
         }
         public override bool AltFunctionUse(Player player) => true;
         public override void AddRecipes()
         {
             var recipe = CreateRecipe();
             recipe.AddIngredient<WitheredWoodSword_NewVer>();
+            recipe.AddIngredient(ItemID.PearlwoodSword);
             recipe.AddIngredient(ItemID.BrokenHeroSword);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.ReplaceResult(this);
@@ -100,6 +101,11 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
             },
             itemType = ModContent.ItemType<LivingWoodSword_NewVer>()
         };
+        [SequenceDelegate]
+        static void SpawnThorn(MeleeAction action) 
+        {
+            Projectile.NewProjectile(action.Projectile.GetProjectileSource_FromThis(), action.Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(1, 16), Main.rand.NextBool(4) ? ProjectileID.NettleBurstRight : ProjectileID.VilethornBase, action.CurrentDamage / 2, action.Projectile.knockBack, Main.myPlayer);
+        }
     }
     public class WoodSpecialAttack : FinalFractalSetAction
     {

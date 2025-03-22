@@ -1,3 +1,4 @@
+PureTest: Defeat with no hit
 FinalFractalTip: {
 	0: This Even not the final state of them.
 	1: 「The Ultra Fractal Of The First And The Final」
@@ -24,6 +25,8 @@ MeleeAction: {
 	WoodSpecialAttack.DisplayName: Withered Wood Puncture
 	StoneSpecialAttack.DisplayName: Dying Stone Phantomsword
 	SteelSpecialAttack.DisplayName: Rusty Steel Dashing
+	FirstZenithSpecialAttack.DisplayName: Zenith Dimension Cut
+	FirstZenithRainAttack.DisplayName: Zenith Rain
 }
 
 Items: {
@@ -190,22 +193,38 @@ Items: {
 			The speed of attack will obviously increase when encountered with lots of enermies.
 			'''
 	}
-
+	LivingWoodSword_NewVer: {
+		DisplayName: Living Wood Sword_ New Ver
+		Tooltip: ""
+	}
 	DyingStoneSword_NewVer: {
 		DisplayName: Dying Stone Sword
 		Tooltip: "111"
 	}
-
+	CrystalStoneSword_NewVer: {
+		DisplayName: Crystal Stone Sword_ New Ver
+		Tooltip: ""
+	}
 	RustySteelBlade_NewVer: {
 		DisplayName: Rusty Steel Blade
 		Tooltip: "111"
 	}
-
+	RefinedSteelBlade_NewVer: {
+		DisplayName: Refined Steel Blade_ New Ver
+		Tooltip: ""
+	}
 	PureFractal_NewVer: {
 		DisplayName: Pure Fractal
 		Tooltip: "111"
 	}
-
+	PureTestItem: {
+		DisplayName: Pure Sword Shadow
+		Tooltip:
+		'''
+		Get it by defeat MoonLord with no hit.
+		Not a trace of mistaken filth.
+		'''
+	}
 	FirstZenith_NewVer: {
 		DisplayName: Primitive Zenith
 		Tooltip: "111"
@@ -214,21 +233,6 @@ Items: {
 	FinalFractal_NewVer: {
 		DisplayName: Final Fractal
 		Tooltip: "111"
-	}
-
-	RefinedSteelBlade_NewVer: {
-		DisplayName: Refined Steel Blade_ New Ver
-		Tooltip: ""
-	}
-
-	CrystalStoneSword_NewVer: {
-		DisplayName: Crystal Stone Sword_ New Ver
-		Tooltip: ""
-	}
-
-	LivingWoodSword_NewVer: {
-		DisplayName: Living Wood Sword_ New Ver
-		Tooltip: ""
 	}
 }
 

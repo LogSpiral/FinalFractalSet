@@ -19,7 +19,7 @@ namespace FinalFractalSet.REAL_NewVersions.Iron
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 80;
+            Item.damage = 40;
         }
         public override void AddRecipes()
         {
@@ -35,20 +35,8 @@ namespace FinalFractalSet.REAL_NewVersions.Iron
             ItemID.PlatinumBroadsword,
             ItemID.Gladius,
             ItemID.Katana,
-            ItemID.DyeTradersScimitar,
-            ItemID.FalconBlade,
-            ItemID.CobaltSword,
-            ItemID.PalladiumSword,
-            ItemID.MythrilSword,
-            ItemID.OrichalcumSword,
-            ItemID.BreakerBlade,
-            ItemID.Cutlass,
-            ItemID.AdamantiteSword,
-            ItemID.TitaniumSword,
-            ItemID.ChlorophyteSaber,
-            ItemID.ChlorophyteClaymore);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.ReplaceResult(this);
+            ItemID.DyeTradersScimitar);
+            recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }
         public override bool AltFunctionUse(Player player) => true;
@@ -79,6 +67,22 @@ namespace FinalFractalSet.REAL_NewVersions.Iron
         }
         public override void AddRecipes()
         {
+            var recipe = CreateRecipe();
+            recipe.AddIngredient<RustySteelBlade_NewVer>();
+            recipe.AddIngredient(ItemID.BrokenHeroSword);
+            recipe.QuickAddIngredient(
+            ItemID.CobaltSword,
+            ItemID.PalladiumSword,
+            ItemID.MythrilSword,
+            ItemID.OrichalcumSword,
+            ItemID.BreakerBlade,
+            ItemID.Cutlass,
+            ItemID.AdamantiteSword,
+            ItemID.TitaniumSword,
+            ItemID.ChlorophyteSaber,
+            ItemID.ChlorophyteClaymore);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.Register();
         }
         public override bool AltFunctionUse(Player player) => true;
     }

@@ -1,3 +1,4 @@
+PureTest: 无伤击败
 FinalFractalTip: {
 	0: 这甚至还不是它们的最终形态
 	1: 「最初与最后的究极分形」
@@ -24,6 +25,8 @@ MeleeAction: {
 	WoodSpecialAttack.DisplayName: 朽木穿刺
 	StoneSpecialAttack.DisplayName: 枯石幻影剑
 	SteelSpecialAttack.DisplayName: 锈钢瞬闪
+	FirstZenithSpecialAttack.DisplayName: 天穹次元斩
+	FirstZenithRainAttack.DisplayName: 天穹剑雨
 }
 
 Items: {
@@ -189,7 +192,17 @@ Items: {
 			左键正常情况下两次突刺一次重刺
 			在被大量敌怪包围的时候会明显增加攻速
 
-			右键蓄力重击地面并释放朽木群(未完工)
+			右键蓄力重击地面并释放朽木群
+			'''
+	}
+	LivingWoodSword_NewVer: {
+		DisplayName: 灵木叶锋
+		Tooltip:
+			'''
+			左键正常情况下两次突刺一次重刺
+			在被大量敌怪包围的时候会明显增加攻速
+
+			右键蓄力重击地面并释放朽木群
 			'''
 	}
 
@@ -201,7 +214,14 @@ Items: {
 			右键蓄力释放 枯石「幻影剑」
 			'''
 	}
-
+	CrystalStoneSword_NewVer: {
+		DisplayName: 晶石妖刀
+		Tooltip:
+			'''
+			左键两次挥砍三次突刺一次重斩
+			右键蓄力释放 枯石「幻影剑」
+			'''
+	}
 	RustySteelBlade_NewVer: {
 		DisplayName: 锈蚀钢刃
 		Tooltip:
@@ -211,22 +231,6 @@ Items: {
 			右键蓄力释放后闪现并留下次元斩
 			'''
 	}
-
-	PureFractal_NewVer: {
-		DisplayName: 纯粹分形
-		Tooltip: "111"
-	}
-
-	FirstZenith_NewVer: {
-		DisplayName: 初元天穹
-		Tooltip: "111"
-	}
-
-	FinalFractal_NewVer: {
-		DisplayName: 最终分形
-		Tooltip: "111"
-	}
-
 	RefinedSteelBlade_NewVer: {
 		DisplayName: 精钢巨刃
 		Tooltip:
@@ -236,25 +240,42 @@ Items: {
 			右键蓄力释放后闪现并留下次元斩
 			'''
 	}
-
-	CrystalStoneSword_NewVer: {
-		DisplayName: 晶石妖刀
+	PureFractal_NewVer: {
+		DisplayName: 纯粹分形
 		Tooltip:
-			'''
-			左键两次挥砍三次突刺一次重斩
-			右键蓄力释放 枯石「幻影剑」(未完工)
-			'''
+		'''
+		左键两连斩一次上挑后进入蓄力状态，蓄满后释放快速连斩
+		斩击附带回旋刀锋
+		右键蓄力操控回旋剑阵
+		“远古纯粹的自然魔法洗礼之后的天顶之锋，展露吧，你最初的锋芒”
+		'''
+	}
+	PureTestItem: {
+		DisplayName: 纯粹剑影
+		Tooltip:
+		'''
+		无伤击败月球领主获得
+		不沾染一丝失误的污秽
+		'''
+	}
+	FirstZenith_NewVer: {
+		DisplayName: 初元天穹
+		Tooltip: 
+		'''
+		按住上的同时按住左键进行超高速斩击，击中目标释放分形斩
+		按住下的同时按住左键进行蓄力，蓄满后释放分形次元斩
+		只按左键突刺并释放分身
+		右键蓄力操控星流剑雨
+		“撕裂空间的远古星辉”
+		'''
 	}
 
-	LivingWoodSword_NewVer: {
-		DisplayName: 灵木叶锋
-		Tooltip:
-			'''
-			左键正常情况下两次突刺一次重刺
-			在被大量敌怪包围的时候会明显增加攻速
-
-			右键蓄力重击地面并释放朽木群(未完工)
-			'''
+	FinalFractal_NewVer: {
+		DisplayName: 最终分形
+		Tooltip: 
+		'''
+		未完工。
+		'''
 	}
 }
 

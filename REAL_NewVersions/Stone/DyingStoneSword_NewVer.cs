@@ -21,29 +21,25 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 60;
+            Item.damage = 30;
         }
         public override void AddRecipes()
         {
             var recipe = CreateRecipe();
             for (int n = 0; n < 6; n++)
-                recipe.AddIngredient(3764 + n);//六种晶光刃
-            recipe.AddIngredient(ItemID.OrangePhasesaber);
+                recipe.AddIngredient(198 + n);//六种光剑
+            recipe.AddIngredient(ItemID.OrangePhaseblade);
             recipe.AddIngredient(ItemID.BoneSword);
             recipe.AddIngredient(ItemID.AntlionClaw);
-            recipe.AddIngredient(ItemID.BeamSword);
             recipe.AddIngredient(ItemID.PurpleClubberfish);
-            recipe.AddIngredient(ItemID.Bladetongue);
-            recipe.AddIngredient(ItemID.StoneBlock, 500);
-            recipe.AddIngredient(ItemID.EbonstoneBlock, 500);
-            recipe.AddIngredient(ItemID.CrimstoneBlock, 500);
-            recipe.AddIngredient(ItemID.PearlstoneBlock, 500);
-            recipe.AddIngredient(ItemID.Sandstone, 500);
-            recipe.AddIngredient(ItemID.CorruptSandstone, 500);
-            recipe.AddIngredient(ItemID.CrimsonSandstone, 500);
-            recipe.AddIngredient(ItemID.HallowSandstone, 500);
-            recipe.AddIngredient(ItemID.Granite, 500);
-            recipe.AddIngredient(ItemID.Obsidian, 50);
+            recipe.AddIngredient(ItemID.StoneBlock, 250);
+            recipe.AddIngredient(ItemID.EbonstoneBlock, 250);
+            recipe.AddIngredient(ItemID.CrimstoneBlock, 250);
+            recipe.AddIngredient(ItemID.Sandstone, 250);
+            recipe.AddIngredient(ItemID.Granite, 100);
+            recipe.AddIngredient(ItemID.Marble, 100);
+            recipe.AddIngredient(ItemID.Obsidian, 25);
+            recipe.AddIngredient(ItemID.FossilOre, 50);
             recipe.AddTile(TileID.HeavyWorkBench);
             recipe.ReplaceResult(this);
             recipe.Register();
@@ -88,13 +84,23 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
         public override void SetDefaults()
         {
             base.SetDefaults();
-            Item.damage = 90;
+            Item.damage = 70;
         }
         public override void AddRecipes()
         {
             var recipe = CreateRecipe();
-            recipe.AddIngredient<DyingStoneSword_NewVer>();
             recipe.AddIngredient(ItemID.BrokenHeroSword);
+            recipe.AddIngredient<DyingStoneSword_NewVer>();
+            recipe.AddIngredient(ItemID.CrystalShard, 100);
+            recipe.AddIngredient(ItemID.Bladetongue);
+            recipe.AddIngredient(ItemID.BeamSword);
+            recipe.AddIngredient(ItemID.FrostCore);
+            recipe.AddIngredient(ItemID.AncientBattleArmorMaterial);
+            recipe.AddIngredient(ItemID.TurtleShell);
+            recipe.AddIngredient(ItemID.CorruptSandstone, 250);
+            recipe.AddIngredient(ItemID.CrimsonSandstone, 250);
+            recipe.AddIngredient(ItemID.HallowSandstone, 250);
+            recipe.AddIngredient(ItemID.PearlstoneBlock, 250);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.ReplaceResult(this);
             recipe.Register();
@@ -150,31 +156,7 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
         public override void OnStartAttack()
         {
             float r = Main.rand.NextFloat(0, MathHelper.TwoPi);
-            int[] indexs = [-1, -1, -1];
-            float[] Dists = [float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity];
-            foreach (var target in Main.npc)
-            {
-                if (target.friendly || !target.CanBeChasedBy() || !target.active) continue;
-                float d = (target.Center - Owner.Center).Length();
-                if (d > 1024) continue;
-                for (int k = 0; k < 3; k++)
-                {
-                    if (d < Dists[k])
-                    {
-                        for (int j = 3 - 1 - k; j > 0; j--)
-                        {
-                            indexs[j] = indexs[j - 1];
-                            Dists[j] = Dists[j - 1];
-                        }
-                        indexs[k] = target.whoAmI;
-                        Dists[k] = d;
-                        break;
-                    }
-                }
-            }
-
-
-
+            VectorMethods.GetClosestVectorsFromNPC(Owner.Center, 3, 1024, out var indexs, out _);
             SoundEngine.PlaySound(MySoundID.Scythe);
             for (int n = 0; n < 3; n++)
             {
@@ -199,7 +181,7 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
                     Dust.NewDustPerfect(cen, MyDustId.GreyStone, Main.rand.NextVector2Circular(4, 4), 0, default, Main.rand.NextFloat(1, 2)).noGravity = true;
                 Projectile.NewProjectile(Owner.GetSource_FromThis(), cen, velocity, ModContent.ProjectileType<StoneSAProjectile>(), CurrentDamage, Projectile.knockBack, Projectile.owner);
             }
-            if (Upgraded) 
+            if (Upgraded)
             {
                 for (int n = 0; n < 3; n++)
                 {

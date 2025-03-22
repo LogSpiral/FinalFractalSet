@@ -9,6 +9,9 @@ using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
 using Terraria.Audio;
 using System.IO;
 using Terraria.ID;
+using FinalFractalSet.REAL_NewVersions.Wood;
+using FinalFractalSet.REAL_NewVersions.Stone;
+using FinalFractalSet.REAL_NewVersions.Iron;
 
 namespace FinalFractalSet.Weapons
 {
@@ -103,41 +106,56 @@ namespace FinalFractalSet.Weapons
         }
         public override void AddRecipes()
         {
-            Recipe recipe = CreateRecipe();
-            recipe.QuickAddIngredient(
-            ItemID.TerraBlade,
-            ItemID.Meowmere,
-            ItemID.StarWrath,
-            ItemID.InfluxWaver,
-            ItemID.TheHorsemansBlade,
-            ItemID.Seedler,
-            ItemID.EnchantedSword,
-            ItemID.BeeKeeper,
-            ItemID.Starfury,
-            ItemID.CopperShortsword);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.ReplaceResult(this);
-            recipe.Register();
+            if (FinalFractalSetConfig.instance.LoadOldVersionWeapons) 
+            {
+                Recipe recipe = CreateRecipe();
+                recipe.QuickAddIngredient(
+                ItemID.TerraBlade,
+                ItemID.Meowmere,
+                ItemID.StarWrath,
+                ItemID.InfluxWaver,
+                ItemID.TheHorsemansBlade,
+                ItemID.Seedler,
+                ItemID.EnchantedSword,
+                ItemID.BeeKeeper,
+                ItemID.Starfury,
+                ItemID.CopperShortsword);
+                recipe.AddTile(TileID.MythrilAnvil);
+                recipe.ReplaceResult(this);
+                recipe.Register();
 
-            recipe = CreateRecipe();//Recipe
-            recipe.AddIngredient<LivingWoodSword_Old>();
-            recipe.AddIngredient<MossStoneSword_Old>();
-            recipe.AddIngredient<RefinedSteelBlade_Old>();
-            recipe.QuickAddIngredient(3258, 3823, 676, 3106, 671, 1928, 3827, 4923);
+                recipe = CreateRecipe();//Recipe
+                recipe.AddIngredient<LivingWoodSword_Old>();
+                recipe.AddIngredient<MossStoneSword_Old>();
+                recipe.AddIngredient<RefinedSteelBlade_Old>();
+                recipe.QuickAddIngredient(3258, 3823, 676, 3106, 671, 1928, 3827, 4923);
 
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.ReplaceResult(this);
-            recipe.Register();
+                recipe.AddTile(TileID.LunarCraftingStation);
+                recipe.ReplaceResult(this);
+                recipe.Register();
 
-            recipe = CreateRecipe();
-            recipe.AddIngredient(ItemID.Zenith);
-            recipe.ReplaceResult(this);
-            recipe.Register();
+                recipe = CreateRecipe();
+                recipe.AddIngredient(ItemID.Zenith);
+                recipe.ReplaceResult(this);
+                recipe.Register();
 
-            recipe = CreateRecipe();
-            recipe.AddIngredient(this);
-            recipe.ReplaceResult(ItemID.Zenith);
-            recipe.Register();
+                recipe = CreateRecipe();
+                recipe.AddIngredient(this);
+                recipe.ReplaceResult(ItemID.Zenith);
+                recipe.Register();
+            }
+            CreateRecipe()
+                .AddIngredient<LivingWoodSword_NewVer>()
+                .AddIngredient<CrystalStoneSword_NewVer>()
+                .AddIngredient<RefinedSteelBlade_NewVer>()
+                .AddTile(TileID.LunarCraftingStation)
+                .QuickAddIngredient
+                (
+                    ItemID.SlapHand, ItemID.DD2SquireDemonSword, 
+                    ItemID.Frostbrand, ItemID.PsychoKnife, ItemID.Keybrand, 
+                    ItemID.ChristmasTreeSword, ItemID.DD2SquireBetsySword, ItemID.PiercingStarlight
+                )
+                .Register();
         }
     }
     public class FirstZenith_Old : ModItem

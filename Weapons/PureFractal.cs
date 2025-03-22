@@ -235,10 +235,10 @@ namespace FinalFractalSet.Weapons
                 RefreshData();
             return ItemTextures[frame];
         }
-        static Texture2D[] ItemTextures = new Texture2D[26];
-        static Texture2D[] HeatMapTextures = new Texture2D[26];
-        static Color[] PureFractalColors = new Color[26];
-        static float[] PureFractalWeaponLength = new float[26];
+        public static Texture2D[] ItemTextures = new Texture2D[26];
+        public static Texture2D[] HeatMapTextures = new Texture2D[26];
+        public static Color[] PureFractalColors = new Color[26];
+        public static float[] PureFractalWeaponLength = new float[26];
 
         static void RefreshData()
         {
@@ -582,8 +582,8 @@ namespace FinalFractalSet.Weapons
             projectile.localNPCHitCooldown = 3;
             projectile.penetrate = -1;
 
-            RefreshData();
         }
+       
         public override Color? GetAlpha(Color lightColor)
         {
             lightColor = Color.White * projectile.Opacity;
@@ -592,6 +592,7 @@ namespace FinalFractalSet.Weapons
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 60;
+            RefreshData();
         }
     }
 
