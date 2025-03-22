@@ -63,7 +63,7 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
             },
             itemType = ModContent.ItemType<FirstZenith_NewVer>()
         };
-        public override bool LabeledAsCompleted => false;
+        public override bool LabeledAsCompleted => true;
         [SequenceDelegate]
         static void ShootFirstZenith(MeleeAction action)
         {

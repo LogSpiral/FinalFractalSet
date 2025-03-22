@@ -60,7 +60,7 @@ namespace FinalFractalSet.REAL_NewVersions.Pure
             },
             itemType = ModContent.ItemType<PureFractal_NewVer>()
         };
-        public override bool LabeledAsCompleted => false;
+        public override bool LabeledAsCompleted => true;
         [SequenceDelegate]
         static void ShootPurefractalProj_Few(MeleeAction action)
         {
