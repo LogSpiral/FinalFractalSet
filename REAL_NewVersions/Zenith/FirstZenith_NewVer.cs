@@ -1,8 +1,8 @@
 ﻿using FinalFractalSet.REAL_NewVersions.Stone;
 using FinalFractalSet.Weapons;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
-using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures;
-using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Melee;
+using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee;
+using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Core;
 using Mono.Cecil;
 using System;
 using System.Collections.Generic;
@@ -21,6 +21,10 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
         {
             base.SetDefaults();
             Item.damage = 240;
+        }
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            base.ModifyTooltips(tooltips);
         }
         public override void AddRecipes()
         {
@@ -57,10 +61,12 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
                 scaler = 90,
                 timeLeft = 15,
                 alphaFactor = 2f,
+                //heatMap = ModAsset.bar_25.Value,
                 renderInfos = [[new AirDistortEffectInfo(4, 0, 0.5f)],
                     [new MaskEffectInfo(LogSpiralLibraryMod.Mask[2].Value, Color.Blue, 0.15f, 0.2f, new Vector2((float)LogSpiralLibraryMod.ModTime), true, false),
                     new BloomEffectInfo(0, 1f, 1, 3, true) { useModeMK = true, downSampleLevel = 2 }]]
             },
+            
             itemType = ModContent.ItemType<FirstZenith_NewVer>()
         };
         public override bool LabeledAsCompleted => true;
@@ -70,17 +76,23 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
             if (action.Projectile.ModProjectile is not FirstZenith_NewVer_Proj proj) return;
             if (proj.HitCausedZenithCooldown <= 0)
             {
-                ShootFirstZenithViaPosition(action, action.Rotation.ToRotationVector2() * 128 + action.Owner.Center, false);
+                int m = Main.rand.Next(0, Main.rand.Next(1, 3)) + 1;
+                for (int n = 0; n < m; n++)
+                    ShootFirstZenithViaPosition(action, action.Rotation.ToRotationVector2() * 128 + action.Owner.Center, false);
                 proj.HitCausedZenithCooldown = 15;
             }
             else
                 proj.HitCausedZenithCooldown -= 3;
+
         }
 
         [SequenceDelegate]
         static void ShootFirstZenithViaStab(MeleeAction action)
         {
-            Projectile.NewProjectile(action.Projectile.GetSource_FromThis(), action.Owner.Center, action.Rotation.ToRotationVector2() * 32, ModContent.ProjectileType<FirstZenithProj>(), action.CurrentDamage, action.Projectile.knockBack, Main.myPlayer, Main.rand.NextFloat(-.01f, .01f), Main.rand.NextFloat());
+            //Vector2 unit = action.Owner is Player plr ?
+            //     (plr.GetModPlayer<LogSpiralLibraryPlayer>().targetedMousePosition - action.Owner.Center).SafeNormalize(default) : action.Rotation.ToRotationVector2();
+            Vector2 unit = action.Rotation.ToRotationVector2();
+            Projectile.NewProjectile(action.Projectile.GetSource_FromThis(), action.Owner.Center, unit * 32, ModContent.ProjectileType<FractalDash>(), action.Projectile.damage, action.Projectile.knockBack, Main.myPlayer, 0, Main.rand.NextFloat(), 2);// Main.rand.NextFloat(-.002f, .002f)
 
         }
 
@@ -122,7 +134,7 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
                 }
                 Vector2 value6 = -vector35;
                 Vector2 position1 = vector + value6;
-                Projectile.NewProjectile(action.Projectile.GetSource_FromThis(), position1, vector34, ModContent.ProjectileType<FirstZenithProj>(), action.CurrentDamage, action.Projectile.knockBack, player.whoAmI, num83, Main.rand.NextFloat());
+                Projectile.NewProjectile(action.Projectile.GetSource_FromThis(), position1, vector34, ModContent.ProjectileType<FirstZenithProj>(), action.Projectile.damage, action.Projectile.knockBack, player.whoAmI, num83, Main.rand.NextFloat());
             }
         }
 
@@ -267,6 +279,175 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
                 timer = 0;
                 SoundEngine.PlaySound(MySoundID.MagicStaff);
             }
+        }
+    }
+    public class FractalDash : ModProjectile
+    {
+        public override string Texture => base.Texture.Replace("FractalDash", "FirstZenith_NewVer");
+        //public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.immune[projectile.owner] = 0;
+            if (projectile.ai[2] > 0 && Main.rand.NextBool(10))
+            {
+                if (!Main.rand.NextBool(3))
+                    projectile.ai[2]--;
+                var velocity = Main.rand.NextVector2Unit() * 32;
+                Projectile.NewProjectile(projectile.GetProjectileSource_OnHit(target, Type),
+                    target.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(target.Hitbox.Size().Length() * .25f) - velocity * 15, velocity, Type, projectile.damage, projectile.knockBack, projectile.owner, 0, Main.rand.NextFloat(), projectile.ai[2] - 1);
+            }
+            base.OnHitNPC(target, hit, damageDone);
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            if (info.PvP) target.immune = false;
+            base.OnHitPlayer(target, info);
+        }
+        Projectile projectile => Projectile;
+        public Player drawPlayer;
+        public override void SetDefaults()
+        {
+            projectile.width = 64;
+            projectile.height = 64;
+            projectile.aiStyle = -1;
+            projectile.friendly = true;
+            projectile.alpha = 255;
+            projectile.DamageType = DamageClass.Melee;
+            projectile.tileCollide = false;
+            projectile.ignoreWater = true;
+            projectile.extraUpdates = 3;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.manualDirectionChange = true;
+            projectile.penetrate = -1;
+            //ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+        }
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 45;
+            base.SetStaticDefaults();
+        }
+        public float drawColor => projectile.ai[1];
+        UltraStab stab;
+        public override void OnSpawn(IEntitySource source)
+        {
+            projectile.frame = Main.rand.Next(15);
+            drawPlayer = new Player();
+            if (Main.netMode == NetmodeID.Server) return;
+            stab = UltraStab.NewUltraStab(Color.Violet, 30, 1, null, ModAsset.bar_19.Value, xscaler: 3, colorVec: new(0.16667f, 0.33333f, 0.5f));// UltraSwoosh.NewUltraSwoosh(Color.Violet, 30, 1, null, ModAsset.bar_19.Value, colorVec: new(0.16667f, 0.33333f, 0.5f));
+            stab.weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
+            stab.gather = false;
+            stab.ModityAllRenderInfo([[new AirDistortEffectInfo(4, 0, 0.5f)], [new MaskEffectInfo(LogSpiralLibraryMod.Mask[2].Value, Color.Violet, 0.15f, 0.2f, new Vector2((float)LogSpiralLibraryMod.ModTime), true, false), new BloomEffectInfo(0, 1f, 1, 3, true) { useModeMK = true, downSampleLevel = 2 }]]);
+
+        }
+        public override void AI()
+        {
+            //if (Main.player[projectile.owner].name == "FFT") 
+            //{
+            //    projectile.extraUpdates = 3;
+            //}
+            Main.projFrames[projectile.type] = 15;
+            float num = 60f;
+            projectile.localAI[0]++;
+            if (projectile.localAI[0] >= 300)
+                projectile.Kill();
+            projectile.velocity = projectile.velocity.RotatedBy((double)projectile.ai[0], default(Vector2));
+            projectile.Opacity = Utils.GetLerpValue(0f, 12f, projectile.localAI[0], true) * Utils.GetLerpValue(num, num - 12f, projectile.localAI[0], true);
+            projectile.direction = projectile.velocity.X > 0f ? 1 : -1;
+            projectile.spriteDirection = projectile.direction;
+            projectile.rotation = projectile.velocity.ToRotation();
+            if (projectile.localAI[0] > 7f)
+            {
+                if (Main.rand.NextBool(15))
+                {
+                    Dust dust = Dust.NewDustPerfect(projectile.Center, MyDustId.CyanBubble, null, 100, Color.Lerp(Main.hslToRgb(drawColor, 1f, 0.5f), Color.White, Main.rand.NextFloat() * 0.3f), 1f);
+                    dust.scale = 0.7f;
+                    dust.noGravity = true;
+                    dust.velocity *= 0.5f;
+                    dust.velocity += projectile.velocity * 2f;
+                }
+            }
+            if (Main.netMode == NetmodeID.Server) return;
+            if (stab == null)
+            {
+                stab = UltraStab.NewUltraStab(Color.Violet, 30, 360, null, ModAsset.bar_19.Value, xscaler: 3, colorVec: new(0.16667f, 0.33333f, 0.5f));// UltraSwoosh.NewUltraSwoosh(Color.Violet, 30, 1, null, ModAsset.bar_19.Value, colorVec: new(0.16667f, 0.33333f, 0.5f));
+                stab.ModityAllRenderInfo([[new AirDistortEffectInfo(4, 0, 0.5f)], [new MaskEffectInfo(LogSpiralLibraryMod.Mask[2].Value, Color.Violet, 0.15f, 0.2f, new Vector2((float)LogSpiralLibraryMod.ModTime), true, false), new BloomEffectInfo(0, 1f, 1, 3, true) { useModeMK = true, downSampleLevel = 2 }]]);
+                stab.weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
+                stab.gather = false;
+            }
+            stab.xScaler = MathHelper.Clamp(12 - projectile.localAI[0] / 6, 3, 12);
+            stab.center = projectile.Center - projectile.velocity * 3;
+            stab.rotation = projectile.rotation;
+            stab.scaler = 360 + 32 * projectile.localAI[0];
+            stab.center -= projectile.velocity * .5f * projectile.localAI[0];
+            stab.xScaler *= stab.scaler / 360f;
+            if (stab.scaler == 1)
+                stab.scaler = 360;
+            if (!stab.OnSpawn)
+                stab.timeLeft++;
+        }
+        public override void OnKill(int timeLeft)
+        {
+            if (Main.netMode == NetmodeID.Server) return;
+
+            stab.timeLeft = 0;
+            base.OnKill(timeLeft);
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            DrawOthers();
+            DrawSword();
+            return false;
+        }
+
+        public void DrawOthers()
+        {
+            drawPlayer ??= new Player();
+            Player player = drawPlayer;
+            if (player == null) { }
+            player.CopyVisuals(Main.player[projectile.owner]);
+            player.isFirstFractalAfterImage = true;
+            player.firstFractalAfterImageOpacity = projectile.Opacity;
+            //player.ResetEffects();
+            player.ResetVisibleAccessories();
+            player.UpdateDyes();
+            player.DisplayDollUpdate();
+            player.UpdateSocialShadow();
+            player.itemAnimationMax = 60;
+            player.itemAnimation = (int)projectile.localAI[0];
+            player.itemRotation = projectile.velocity.ToRotation();
+            player.Center = projectile.Center;
+            player.direction = projectile.velocity.X > 0f ? 1 : -1;
+            player.itemRotation = (float)Math.Atan2(projectile.velocity.Y * (float)player.direction, projectile.velocity.X * (float)player.direction);
+            player.velocity.Y = 0.01f;
+            player.wingFrame = 2;
+            player.PlayerFrame();
+            player.socialIgnoreLight = true;
+            player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, projectile.rotation - MathHelper.PiOver2);
+            try
+            {
+                Main.PlayerRenderer.DrawPlayer(Main.Camera, player, player.position, 0f, player.fullRotationOrigin);
+            }
+            catch
+            {
+            }
+            SpriteEffects spriteEffects = projectile.ai[0] > 0 ? 0 : SpriteEffects.FlipHorizontally;
+            Vector2 vector71 = projectile.position + new Vector2((float)projectile.width, (float)projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
+            //projectile.DrawProjWithStarryTrail(Main.spriteBatch, drawColor, Color.White);
+            var color84 = Color.White * projectile.Opacity * 0.9f;
+            color84.A /= 2;
+            //projectile.DrawPrettyStarSparkle(Main.spriteBatch, spriteEffects, vector71, color84, Main.hslToRgb(drawColor, 1f, 0.5f));
+        }
+        public void DrawSword()
+        {
+            SpriteEffects spriteEffects = drawPlayer.direction > 0 ? 0 : SpriteEffects.FlipHorizontally;
+            Texture2D texture2D4 = TextureAssets.Projectile[ModContent.ProjectileType<FirstZenithProj>()].Value;
+            var color84 = Color.White * projectile.Opacity * 0.9f;
+            color84.A /= 2;
+            var rectangle29 = texture2D4.Frame(15, 1, projectile.frame, 0, 0, 0);
+            var origin = texture2D4.Size() / new Vector2(15, 1);
+            origin *= spriteEffects == 0 ? new Vector2(0.1f, 0.9f) : new Vector2(0.9f, 0.9f);
+            var rot = projectile.velocity.ToRotation() + MathHelper.PiOver2 - MathHelper.PiOver4 * drawPlayer.direction;
+            Main.spriteBatch.Draw(texture2D4, projectile.Center - projectile.velocity * .5f - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle29), color84, rot, origin, 1, spriteEffects, 0);
         }
     }
 }

@@ -29,7 +29,7 @@
       <Sequence>
         <Group>
           <Wraper>
-            <Action OnStartAttackDelegate="PureFractal_NewVer_Proj/ShootRotatingBlade" OnDeactiveDelegate="PureFractal_NewVer_Proj/ReleaseAllBlades" ModifyData="(1.00|12.00|1.00|1.00|0|1.00)" Cycle="5" ChargingRotation="3.10" StartRotation="3.10" AutoNext="False" name="LogSpiralLibrary/ChargingInfo" />
+            <Action ModifyData="(1.00|12.00|1.00|1.00|0|1.00)" Cycle="5" ChargingRotation="3.10" StartRotation="3.10" AutoNext="False" name="FinalFractalSet/PureFractalCharging" />
           </Wraper>
         </Group>
         <Group>

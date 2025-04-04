@@ -5,18 +5,18 @@
       <Sequence>
         <Group>
           <Wraper condition="SurroundThreat">
-            <Action givenCycle="4" ModifyData="(1.00|1.00|1.00|1.00|0|1.00)" rangeOffsetMin="1" rangeOffsetMax="3" name="LogSpiralLibrary/RapidlyStabInfo" />
+            <Action givenCycle="4" ModifyData="(1.00|1.00|1.00|1.00|0|1.00)" visualCentered ="True" rangeOffsetMin="1" rangeOffsetMax="3" name="LogSpiralLibrary/RapidlyStabInfo" />
           </Wraper>
           <Wraper IsSequence="True">
             <Sequence>
               <Group>
                 <Wraper>
-                  <Action Cycle="2" ModifyData="(1.20|1.00|1.00|1.00|0|1.00)" name="LogSpiralLibrary/StabInfo" />
+                  <Action Cycle="2" ModifyData="(1.20|1.00|1.00|1.00|0|1.00)" visualCentered ="True" name="LogSpiralLibrary/StabInfo" />
                 </Wraper>
               </Group>
               <Group>
                 <Wraper>
-                  <Action Cycle="1" ModifyData="(1.40|1.50|1.00|1.50|5|1.00)" name="LogSpiralLibrary/StabInfo" />
+                  <Action Cycle="1" ModifyData="(1.40|1.50|1.00|1.50|5|1.00)" visualCentered ="True" name="LogSpiralLibrary/StabInfo" />
                 </Wraper>
               </Group>
             </Sequence>

@@ -1,12 +1,12 @@
-﻿using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
-using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures;
-using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Melee;
+﻿using FinalFractalSet.REAL_NewVersions.Pure;
+using FinalFractalSet.REAL_NewVersions.Zenith;
+using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
+using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee;
+using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee.StandardMelee;
+using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Core;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
+using System.IO;
 
 namespace FinalFractalSet.REAL_NewVersions.Final
 {
@@ -15,11 +15,16 @@ namespace FinalFractalSet.REAL_NewVersions.Final
         public override void SetDefaults()
         {
             base.SetDefaults();
+            Item.rare = ItemRarityID.Purple;
             Item.damage = 350;
         }
         public override void AddRecipes()
         {
-
+            CreateRecipe().AddIngredient<PureFractal_NewVer>().AddIngredient<FirstZenith_NewVer>().AddTile(TileID.LunarCraftingStation).Register();
+        }
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            base.ModifyTooltips(tooltips);
         }
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
@@ -51,4 +56,298 @@ namespace FinalFractalSet.REAL_NewVersions.Final
             itemType = ModContent.ItemType<FinalFractal_NewVer>()
         };
     }
+    public class FractalCloudMowingSword : FinalFractalSetAction
+    {
+        UltraSwoosh swoosh;
+        public override bool Attacktive => base.Attacktive;
+        public override float CompositeArmRotation => base.CompositeArmRotation;
+        public override float Factor => base.Factor;
+        public override Vector2 offsetCenter => base.offsetCenter;
+        public override float offsetDamage => base.offsetDamage;
+        public override Vector2 offsetOrigin => base.offsetOrigin;
+        public override float offsetRotation => base.offsetRotation;
+        public override float offsetSize => base.offsetSize;
+        public override bool Collide(Rectangle rectangle)
+        {
+            return base.Collide(rectangle);
+
+        }
+        public override void OnActive()
+        {
+            base.OnActive();
+        }
+        public override void OnAttack()
+        {
+            base.OnAttack();
+        }
+        public override void OnCharge()
+        {
+            base.OnCharge();
+        }
+        public override void OnDeactive()
+        {
+            base.OnDeactive();
+        }
+        public override void OnEndAttack()
+        {
+            base.OnEndAttack();
+        }
+        public override void OnEndSingle()
+        {
+            base.OnEndSingle();
+        }
+        public override void OnHitEntity(Entity victim, int damageDone, object[] context)
+        {
+            base.OnHitEntity(victim, damageDone, context);
+        }
+        public override void OnStartAttack()
+        {
+            base.OnStartAttack();
+        }
+        public override void OnStartSingle()
+        {
+            base.OnStartSingle();
+        }
+    }
+    public class FractalStrom : FinalFractalSetAction
+    {
+        UltraSwoosh swoosh;
+        public override bool Attacktive => base.Attacktive;
+        public override float CompositeArmRotation => base.CompositeArmRotation;
+        public override float Factor => base.Factor;
+        public override Vector2 offsetCenter => base.offsetCenter;
+        public override float offsetDamage => base.offsetDamage;
+        public override Vector2 offsetOrigin => base.offsetOrigin;
+        public override float offsetRotation => base.offsetRotation;
+        public override float offsetSize => base.offsetSize;
+        public override bool Collide(Rectangle rectangle)
+        {
+            return base.Collide(rectangle);
+
+        }
+        public override void OnActive()
+        {
+            base.OnActive();
+        }
+        public override void OnAttack()
+        {
+            base.OnAttack();
+        }
+        public override void OnCharge()
+        {
+            base.OnCharge();
+        }
+        public override void OnDeactive()
+        {
+            base.OnDeactive();
+        }
+        public override void OnEndAttack()
+        {
+            base.OnEndAttack();
+        }
+        public override void OnEndSingle()
+        {
+            base.OnEndSingle();
+        }
+        public override void OnHitEntity(Entity victim, int damageDone, object[] context)
+        {
+            base.OnHitEntity(victim, damageDone, context);
+        }
+        public override void OnStartAttack()
+        {
+            base.OnStartAttack();
+        }
+        public override void OnStartSingle()
+        {
+            base.OnStartSingle();
+        }
+    }
+    public class FractalTreeStab : FinalFractalSetAction
+    {
+        UltraStab stab;
+        public override bool Attacktive => base.Attacktive;
+        public override float CompositeArmRotation => base.CompositeArmRotation;
+        public override float Factor => base.Factor;
+        public override Vector2 offsetCenter => base.offsetCenter;
+        public override float offsetDamage => base.offsetDamage;
+        public override Vector2 offsetOrigin => base.offsetOrigin;
+        public override float offsetRotation => base.offsetRotation;
+        public override float offsetSize => base.offsetSize;
+        public override bool Collide(Rectangle rectangle)
+        {
+            return base.Collide(rectangle);
+
+        }
+        public override void OnActive()
+        {
+            base.OnActive();
+        }
+        public override void OnAttack()
+        {
+            base.OnAttack();
+        }
+        public override void OnCharge()
+        {
+            base.OnCharge();
+        }
+        public override void OnDeactive()
+        {
+            base.OnDeactive();
+        }
+        public override void OnEndAttack()
+        {
+            base.OnEndAttack();
+        }
+        public override void OnEndSingle()
+        {
+            base.OnEndSingle();
+        }
+        public override void OnHitEntity(Entity victim, int damageDone, object[] context)
+        {
+            base.OnHitEntity(victim, damageDone, context);
+        }
+        public override void OnStartAttack()
+        {
+            base.OnStartAttack();
+        }
+        public override void OnStartSingle()
+        {
+            base.OnStartSingle();
+        }
+    }
+    public class FractalChargingWing : ChargingInfo
+    {
+
+        public override string Category => "";
+        public override bool Attacktive => base.Attacktive;
+        public override float CompositeArmRotation => base.CompositeArmRotation;
+        public override float Factor => base.Factor;
+        public override Vector2 offsetCenter => base.offsetCenter;
+        public override float offsetDamage => base.offsetDamage;
+        public override Vector2 offsetOrigin => base.offsetOrigin;
+        public override float offsetRotation => base.offsetRotation;
+        public override float offsetSize => base.offsetSize;
+        public override bool Collide(Rectangle rectangle)
+        {
+            return base.Collide(rectangle);
+
+        }
+        public override void OnActive()
+        {
+            base.OnActive();
+        }
+        public override void OnAttack()
+        {
+            base.OnAttack();
+        }
+        public override void OnCharge()
+        {
+            base.OnCharge();
+        }
+        public override void OnDeactive()
+        {
+            base.OnDeactive();
+        }
+        public override void OnEndAttack()
+        {
+            base.OnEndAttack();
+        }
+        public override void OnEndSingle()
+        {
+            base.OnEndSingle();
+        }
+        public override void OnHitEntity(Entity victim, int damageDone, object[] context)
+        {
+            base.OnHitEntity(victim, damageDone, context);
+        }
+        public override void OnStartAttack()
+        {
+            base.OnStartAttack();
+        }
+        public override void OnStartSingle()
+        {
+            base.OnStartSingle();
+        }
+    }
+    public class FractalSnowFlake : FinalFractalSetAction
+    {
+        public override bool Attacktive => base.Attacktive;
+        public override float CompositeArmRotation => base.CompositeArmRotation;
+        public override float Factor => base.Factor;
+        public override Vector2 offsetCenter => base.offsetCenter;
+        public override float offsetDamage => base.offsetDamage;
+        public override Vector2 offsetOrigin => base.offsetOrigin;
+        public override float offsetRotation => base.offsetRotation;
+        public override float offsetSize => base.offsetSize;
+        public override bool Collide(Rectangle rectangle)
+        {
+            return base.Collide(rectangle);
+
+        }
+        public override void OnActive()
+        {
+            base.OnActive();
+        }
+        public override void OnAttack()
+        {
+            base.OnAttack();
+        }
+        public override void OnCharge()
+        {
+            base.OnCharge();
+        }
+        public override void OnDeactive()
+        {
+            base.OnDeactive();
+        }
+        public override void OnEndAttack()
+        {
+            base.OnEndAttack();
+        }
+        public override void OnEndSingle()
+        {
+            base.OnEndSingle();
+        }
+        public override void OnHitEntity(Entity victim, int damageDone, object[] context)
+        {
+            base.OnHitEntity(victim, damageDone, context);
+        }
+        public override void OnStartAttack()
+        {
+            base.OnStartAttack();
+        }
+        public override void OnStartSingle()
+        {
+            base.OnStartSingle();
+        }
+    }
+    public class FractalChargingWingProj : ModProjectile
+    {
+        public override void SetDefaults()
+        {
+            base.SetDefaults();
+        }
+        public override void AI()
+        {
+            base.AI();
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            return base.PreDraw(ref lightColor);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            base.ReceiveExtraAI(reader);
+        }
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            base.SendExtraAI(writer);
+        }
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
+        {
+            base.DrawBehind(index, behindNPCsAndTiles, behindNPCs, behindProjectiles, overPlayers, overWiresUI);
+        }
+        public override string Texture => $"Terraria/Images/Item_{ItemID.TerraBlade}";
+    }
+
 }

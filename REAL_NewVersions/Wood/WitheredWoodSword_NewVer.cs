@@ -1,7 +1,8 @@
 ﻿using FinalFractalSet.Weapons;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures;
-using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Melee;
+using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee;
+using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -59,7 +60,7 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
             vertexStandard = new()
             {
                 active = true,
-                scaler = 60,
+                scaler = 90,
                 timeLeft = 15,
                 alphaFactor = 2f,
             },
@@ -95,7 +96,7 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
             vertexStandard = new()
             {
                 active = true,
-                scaler = 60,
+                scaler = 100,
                 timeLeft = 15,
                 alphaFactor = 2f,
             },

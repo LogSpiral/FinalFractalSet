@@ -12,8 +12,8 @@ global using static LogSpiralLibrary.CodeLibrary.DrawingMethods;
 using Terraria.ModLoader.Config;
 using System.IO;
 using System.ComponentModel;
-using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Melee;
 using System.Collections.Generic;
+using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee;
 
 namespace FinalFractalSet
 {

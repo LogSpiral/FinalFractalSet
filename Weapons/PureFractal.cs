@@ -289,7 +289,7 @@ namespace FinalFractalSet.Weapons
                     swooshes[n].autoUpdate = false;
                     swooshes[n].weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
                 }
-                swooshes[0].ModityAllRenderInfo([[new AirDistortEffectInfo(4, 0, 0.5f)], [new BloomEffectInfo(0, 1f, 1, 3, true) { useModeMK = true, downSampleLevel = 2 }]]);
+                swooshes[0].ModityAllRenderInfo([[new AirDistortEffectInfo(8, 0, 0.5f)], [new BloomEffectInfo(0, 1f, 1, 3, true) { useModeMK = true, downSampleLevel = 2 }]]);
             }
             for (int n = 0; n < 4; n++)
                 if (swooshes[n] != null) swooshes[n].autoUpdate = false;

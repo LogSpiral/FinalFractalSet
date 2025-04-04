@@ -22,7 +22,7 @@
             </Sequence>
           </Wraper>
           <Wraper>
-            <Action OnStartAttackDelegate="FirstZenith_NewVer_Proj/ShootFirstZenithViaStab" ModifyData="(1.50|0.60|1.00|1.00|0|1.00)" Cycle="1" name="LogSpiralLibrary/StabInfo" />
+            <Action OnStartAttackDelegate="FirstZenith_NewVer_Proj/ShootFirstZenithViaStab" visualCentered ="True" randAngleRange="0.0" ModifyData="(1.50|1.00|1.00|1.00|0|1.00)" Cycle="1" name="LogSpiralLibrary/StabInfo" />
           </Wraper>
         </Group>
       </Sequence>

@@ -1,4 +1,5 @@
 PureTest: Defeat with no hit
+
 FinalFractalTip: {
 	0: This Even not the final state of them.
 	1: 「The Ultra Fractal Of The First And The Final」
@@ -27,6 +28,13 @@ MeleeAction: {
 	SteelSpecialAttack.DisplayName: Rusty Steel Dashing
 	FirstZenithSpecialAttack.DisplayName: Zenith Dimension Cut
 	FirstZenithRainAttack.DisplayName: Zenith Rain
+	FractalChargingWing.DisplayName: FractalChargingWing
+	FractalCloudMowingSword.DisplayName: FractalCloudMowingSword
+	FractalCut.DisplayName: FractalCut
+	FractalSnowFlake.DisplayName: FractalSnowFlake
+	FractalStrom.DisplayName: FractalStrom
+	FractalTreeStab.DisplayName: FractalTreeStab
+	PureFractalCharging.DisplayName: PureFractalCharging
 }
 
 Items: {
@@ -193,38 +201,46 @@ Items: {
 			The speed of attack will obviously increase when encountered with lots of enermies.
 			'''
 	}
+
 	LivingWoodSword_NewVer: {
 		DisplayName: Living Wood Sword_ New Ver
 		Tooltip: ""
 	}
+
 	DyingStoneSword_NewVer: {
 		DisplayName: Dying Stone Sword
 		Tooltip: "111"
 	}
+
 	CrystalStoneSword_NewVer: {
 		DisplayName: Crystal Stone Sword_ New Ver
 		Tooltip: ""
 	}
+
 	RustySteelBlade_NewVer: {
 		DisplayName: Rusty Steel Blade
 		Tooltip: "111"
 	}
+
 	RefinedSteelBlade_NewVer: {
 		DisplayName: Refined Steel Blade_ New Ver
 		Tooltip: ""
 	}
+
 	PureFractal_NewVer: {
 		DisplayName: Pure Fractal
 		Tooltip: "111"
 	}
+
 	PureTestItem: {
 		DisplayName: Pure Sword Shadow
 		Tooltip:
-		'''
-		Get it by defeat MoonLord with no hit.
-		Not a trace of mistaken filth.
-		'''
+			'''
+			Get it by defeat MoonLord with no hit.
+			Not a trace of mistaken filth.
+			'''
 	}
+
 	FirstZenith_NewVer: {
 		DisplayName: Primitive Zenith
 		Tooltip: "111"
@@ -273,6 +289,9 @@ Projectiles: {
 	LivingWoodSword_NewVer_Proj.DisplayName: Living Wood Sword_ New Ver_ Proj
 	ThornTree_Proj.DisplayName: Thorn Tree_ Proj
 	Thorn_Proj.DisplayName: Thorn_ Proj
+	PureFractalRotatingBlade.DisplayName: Pure Fractal Rotating Blade
+	FractalDash.DisplayName: Fractal Dash
+	FractalChargingWingProj.DisplayName: Fractal Charging Wing Proj
 }
 
 Buffs: {

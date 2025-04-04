@@ -1,5 +1,4 @@
-﻿using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Melee;
-using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures;
+﻿using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +10,8 @@ using Terraria.Audio;
 using System.IO;
 using System.ComponentModel;
 using System.Xml;
+using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee;
+using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Core;
 
 namespace FinalFractalSet.REAL_NewVersions.Iron
 {

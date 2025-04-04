@@ -1,7 +1,8 @@
 ﻿using FinalFractalSet.Weapons;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
-using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures;
-using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Melee;
+using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee;
+using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee.StandardMelee;
+using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Core;
 using Mono.Cecil;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,10 @@ namespace FinalFractalSet.REAL_NewVersions.Pure
         {
             base.SetDefaults();
             Item.damage = 240;
+        }
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            base.ModifyTooltips(tooltips);
         }
         public override void AddRecipes()
         {
@@ -74,42 +79,6 @@ namespace FinalFractalSet.REAL_NewVersions.Pure
             for (int n = 0; n < 3; n++)
                 ShootSingle(action, plr);
         }
-        [SequenceDelegate]
-        static void ShootRotatingBlade(MeleeAction action)
-        {
-            SoundEngine.PlaySound(SoundID.Item84);
-            for (int n = 0; n < 20; n++)
-            {
-                OtherMethods.FastDust(action.Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 32), action.standardInfo.standardColor, Main.rand.NextFloat(1, 4));
-            }
-            float m = 8 + 8 * action.counter;
-            for (int n = 0; n < m; n++)
-            {
-                float t = n / m;
-                var proj = Projectile.NewProjectileDirect(action.Projectile.GetProjectileSource_FromThis(),
-                    action.Owner.Center, default, ModContent.ProjectileType<PureFractalRotatingBlade>(),
-                    action.CurrentDamage / 4, action.Projectile.damage, Main.myPlayer, t, action.counter);
-                proj.netUpdate = true;
-                proj.frame = Main.rand.Next(26);
-            }
-        }
-        [SequenceDelegate]
-        static void ReleaseAllBlades(MeleeAction action)
-        {
-            int type = ModContent.ProjectileType<PureFractalRotatingBlade>();
-            foreach (var proj in Main.projectile)
-            {
-                if (proj.type == type)
-                {
-                    proj.ai[2] = 2;
-                    proj.velocity = proj.rotation.ToRotationVector2() * 16;
-                    proj.localNPCHitCooldown = 0;
-                    proj.extraUpdates = 3;
-                    proj.timeLeft = 240;
-                    proj.damage *= 4;
-                }
-            }
-        }
         static void ShootSingle(MeleeAction action, Player plr)
         {
             Vector2 vector = plr.RotatedRelativePoint(plr.MountedCenter, true, true);
@@ -144,6 +113,49 @@ namespace FinalFractalSet.REAL_NewVersions.Pure
             proj.localAI[0] -= Main.rand.Next(0, Main.rand.Next(0, 120));
             proj.netUpdate = true;
             proj.netUpdate2 = true;
+        }
+    }
+
+    public class PureFractalCharging : ChargingInfo 
+    {
+        public override string Category => "";
+        public override void OnDeactive()
+        {
+            base.OnDeactive();
+            int type = ModContent.ProjectileType<PureFractalRotatingBlade>();
+            foreach (var proj in Main.projectile)
+            {
+                if (proj.type == type)
+                {
+                    proj.ai[2] = 2;
+                    proj.velocity = proj.rotation.ToRotationVector2() * 16;
+                    proj.localNPCHitCooldown = 0;
+                    proj.extraUpdates = 3;
+                    proj.timeLeft = 240;
+                    proj.damage *= 4;
+                }
+            }
+
+        }
+        public override void OnStartAttack()
+        {
+            base.OnStartAttack();
+            var action = this;
+            SoundEngine.PlaySound(SoundID.Item84);
+            for (int n = 0; n < 20; n++)
+            {
+                OtherMethods.FastDust(action.Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 32), action.standardInfo.standardColor, Main.rand.NextFloat(1, 4));
+            }
+            float m = 8 + 8 * action.counter;
+            for (int n = 0; n < m; n++)
+            {
+                float t = n / m;
+                var proj = Projectile.NewProjectileDirect(action.Projectile.GetProjectileSource_FromThis(),
+                    action.Owner.Center, default, ModContent.ProjectileType<PureFractalRotatingBlade>(),
+                    action.CurrentDamage / 4, action.Projectile.damage, Main.myPlayer, t, action.counter);
+                proj.netUpdate = true;
+                proj.frame = Main.rand.Next(26);
+            }
         }
     }
 
