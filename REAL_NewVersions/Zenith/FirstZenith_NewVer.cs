@@ -66,7 +66,7 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
                     [new MaskEffectInfo(LogSpiralLibraryMod.Mask[2].Value, Color.Blue, 0.15f, 0.2f, new Vector2((float)LogSpiralLibraryMod.ModTime), true, false),
                     new BloomEffectInfo(0, 1f, 1, 3, true) { useModeMK = true, downSampleLevel = 2 }]]
             },
-            
+            soundStyle = MySoundID.Scythe with { volume = .5f},
             itemType = ModContent.ItemType<FirstZenith_NewVer>()
         };
         public override bool LabeledAsCompleted => true;
@@ -87,7 +87,7 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
         }
 
         [SequenceDelegate]
-        static void ShootFirstZenithViaStab(MeleeAction action)
+        internal static void ShootFirstZenithViaStab(MeleeAction action)
         {
             //Vector2 unit = action.Owner is Player plr ?
             //     (plr.GetModPlayer<LogSpiralLibraryPlayer>().targetedMousePosition - action.Owner.Center).SafeNormalize(default) : action.Rotation.ToRotationVector2();
@@ -171,7 +171,7 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
                     FirstZenith_NewVer_Proj.ShootFirstZenithViaPosition(this, n >= q ? Main.MouseWorld : Main.npc[indexs[n]].Center, n >= q);
             SoundEngine.PlaySound(SoundID.Item92);
             var u = UltraSwoosh.NewUltraSwoosh(standardInfo.standardColor, 60, 150, Owner.Center, null, !flip, Rotation, 2, (1.7f, -.2f), 3, 7);
-            u.ModityAllRenderInfo(standardInfo.vertexStandard.renderInfos);
+            u.ApplyStdValueToVtxEffect(standardInfo);
 
             base.OnStartAttack();
         }
@@ -219,7 +219,7 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
         public override void OnAttack()
         {
             Vector2 position = Owner.Center + new Vector2(Main.rand.NextFloat(-1280, 1280), -960);
-            Vector2 unit = default;
+            Vector2 unit;
             if (!Main.rand.NextBool(3) && Owner is Player plr)
                 unit = (plr.GetModPlayer<LogSpiralLibraryPlayer>().targetedMousePosition - position).SafeNormalize(default);
             else

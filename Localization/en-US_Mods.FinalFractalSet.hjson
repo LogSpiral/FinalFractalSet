@@ -292,6 +292,10 @@ Projectiles: {
 	PureFractalRotatingBlade.DisplayName: Pure Fractal Rotating Blade
 	FractalDash.DisplayName: Fractal Dash
 	FractalChargingWingProj.DisplayName: Fractal Charging Wing Proj
+	FinalFractalAssistantProjectile.DisplayName: Final Fractal Assistant Projectile
+	FractalStorm.DisplayName: Fractal Storm
+	FractalStormSpawner.DisplayName: Fractal Storm Spawner
+	FractalTear.DisplayName: Fractal Tear
 }
 
 Buffs: {

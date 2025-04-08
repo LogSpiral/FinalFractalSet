@@ -2,6 +2,7 @@
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee;
+using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee.ExtendedMelee;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -103,94 +104,24 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
             itemType = ModContent.ItemType<LivingWoodSword_NewVer>()
         };
         [SequenceDelegate]
-        static void SpawnThorn(MeleeAction action) 
+        static void SpawnThorn(MeleeAction action)
         {
             Projectile.NewProjectile(action.Projectile.GetProjectileSource_FromThis(), action.Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(1, 16), Main.rand.NextBool(4) ? ProjectileID.NettleBurstRight : ProjectileID.VilethornBase, action.CurrentDamage / 2, action.Projectile.knockBack, Main.myPlayer);
         }
     }
-    public class WoodSpecialAttack : FinalFractalSetAction
+    public class WoodSpecialAttack : PunctureInfo
     {
-        public override float CompositeArmRotation => base.CompositeArmRotation + MathHelper.SmoothStep(0, -MathHelper.PiOver2 * .75f * Owner.direction, MathF.Pow(MathHelper.Clamp((1 - Factor) * 3, 0, 1), 2));
-        public override float offsetRotation => MathHelper.SmoothStep(0, MathHelper.PiOver2 - (Rotation < -MathHelper.PiOver2 ? Rotation + MathHelper.TwoPi : Rotation), MathF.Pow(MathHelper.Clamp((1 - Factor) * 2, 0, 1), 2));
-        public override float offsetSize => base.offsetSize;
-        public override Vector2 offsetCenter => base.offsetCenter;
-        public override Vector2 offsetOrigin => base.offsetOrigin + Vector2.SmoothStep(default, (flip ? new Vector2(-.05f, -.15f) : new Vector2(.15f, .05f)) - new Vector2(.2f, -.2f), MathHelper.Clamp((1 - Factor) * 2, 0, 1));
-        public override float offsetDamage => base.offsetDamage;
-        public override bool Attacktive => Factor < .85f;
-        public override void OnEndSingle()
-        {
-            base.OnEndSingle();
-        }
-        public override void OnStartAttack()
-        {
-
-            base.OnStartAttack();
-        }
-        public override void OnCharge()
-        {
-
-            base.OnCharge();
-        }
-        float deltaH = 0f;
-        public override void OnStartSingle()
-        {
-            int t = 0;
-            Point point = Owner.Bottom.ToTileCoordinates();
-            while (point.Y + t < Main.maxTilesY && t < 100 && !Main.tile[point.X, point.Y + t].HasTile)
-            {
-                t++;
-            }
-            deltaH = 16 * t;
-            base.OnStartSingle();
-        }
-        public override void Update(bool triggered)
-        {
-            flip = Owner.direction == 1;
-
-            float fallFac = MathHelper.Lerp(.5f, .33f, MathHelper.Clamp(deltaH / 320f, 0, 1));
-            if (Factor > fallFac)
-            {
-                Owner.velocity += Vector2.UnitY * 32f * (0.85f - Factor) * (deltaH / 800f + 1);
-                if (Owner is Player plr)
-                    plr.GetModPlayer<LogSpiralLibraryPlayer>().ultraFallEnable = true;
-            }
-
-
-            if (timer == (int)(timerMax * fallFac))
-            {
-                for (int n = 0; n < 15 / fallFac; n++)
-                    OtherMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 32), standardInfo.standardColor, 2);
-
-                for (int n = 0; n < 30 / fallFac; n++)
-                    OtherMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 4) - Vector2.UnitY * 40 * Main.rand.NextFloat(0, 1) / fallFac * .5f, standardInfo.standardColor, 2);
-
-                Projectile.NewProjectile(Owner.GetSource_FromThis(), Owner.Center, Owner.direction * Vector2.UnitX * 4, ModContent.ProjectileType<WoodSAProjectile>(), CurrentDamage, 1, Owner is Player plr ? plr.whoAmI : Main.myPlayer, Upgraded ? 2 : 0);
-
-                var verS = standardInfo.vertexStandard;
-                if (verS.active)
-                {
-                    UltraStab u = null;
-                    var pair = standardInfo.vertexStandard.stabTexIndex;
-                    u = UltraStab.NewUltraStab(standardInfo.standardColor, verS.timeLeft, verS.scaler * ModifyData.actionOffsetSize * offsetSize * 1.25f * 4f / fallFac,
-                    Owner.Center - Vector2.UnitY * standardInfo.vertexStandard.scaler / fallFac * 2f, verS.heatMap, flip, MathHelper.PiOver2, 2 / fallFac, pair?.Item1 ?? 9, pair?.Item2 ?? 0, colorVec: verS.colorVec);
-                    if (verS.renderInfos == null)
-                        u.ResetAllRenderInfo();
-                    else
-                    {
-                        u.ModityAllRenderInfo(verS.renderInfos);
-                    }
-                    u.ApplyStdValueToVtxEffect(standardInfo);
-                }
-
-                SoundEngine.PlaySound(SoundID.Item92);
-            }
-
-            base.Update(triggered);
-        }
-
         [ElementCustomData]
         [DefaultValue(false)]
         public bool Upgraded;
+
+        public override string Category => "";
+
+        public override void OnBurst(float fallFac)
+        {
+            Projectile.NewProjectile(Owner.GetSource_FromThis(), Owner.Center, Owner.direction * Vector2.UnitX * 4, ModContent.ProjectileType<WoodSAProjectile>(), CurrentDamage, 1, Owner is Player plr ? plr.whoAmI : Main.myPlayer, Upgraded ? 2 : 0);
+            base.OnBurst(fallFac);
+        }
     }
     public class WoodSAProjectile : ModProjectile
     {

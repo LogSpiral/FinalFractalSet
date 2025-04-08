@@ -152,10 +152,7 @@ namespace FinalFractalSet.REAL_NewVersions.Iron
             //Owner.Center += unit * t;
 
             var u = UltraSwoosh.NewUltraSwoosh(standardInfo.standardColor, 30, 8 * t + 90, Owner.Center - unit * t * .25f, null, !flip, Rotation, t * .25f + 2, (1.7f, -.2f), 3, 7);
-            if (standardInfo.vertexStandard.renderInfos != null && standardInfo.vertexStandard.renderInfos.Length > 0)
-                u.ModityAllRenderInfo(standardInfo.vertexStandard.renderInfos);
-            else
-                u.ResetAllRenderInfo();
+            u.ApplyStdValueToVtxEffect(standardInfo);
             for (int n = 0; n < 4; n++)
             {
                 var cen = Owner.Center - unit * .5f * t + Main.rand.NextVector2Unit() * unit.Length() * Main.rand.NextFloat(0, t * .15f);

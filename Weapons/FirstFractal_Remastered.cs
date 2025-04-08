@@ -356,7 +356,6 @@ namespace FinalFractalSet.Weapons
                 }
                 if (projectile.localAI[0] > 7f)
                 {
-                    int num4 = 5;
                     //projectile.Center -= new Vector2((float)num4);
                     if (Main.rand.NextBool(15))
                     {
