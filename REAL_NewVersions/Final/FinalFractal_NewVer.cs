@@ -73,7 +73,7 @@ public class FinalFractal_NewVer_Proj : MeleeSequenceProj
 
     // 给左键第一斩用
     [SequenceDelegate]
-    static void FInalFractalChop(MeleeAction action)
+    static void FinalFractalChop(MeleeAction action)
     {
         Projectile.NewProjectile(
             action.Projectile.GetSource_FromThis(),

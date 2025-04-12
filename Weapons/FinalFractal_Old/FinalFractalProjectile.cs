@@ -14,7 +14,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
 {
     public class FinalFractalProjectile : ModProjectile
     {
-        public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
+        public override bool IsLoadingEnabled(Mod mod) => true;
         Projectile projectile => Projectile;
 
         public override void SetDefaults()
@@ -176,7 +176,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
 
                     Main.graphics.GraphicsDevice.RasterizerState = originalState;
                     spriteBatch.End();
-                    spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone,null,Main.GameViewMatrix.TransformationMatrix);
+                    spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
                 }
             }
             return false;
@@ -252,7 +252,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
     }
     public class FinalFractalShadow : ModProjectile
     {
-        public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
+        public override bool IsLoadingEnabled(Mod mod) => true;
         Projectile projectile => Projectile;
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
