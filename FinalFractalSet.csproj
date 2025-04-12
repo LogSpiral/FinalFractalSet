@@ -11,10 +11,7 @@
 	  <PackageReference Include="Solaestas.tModLoader.ModBuilder" Version="1.6.1" />
 	</ItemGroup>
 	<ItemGroup>
-		<AdditionalFiles Include="**/*.xml;**/*.xnb"
-						 Exclude="bin/**/*;obj/**/*"
-						 Pack="true"
-						 ModPath="%(Identity)"/>
+		<AdditionalFiles Include="**/*.xml;**/*.xnb" Exclude="bin/**/*;obj/**/*" Pack="true" ModPath="%(Identity)" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\LogSpiralLibrary\LogSpiralLibrary.csproj" />

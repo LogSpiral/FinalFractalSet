@@ -74,7 +74,7 @@ namespace FinalFractalSet.REAL_NewVersions.Pure
             ShootSingle(action, plr);
         }
         [SequenceDelegate]
-        static void ShootPurefractalProj_Lots(MeleeAction action)
+        public static void ShootPurefractalProj_Lots(MeleeAction action)
         {
             if (action.Owner is not Player plr || plr.whoAmI != Main.myPlayer) return;
             for (int n = 0; n < 3; n++)

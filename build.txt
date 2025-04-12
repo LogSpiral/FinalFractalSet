@@ -1,4 +1,4 @@
 displayName = 最终分形FinalFractal
 author = 蕨类植物
-version = 0.2.3
+version = 0.3.0
 modReferences = LogSpiralLibrary

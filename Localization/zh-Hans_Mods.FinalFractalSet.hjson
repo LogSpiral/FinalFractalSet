@@ -35,6 +35,8 @@ MeleeAction: {
 	FractalStrom.DisplayName: 分形风暴
 	FractalTreeStab.DisplayName: 分形勾股树
 	PureFractalCharging.DisplayName: 纯粹蓄力
+	Category.FinalFractal: 最终分形
+	FractalJuilaSet.DisplayName: 余弦茱莉亚集合
 }
 
 Items: {
@@ -43,7 +45,7 @@ Items: {
 		Tooltip:
 			'''
 			它的一部分包含着它，这就是分形。无数的刀刃回旋着，它们是它的一部分。
-			(新版制作中)
+			(新版已完工！！)
 			'''
 	}
 
@@ -52,13 +54,13 @@ Items: {
 		Tooltip:
 			'''
 			它的一部分包含着它，这就是分形。无数的刀刃回旋着，它们是它的一部分。
-			(新版制作中)
+			(新版已完工！！)
 			'''
 	}
 
 	CrystalStoneSword: {
 		DisplayName: 晶石妖刀
-		Tooltip: (新版制作中)
+		Tooltip: (新版已完工！！)
 	}
 
 	FirstFractal_Remastered: {
@@ -68,12 +70,12 @@ Items: {
 
 	FirstZenith: {
 		DisplayName: 初元天穹
-		Tooltip: (新版制作中)
+		Tooltip: (新版已完工！！)
 	}
 
 	FirstZenith_Old: {
 		DisplayName: 初元天穹(旧版)
-		Tooltip: (新版制作中)
+		Tooltip: (新版已完工！！)
 	}
 
 	LivingWoodSword: {
@@ -81,7 +83,7 @@ Items: {
 		Tooltip:
 			'''
 			右键蓄力后冲刺并释放大量荆棘
-			(新版制作中)
+			(新版已完工！！)
 			'''
 	}
 
@@ -90,7 +92,7 @@ Items: {
 		Tooltip:
 			'''
 			右键蓄力后冲刺并释放大量荆棘
-			(新版制作中)
+			(新版已完工！！)
 			'''
 	}
 
@@ -99,7 +101,7 @@ Items: {
 		Tooltip:
 			'''
 			右键蓄力释放石笋阵
-			(新版制作中)
+			(新版已完工！！)
 			'''
 	}
 
@@ -108,7 +110,7 @@ Items: {
 		Tooltip:
 			'''
 			远古纯粹的自然魔法洗礼之后的天顶之锋，展露吧，你最初的锋芒。
-			(新版制作中)
+			(新版已完工！！)
 			'''
 	}
 
@@ -117,7 +119,7 @@ Items: {
 		Tooltip:
 			'''
 			远古纯粹的自然魔法洗礼之后的天顶之锋，展露吧，你最初的锋芒。
-			(新版制作中)
+			(新版已完工！！)
 			'''
 	}
 
@@ -126,7 +128,7 @@ Items: {
 		Tooltip:
 			'''
 			右键蓄力释放大量精钢飞刃
-			(新版制作中)
+			(新版已完工！！)
 			'''
 	}
 
@@ -135,7 +137,7 @@ Items: {
 		Tooltip:
 			'''
 			右键蓄力释放大量精钢飞刃
-			(新版制作中)
+			(新版已完工！！)
 			'''
 	}
 
@@ -144,7 +146,7 @@ Items: {
 		Tooltip:
 			'''
 			右键蓄力释放锈铁飞刃
-			(新版制作中)
+			(新版已完工！！)
 			'''
 	}
 
@@ -153,7 +155,7 @@ Items: {
 		Tooltip:
 			'''
 			右键蓄力释放锈铁飞刃
-			(新版制作中)
+			(新版已完工！！)
 			'''
 	}
 
@@ -162,7 +164,7 @@ Items: {
 		Tooltip:
 			'''
 			右键蓄力释放石笋
-			(新版制作中)
+			(新版已完工！！)
 			'''
 	}
 
@@ -171,7 +173,7 @@ Items: {
 		Tooltip:
 			'''
 			右键蓄力释放石笋
-			(新版制作中)
+			(新版已完工！！)
 			'''
 	}
 
@@ -180,7 +182,7 @@ Items: {
 		Tooltip:
 			'''
 			右键蓄力后冲刺并释放荆棘
-			(新版制作中)
+			(新版已完工！！)
 			'''
 	}
 
@@ -189,7 +191,7 @@ Items: {
 		Tooltip:
 			'''
 			右键蓄力后冲刺并释放荆棘
-			(新版制作中)
+			(新版已完工！！)
 			'''
 	}
 
@@ -287,7 +289,25 @@ Items: {
 
 	FinalFractal_NewVer: {
 		DisplayName: 最终分形
-		Tooltip: 断云！
+		Tooltip:
+			'''
+			自与自相似
+			无数刀刃回旋着
+			最终的分形
+			    ——最超模
+
+			一共六种攻击模式
+			你可以试着按住"上"或者"下"又或者不按任何一个
+			同时按住鼠标左键或者右键
+			要把每项具体写出来太麻烦了所以还请自己试吧(
+			单论名字的话——
+			左上:分形断云
+			左中:分形三连斩
+			左下:非均态勾股树
+			右上:分形雪花
+			右中:分形之翼
+			右下:余弦类茱莉亚集
+			'''
 	}
 }
 
@@ -335,16 +355,23 @@ Projectiles: {
 	// FractalStorm.DisplayName: Fractal Storm
 	// FractalStormSpawner.DisplayName: Fractal Storm Spawner
 	// FractalTear.DisplayName: Fractal Tear
+	// PythagoreanTreeProj.DisplayName: Pythagorean Tree Proj
+	// FractalStabProj.DisplayName: Fractal Stab Proj
+	// FractalJuilaSetProj.DisplayName: Fractal Juila Set Proj
+	// FractalSnowFlakeProj.DisplayName: Fractal Snow Flake Proj
+	// IronSwordPlrProj.DisplayName: Iron Sword Plr Proj
+	// StoneSwordPlrProj.DisplayName: Stone Sword Plr Proj
+	// WoodSwordPlrProj.DisplayName: Wood Sword Plr Proj
 }
 
 Buffs: {
 	StoneBuff: {
-		// DisplayName: Stone Buff
-		// Description: Mods.FinalFractalSet.Buffs.StoneBuff.Description
+		DisplayName: 石化
+		Description: 动不了！
 	}
 
 	StoneBuffBoost: {
-		// DisplayName: Stone Buff Boost
-		// Description: Mods.FinalFractalSet.Buffs.StoneBuffBoost.Description
+		DisplayName: 石化刀锋
+		Description: 让你的敌人石化
 	}
 }

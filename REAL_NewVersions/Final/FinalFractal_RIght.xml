@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Sequence name="FinalFractal_RIght" AuthorName="错数螺线" Description="" FileName="FinalFractal_RIght" DisplayName="最终分形_右键" ModName="FinalFractalSet" createTime="638797383936445761" lastModifyDate="638797388258808704" passWord="" Finished="False">
+  <Group>
+    <Wraper condition="ControlUp" IsSequence="True" Mod="FinalFractalSet">FinalFractal_RightUp</Wraper>
+    <Wraper condition="ControlDown" IsSequence="True" Mod="FinalFractalSet">FinalFractal_RightDown</Wraper>
+    <Wraper IsSequence="True" Mod="FinalFractalSet">FinalFractal_RightMiddle</Wraper>
+  </Group>
+</Sequence>

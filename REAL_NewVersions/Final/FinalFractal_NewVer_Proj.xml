@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Sequence name="FinalFractal_NewVer_Proj" AuthorName="错数螺线" Description="最终分形执行序列" FileName="FinalFractal_NewVer_Proj" DisplayName="最终分形" ModName="FinalFractalSet" createTime="638770326142998057" lastModifyDate="638797390538624538" passWord="" Finished="True">
+  <Group>
+    <Wraper condition="MouseLeft" IsSequence="True" Mod="FinalFractalSet">FinalFractal_Left</Wraper>
+    <Wraper condition="MouseRight" IsSequence="True" Mod="FinalFractalSet">FinalFractal_RIght</Wraper>
+  </Group>
+</Sequence>

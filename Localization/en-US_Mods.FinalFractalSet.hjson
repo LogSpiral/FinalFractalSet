@@ -35,6 +35,8 @@ MeleeAction: {
 	FractalStrom.DisplayName: FractalStrom
 	FractalTreeStab.DisplayName: FractalTreeStab
 	PureFractalCharging.DisplayName: PureFractalCharging
+	Category.FinalFractal: FinalFractal
+	FractalJuilaSet.DisplayName: FractalJuilaSet
 }
 
 Items: {
@@ -43,7 +45,7 @@ Items: {
 		Tooltip:
 			'''
 			Part of it includes itself, which we called Fractal. Infinite blades rotating as hurricane, they are part of it as well.
-			(New Version W.I.P.)
+			(New Version Released!!)
 			'''
 	}
 
@@ -52,13 +54,13 @@ Items: {
 		Tooltip:
 			'''
 			Part of it includes itself, which we called Fractal. Infinite blades rotating as hurricane, they are part of it as well.
-			(New Version W.I.P.)
+			(New Version Released!!)
 			'''
 	}
 
 	CrystalStoneSword: {
 		DisplayName: Crystal Stone Sword
-		Tooltip: (New Version W.I.P.)
+		Tooltip: (New Version Released!!)
 	}
 
 	FirstFractal_Remastered: {
@@ -68,12 +70,12 @@ Items: {
 
 	FirstZenith: {
 		DisplayName: Primitive Zenith
-		Tooltip: (New Version W.I.P.)
+		Tooltip: (New Version Released!!)
 	}
 
 	FirstZenith_Old: {
 		DisplayName: Primitive Zenith(Old)
-		Tooltip: (New Version W.I.P.)
+		Tooltip: (New Version Released!!)
 	}
 
 	LivingWoodSword: {
@@ -81,7 +83,7 @@ Items: {
 		Tooltip:
 			'''
 			Press Mouse Right, Then Dash And Release Many Thrones.
-			(New Version W.I.P.)
+			(New Version Released!!)
 			'''
 	}
 
@@ -90,7 +92,7 @@ Items: {
 		Tooltip:
 			'''
 			Press Mouse Right, Then Dash And Release Many Thrones.
-			(New Version W.I.P.)
+			(New Version Released!!)
 			'''
 	}
 
@@ -99,7 +101,7 @@ Items: {
 		Tooltip:
 			'''
 			Press Mouse Right, And Release List Of Stalagmite.
-			(New Version W.I.P.)
+			(New Version Released!!)
 			'''
 	}
 
@@ -108,7 +110,7 @@ Items: {
 		Tooltip:
 			'''
 			The Edge of Zenith Which Upgraded by the Ancient and Pure NaturalMagic.Show it, Your first Power.
-			(New Version W.I.P.)
+			(New Version Released!!)
 			'''
 	}
 
@@ -117,7 +119,7 @@ Items: {
 		Tooltip:
 			'''
 			The Edge of Zenith Which Upgraded by the Ancient and Pure NaturalMagic.Show it, Your first Power.
-			(New Version W.I.P.)
+			(New Version Released!!)
 			'''
 	}
 
@@ -126,7 +128,7 @@ Items: {
 		Tooltip:
 			'''
 			Press Mouse Right, And Release Many Refined Steel Shards.
-			(New Version W.I.P.)
+			(New Version Released!!)
 			'''
 	}
 
@@ -135,7 +137,7 @@ Items: {
 		Tooltip:
 			'''
 			Press Mouse Right, And Release Many Refined Steel Shards.
-			(New Version W.I.P.)
+			(New Version Released!!)
 			'''
 	}
 
@@ -144,7 +146,7 @@ Items: {
 		Tooltip:
 			'''
 			Press Mouse Right, And Release Rusty Steel Shards.
-			(New Version W.I.P.)
+			(New Version Released!!)
 			'''
 	}
 
@@ -153,7 +155,7 @@ Items: {
 		Tooltip:
 			'''
 			Press Mouse Right, And Release Rusty Steel Shards.
-			(New Version W.I.P.)
+			(New Version Released!!)
 			'''
 	}
 
@@ -162,7 +164,7 @@ Items: {
 		Tooltip:
 			'''
 			Press Mouse Right, And Release Stalagmites.
-			(New Version W.I.P.)
+			(New Version Released!!)
 			'''
 	}
 
@@ -171,7 +173,7 @@ Items: {
 		Tooltip:
 			'''
 			Press Mouse Right, And Release Stalagmites.
-			(New Version W.I.P.)
+			(New Version Released!!)
 			'''
 	}
 
@@ -180,7 +182,7 @@ Items: {
 		Tooltip:
 			'''
 			Press Mouse Right, Then Dash And Release Thrones.
-			(New Version W.I.P.)
+			(New Version Released!!)
 			'''
 	}
 
@@ -189,7 +191,7 @@ Items: {
 		Tooltip:
 			'''
 			Press Mouse Right, Then Dash And Release Thrones.
-			(New Version W.I.P.)
+			(New Version Released!!)
 			'''
 	}
 
@@ -204,32 +206,60 @@ Items: {
 
 	LivingWoodSword_NewVer: {
 		DisplayName: Living Wood Sword_ New Ver
-		Tooltip: ""
+		Tooltip:
+			'''
+			Twice light stab and a heavy stab by MouseLeft in normal
+			The speed of attack will obviously increase when encountered with lots of enermies.
+			'''
 	}
 
 	DyingStoneSword_NewVer: {
 		DisplayName: Dying Stone Sword
-		Tooltip: "111"
+		Tooltip:
+			'''
+			Left click: Swing twice, stab twice, stab once, and slash once
+			Right-click to charge up and release Drystone Phantom Sword
+			'''
 	}
 
 	CrystalStoneSword_NewVer: {
 		DisplayName: Crystal Stone Sword_ New Ver
-		Tooltip: ""
+		Tooltip:
+			'''
+			Left click: Swing twice, stab twice, stab once, and slash once
+			Right-click to charge up and release Drystone Phantom Sword
+			'''
 	}
 
 	RustySteelBlade_NewVer: {
 		DisplayName: Rusty Steel Blade
-		Tooltip: "111"
+		Tooltip:
+			'''
+			Left click three times to slash, followed by four horizontal batches
+			Slash three more times, one after the other
+			Right-click charges and releases them to flash and leave a dimensional slash behind
+			'''
 	}
 
 	RefinedSteelBlade_NewVer: {
 		DisplayName: Refined Steel Blade_ New Ver
-		Tooltip: ""
+		Tooltip:
+			'''
+			Left click three times to slash, followed by four horizontal batches
+			Slash three more times, one after the other
+			Right-click charges and releases them to flash and leave a dimensional slash behind
+			'''
 	}
 
 	PureFractal_NewVer: {
 		DisplayName: Pure Fractal
-		Tooltip: "111"
+		Tooltip:
+			'''
+			The left button slashes twice in a row and then enters the charging state, and releases a quick slash when it is full
+			Slash comes with a whirling blade
+			Right-click to charge up and control the whirling sword formation
+			"The edge of the zenith after the baptism of ancient pure natural magic, show it, your first edge"
+			'''
 	}
 
 	PureTestItem: {
@@ -243,12 +273,37 @@ Items: {
 
 	FirstZenith_NewVer: {
 		DisplayName: Primitive Zenith
-		Tooltip: "111"
+		Tooltip:
+			'''
+			Press and hold up while pressing left click to perform a hyper-speed slash, hitting the target to release a fractal slash
+			Press and hold down while pressing left click to charge, and when it is full, release the Fractal Dimension Slash
+			Only press the left button to stap and release the clone
+			Right-click to charge to control the Shower of Stellar Blades
+			"The Ancient Starlight That Tears Space"
+			'''
 	}
 
 	FinalFractal_NewVer: {
 		DisplayName: Final Fractal
-		Tooltip: "111"
+		Tooltip:
+			'''
+			Similar with itself
+			Infinite blades rotating
+			The Final Fractal
+			    -Most Overpowered
+
+			There's Six modes,
+			Try To Hold "Up" or "Down" or nothing 
+			with Left Click or Right Click
+			Since it is too hard to describe the details.
+			If only tell the name-
+			Left-Up:Fractal Mowing Cloud
+			Left-Middle:Fractal Triple Cut
+			Left-Down:Ununiform PythagoreanTree
+			Right-UP:Fractal Snow Flake
+			Right-Middle:Fractal Wing
+			Righe-Down:Cosine Juila-like set
+			'''
 	}
 }
 
@@ -296,16 +351,23 @@ Projectiles: {
 	FractalStorm.DisplayName: Fractal Storm
 	FractalStormSpawner.DisplayName: Fractal Storm Spawner
 	FractalTear.DisplayName: Fractal Tear
+	PythagoreanTreeProj.DisplayName: Pythagorean Tree Proj
+	FractalStabProj.DisplayName: Fractal Stab Proj
+	FractalJuilaSetProj.DisplayName: Fractal Juila Set Proj
+	FractalSnowFlakeProj.DisplayName: Fractal Snow Flake Proj
+	IronSwordPlrProj.DisplayName: Iron Sword Plr Proj
+	StoneSwordPlrProj.DisplayName: Stone Sword Plr Proj
+	WoodSwordPlrProj.DisplayName: Wood Sword Plr Proj
 }
 
 Buffs: {
 	StoneBuff: {
-		DisplayName: Stone Buff
-		Description: Mods.FinalFractalSet.Buffs.StoneBuff.Description
+		DisplayName: Stoned
+		Description: Can't move!!
 	}
 
 	StoneBuffBoost: {
-		DisplayName: Stone Buff Boost
-		Description: Mods.FinalFractalSet.Buffs.StoneBuffBoost.Description
+		DisplayName: Stoned Blade
+		Description: Make the enermies stoned.
 	}
 }
