@@ -12,6 +12,12 @@ using Terraria.ID;
 using FinalFractalSet.REAL_NewVersions.Wood;
 using FinalFractalSet.REAL_NewVersions.Stone;
 using FinalFractalSet.REAL_NewVersions.Iron;
+using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingContents;
+using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingEffects;
+using LogSpiralLibrary.CodeLibrary.Utilties;
+using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
+using LogSpiralLibrary.CodeLibrary.Utilties.BaseClasses;
+using FinalFractalSet.REAL_NewVersions.Zenith;
 
 namespace FinalFractalSet.Weapons
 {
@@ -106,7 +112,7 @@ namespace FinalFractalSet.Weapons
         }
         public override void AddRecipes()
         {
-            if (FinalFractalSetConfig.instance.LoadOldVersionWeapons) 
+            if (FinalFractalSetConfig.instance.LoadOldVersionWeapons)
             {
                 Recipe recipe = CreateRecipe();
                 recipe.QuickAddIngredient(
@@ -151,8 +157,8 @@ namespace FinalFractalSet.Weapons
                 .AddTile(TileID.LunarCraftingStation)
                 .QuickAddIngredient
                 (
-                    ItemID.SlapHand, ItemID.DD2SquireDemonSword, 
-                    ItemID.Frostbrand, ItemID.PsychoKnife, ItemID.Keybrand, 
+                    ItemID.SlapHand, ItemID.DD2SquireDemonSword,
+                    ItemID.Frostbrand, ItemID.PsychoKnife, ItemID.Keybrand,
                     ItemID.ChristmasTreeSword, ItemID.DD2SquireBetsySword, ItemID.PiercingStarlight
                 )
                 .Register();
@@ -317,10 +323,12 @@ namespace FinalFractalSet.Weapons
             projectile.frame = Main.rand.Next(15);
             drawPlayer = new Player();
             if (Main.netMode == NetmodeID.Server) return;
-            swoosh = UltraSwoosh.NewUltraSwoosh(Color.Violet, 30, 1, null, ModAsset.bar_19.Value, colorVec: new(0.16667f, 0.33333f, 0.5f));
-            swoosh.weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
-            swoosh.autoUpdate = false;
-            swoosh.ModityAllRenderInfo([[new AirDistortEffectInfo(4, 0, 0.5f)], [new MaskEffectInfo(LogSpiralLibraryMod.Mask[2].Value, Color.Violet, 0.15f, 0.2f, new Vector2((float)LogSpiralLibraryMod.ModTime), true, false), new BloomEffectInfo(0, 1f, 1, 3, true) { useModeMK = true, downSampleLevel = 2 }]]);
+
+            var u = swoosh = UltraSwoosh.NewUltraSwoosh(FirstZenith_NewVer_Proj.CanvasName, 30, 1, default, (-1.125f, 0.7125f));
+            u.heatMap = ModAsset.bar_19.Value;
+            u.ColorVector = new(0.16667f, 0.33333f, 0.5f);
+            u.weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
+            u.autoUpdate = false;
         }
         public override void AI()
         {
@@ -373,18 +381,20 @@ namespace FinalFractalSet.Weapons
                 projectile.oldRot[n] = projectile.oldRot[n - 1];
             }
             projectile.oldPos[0] = projectile.Center - projectile.velocity.SafeNormalize(Vector2.Zero) * 42f;
-            projectile.oldRot[0] = projectile.velocity.ToRotation() + projectile.ai[0] * (projectile.localAI[0] / 60).Lerp(-180, 90, true);
+            projectile.oldRot[0] = projectile.velocity.ToRotation() + projectile.ai[0] * float.Lerp(-180, 90, MathHelper.Clamp(projectile.localAI[0] / 60, 0, 1));
             float lightScaler = MathHelper.SmoothStep(0, 1, 1 - Math.Abs(45 - projectile.localAI[0]) / 45f);
             if (Main.netMode == NetmodeID.Server) return;
             if (swoosh == null)
             {
-                swoosh = UltraSwoosh.NewUltraSwoosh(Color.Violet, 30, 1, null, ModAsset.bar_19.Value, colorVec: new(0.16667f, 0.33333f, 0.5f));
-                swoosh.autoUpdate = false;
-                swoosh.ModityAllRenderInfo([[new AirDistortEffectInfo(4, 0, 0.5f)], [new MaskEffectInfo(LogSpiralLibraryMod.Mask[2].Value, Color.Violet, 0.15f, 0.2f, new Vector2((float)LogSpiralLibraryMod.ModTime), true, false), new BloomEffectInfo(0, 1f, 1, 3, true) { useModeMK = true, downSampleLevel = 2 }]]);
-                swoosh.weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
+                var u = swoosh = UltraSwoosh.NewUltraSwoosh(FirstZenith_NewVer_Proj.CanvasName, 30, 1, default, (-1.125f, 0.7125f));
+                u.heatMap = ModAsset.bar_19.Value;
+                u.ColorVector = new(0.16667f, 0.33333f, 0.5f);
+                u.weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
+                u.autoUpdate = false;
             }
-            if (swoosh != null)
-                swoosh.autoUpdate = false;
+            swoosh.autoUpdate = false;
+            if (projectile.ai[0] != 0)
+                swoosh.center = projectile.Center + new Vector2(-projectile.velocity.Y, projectile.velocity.X) / projectile.ai[0];
             switch (projectile.localAI[0])
             {
                 case < 4:
@@ -695,11 +705,6 @@ namespace FinalFractalSet.Weapons
         public T UpgradeValue<T>(T normal, T extra, T defaultValue = default)
         {
             return Extra ? extra : normal;
-        }
-        public override void RenderInfomation(ref BloomEffectInfo useBloom, ref AirDistortEffectInfo useDistort, ref MaskEffectInfo useMask)
-        {
-            //useBloom = new BloomEffectInfo(0, 1f, 6, 3, true);
-            //useDistort = new AirDistortEffectInfo(1.5f);
         }
         public override void VertexInfomation(ref bool additive, ref int indexOfGreyTex, ref float endAngle, ref bool useHeatMap, ref int passCount)
         {

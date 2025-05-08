@@ -14,6 +14,10 @@ using System.ComponentModel;
 using System.Xml;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Core;
+using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingContents;
+using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingEffects;
+using LogSpiralLibrary.CodeLibrary.Utilties;
+using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
 
 namespace FinalFractalSet.REAL_NewVersions.Stone
 {
@@ -57,19 +61,16 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
     {
         public override bool LabeledAsCompleted => true;
         public override string Texture => base.Texture.Replace("_Proj", "");
-        public override StandardInfo StandardInfo => base.StandardInfo with
+        public override void InitializeStandardInfo(StandardInfo standardInfo, VertexDrawStandardInfo vertexStandard)
         {
-            standardColor = Color.DeepSkyBlue * .25f,
-            vertexStandard = new()
-            {
-                active = true,
-                scaler = 100,
-                timeLeft = 15,
-                alphaFactor = 2f,
-                //renderInfos = [[new AromrDyeInfo(ItemID.SilverDye)]]
-            },
-            itemType = ModContent.ItemType<DyingStoneSword_NewVer>()
-        };
+            standardInfo.standardColor = Color.DeepSkyBlue * .25f;
+            standardInfo.itemType = ModContent.ItemType<DyingStoneSword_NewVer>();
+
+            vertexStandard.scaler = 100;
+            vertexStandard.timeLeft = 15;
+            vertexStandard.alphaFactor = 2f;
+            base.InitializeStandardInfo(standardInfo, vertexStandard);
+        }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (player.HasBuff<StoneBuffBoost>())
@@ -118,19 +119,16 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
     {
         public override bool LabeledAsCompleted => true;
         public override string Texture => base.Texture.Replace("_Proj", "");
-        public override StandardInfo StandardInfo => base.StandardInfo with
+        public override void InitializeStandardInfo(StandardInfo standardInfo, VertexDrawStandardInfo vertexStandard)
         {
-            standardColor = Color.DeepSkyBlue * .5f,
-            vertexStandard = new()
-            {
-                active = true,
-                scaler = 120,
-                timeLeft = 15,
-                alphaFactor = 2f,
-                //renderInfos = [[new AromrDyeInfo(ItemID.SilverDye)]]
-            },
-            itemType = ModContent.ItemType<DyingStoneSword_NewVer>()
-        };
+            standardInfo.standardColor = Color.DeepSkyBlue * .5f;
+            standardInfo.itemType = ModContent.ItemType<DyingStoneSword_NewVer>();
+
+            vertexStandard.scaler = 120;
+            vertexStandard.timeLeft = 15;
+            vertexStandard.alphaFactor = 2f;
+            base.InitializeStandardInfo(standardInfo, vertexStandard);
+        }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (player.HasBuff<StoneBuffBoost>())
@@ -143,6 +141,15 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
     }
     public class StoneSpecialAttack : FinalFractalSetAction
     {
+        public const string CanvasName = "FinalFractalSet:StoneSpecial";
+        static AirDistortEffect _airDistort = new(12, 1.5f);
+        static DyeEffect _dye = new(ItemID.FogboundDye);
+        public override void Load()
+        {
+            RenderCanvasSystem.RegisterCanvasFactory(CanvasName, () => new([[_airDistort], [_dye]]));
+            base.Load();
+        }
+
         public override float CompositeArmRotation => base.CompositeArmRotation;
         public override float offsetRotation => base.offsetRotation + MathHelper.SmoothStep(MathHelper.Pi * Owner.direction, 0, MathHelper.Clamp((1 - Factor) / .25f, 0, 1));
         public override float offsetSize => base.offsetSize;
@@ -208,9 +215,12 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
                     Projectile.NewProjectile(Owner.GetSource_FromThis(), cen, velocity, ModContent.ProjectileType<StoneSAProjectile>(), CurrentDamage, Projectile.knockBack, Projectile.owner);
                 }
             }
-            var u = UltraSwoosh.NewUltraSwoosh(standardInfo.standardColor, 60, 150, Owner.Center, null, !flip, Rotation, 2, (1.7f, -.2f), 3, 7);
-            u.ModityAllRenderInfo([[new AirDistortEffectInfo(12)], [new ArmorDyeInfo(ItemID.FogboundDye)]]);
-
+            var u = UltraSwoosh.NewUltraSwoosh(CanvasName, 60, 120, Owner.Center, (1.7f, -.2f));
+            u.negativeDir = !flip;
+            u.rotation = Rotation;
+            u.xScaler = 2;
+            u.aniTexIndex = 3;
+            u.baseTexIndex = 7;
             if (Owner is Player player)
                 player.AddBuff(ModContent.BuffType<StoneBuffBoost>(), 300);
 
@@ -277,10 +287,10 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
                 {
                     Projectile.rotation = Projectile.velocity.ToRotation();
                     ultraStab.rotation = Projectile.rotation;
-                    ultraStab.Uptate();
+                    ultraStab.Update();
                     ultraStab.timeLeft = ultraStab.timeLeftMax;
                 }
-                ultraStab.Uptate();
+                ultraStab.Update();
                 ultraStab.timeLeft = ultraStab.timeLeftMax;
             }
             Dust.NewDustPerfect(Projectile.Center, MyDustId.GreyStone, Main.rand.NextVector2Unit(), 0, default, Main.rand.NextFloat(.5f, 1.5f)).noGravity = true;
@@ -295,9 +305,11 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
         public override void OnSpawn(IEntitySource source)
         {
             if (Main.netMode == NetmodeID.Server) return;
-            ultraStab = UltraStab.NewUltraStab(Color.Gray, 30, 250, Projectile.Center, null, Main.rand.NextBool(2), 0, 4f);
-            ultraStab.ModityAllRenderInfo([[new ArmorDyeInfo(ItemID.FogboundDye)]]);
-            ultraStab.Uptate();
+            ultraStab = UltraStab.NewUltraStab(StoneSpecialAttack.CanvasName, 30, 250, Projectile.Center);
+            ultraStab.negativeDir = Main.rand.NextBool(2);
+            ultraStab.rotation = 0;
+            ultraStab.xScaler = 4f;
+            ultraStab.Update();
             ultraStab.timeLeft = 30;
             ultraStab.autoUpdate = false;
             base.OnSpawn(source);

@@ -1,4 +1,5 @@
-﻿using ReLogic.Content;
+﻿using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
+using ReLogic.Content;
 using System;
 using System.Collections.Generic;
 using Terraria.Audio;
@@ -83,7 +84,7 @@ public class FractalJuilaSetProj : FinalFractalAssistantProjectile
             SoundEngine.PlaySound(SoundID.Item60 with { MaxInstances = -1 }, target.position);
 
         for (int n = 0; n < 4; n++)
-            OtherMethods.FastDust(target.Center + unit2 * Main.rand.NextFloat(0, 16) - unit * 32, unit * Main.rand.NextFloat(4, 16), Color.Cyan);
+            MiscMethods.FastDust(target.Center + unit2 * Main.rand.NextFloat(0, 16) - unit * 32, unit * Main.rand.NextFloat(4, 16), Color.Cyan);
         base.OnHitNPC(target, hit, damageDone);
     }
 }

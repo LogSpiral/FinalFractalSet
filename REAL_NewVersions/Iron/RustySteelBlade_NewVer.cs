@@ -12,6 +12,10 @@ using System.ComponentModel;
 using System.Xml;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Core;
+using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingContents;
+using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingEffects;
+using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
+using FinalFractalSet.Weapons;
 
 namespace FinalFractalSet.REAL_NewVersions.Iron
 {
@@ -46,18 +50,16 @@ namespace FinalFractalSet.REAL_NewVersions.Iron
     {
         public override bool LabeledAsCompleted => true;
         public override string Texture => base.Texture.Replace("_Proj", "");
-        public override StandardInfo StandardInfo => base.StandardInfo with
+        public override void InitializeStandardInfo(StandardInfo standardInfo, VertexDrawStandardInfo vertexStandard)
         {
-            standardColor = Color.Lerp(Color.SandyBrown, Color.Brown, .25f) * .5f,
-            vertexStandard = new()
-            {
-                active = true,
-                scaler = 120,
-                timeLeft = 15,
-                alphaFactor = 2f,
-            },
-            itemType = ModContent.ItemType<RustySteelBlade_NewVer>()
-        };
+            standardInfo.standardColor = Color.Lerp(Color.SandyBrown, Color.Brown, .25f) * .5f;
+            standardInfo.itemType = ModContent.ItemType<RefinedSteelBlade_NewVer>();
+
+            vertexStandard.scaler = 120;
+            vertexStandard.timeLeft = 15;
+            vertexStandard.alphaFactor = 2f;
+            base.InitializeStandardInfo(standardInfo, vertexStandard);
+        }
     }
     public class RefinedSteelBlade_NewVer : MeleeSequenceItem<RefinedSteelBlade_NewVer_Proj>
     {
@@ -91,18 +93,16 @@ namespace FinalFractalSet.REAL_NewVersions.Iron
     {
         public override bool LabeledAsCompleted => true;
         public override string Texture => base.Texture.Replace("_Proj", "");
-        public override StandardInfo StandardInfo => base.StandardInfo with
+        public override void InitializeStandardInfo(StandardInfo standardInfo, VertexDrawStandardInfo vertexStandard)
         {
-            standardColor = Color.Gray * .5f,
-            vertexStandard = new()
-            {
-                active = true,
-                scaler = 120,
-                timeLeft = 15,
-                alphaFactor = 2f,
-            },
-            itemType = ModContent.ItemType<RefinedSteelBlade_NewVer>()
-        };
+            standardInfo.standardColor = Color.Gray * .5f;
+            standardInfo.itemType = ModContent.ItemType<RefinedSteelBlade_NewVer>();
+
+            vertexStandard.scaler = 120;
+            vertexStandard.timeLeft = 15;
+            vertexStandard.alphaFactor = 2f;
+            base.InitializeStandardInfo(standardInfo, vertexStandard);
+        }
     }
     public class SteelSpecialAttack : FinalFractalSetAction
     {
@@ -136,7 +136,7 @@ namespace FinalFractalSet.REAL_NewVersions.Iron
 
             for (int n = 0; n < 300; n++)
             {
-                OtherMethods.FastDust(Owner.Center + n / 300f * unit * t, Vector2.Lerp(Main.rand.NextVector2Unit(), Main.rand.NextVector2Unit() * 4 - unit, n / 300f), standardInfo.standardColor);
+                MiscMethods.FastDust(Owner.Center + n / 300f * unit * t, Vector2.Lerp(Main.rand.NextVector2Unit(), Main.rand.NextVector2Unit() * 4 - unit, n / 300f), standardInfo.standardColor);
             }
 
             t -= 2;
@@ -150,8 +150,12 @@ namespace FinalFractalSet.REAL_NewVersions.Iron
 
 
             //Owner.Center += unit * t;
-
-            var u = UltraSwoosh.NewUltraSwoosh(standardInfo.standardColor, 30, 8 * t + 90, Owner.Center - unit * t * .25f, null, !flip, Rotation, t * .25f + 2, (1.7f, -.2f), 3, 7);
+            var u = UltraSwoosh.NewUltraSwoosh(standardInfo.VertexStandard.canvasName, 30, 8 * t + 90, Owner.Center - unit * t * .25f,(1.7f, -.2f));
+            u.negativeDir = !flip;
+            u.rotation = Rotation;
+            u.xScaler = t * .25f + 2;
+            u.aniTexIndex = 3;
+            u.baseTexIndex = 7;
             u.ApplyStdValueToVtxEffect(standardInfo);
             for (int n = 0; n < 4; n++)
             {
@@ -239,9 +243,11 @@ namespace FinalFractalSet.REAL_NewVersions.Iron
                 {
                     for (int n = 0; n < 4; n++)
                     {
-                        swooshes[n] = UltraSwoosh.NewUltraSwoosh(newColor, 30, 1, Main.player[projectile.owner].Center, null, false, colorVec: new(0.1667f, 0.3333f, 0.5f));//0.25f, 0.25f, 0.5f//0.1667f, 0.3333f, 0.5f
-                        swooshes[n].autoUpdate = false;
-                        swooshes[n].weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
+                        var u = swooshes[n] = UltraSwoosh.NewUltraSwooshOnDefaultCanvas(30,1, Main.player[projectile.owner].Center,(-1.125f,0.7125f));
+                        u.negativeDir = false;
+                        u.ColorVector = new(0.1667f, 0.3333f, 0.5f);
+                        u.autoUpdate = false;
+                        u.weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
                     }
                     //swooshes[0].ModityAllRenderInfo([[new AirDistortEffectInfo(4, 0, 0.5f)], [new BloomEffectInfo(0, 1f, 1, 3, true) { useModeMK = true, downSampleLevel = 2 }]]);
                 }
@@ -330,12 +336,12 @@ namespace FinalFractalSet.REAL_NewVersions.Iron
                 if (Main.netMode == NetmodeID.Server) return;
                 for (int n = 0; n < 4; n++)
                 {
-                    swooshes[n] = UltraSwoosh.NewUltraSwoosh(newColor, 30, 1, Main.player[projectile.owner].Center, null, false, colorVec: new(0.1667f, 0.3333f, 0.5f));//0.25f, 0.25f, 0.5f//0.1667f, 0.3333f, 0.5f
-                    swooshes[n].autoUpdate = false;
-                    swooshes[n].weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
-
+                    var u = swooshes[n] = UltraSwoosh.NewUltraSwoosh(PureFractalProj.CanvasName,30, 1, Main.player[projectile.owner].Center, (-1.125f, 0.7125f));
+                    u.negativeDir = false;
+                    u.ColorVector = new(0.1667f, 0.3333f, 0.5f);
+                    u.autoUpdate = false;
+                    u.weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
                 }
-                swooshes[0].ModityAllRenderInfo([[new AirDistortEffectInfo(4, 0, 0.5f)], [new BloomEffectInfo(0, 1f, 1, 3, true) { useModeMK = true, downSampleLevel = 2 }]]);
                 base.OnSpawn(source);
             }
             public override void OnKill(int timeLeft)

@@ -9,6 +9,7 @@ using LogSpiralLibrary;
 using LogSpiralLibrary.CodeLibrary.DataStructures;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
 using Terraria.Audio;
+using LogSpiralLibrary.CodeLibrary.Utilties;
 
 namespace FinalFractalSet.Weapons.FinalFractal_Old
 {

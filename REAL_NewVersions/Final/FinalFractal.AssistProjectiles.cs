@@ -3,7 +3,11 @@ using FinalFractalSet.REAL_NewVersions.Wood;
 using FinalFractalSet.REAL_NewVersions.Zenith;
 using FinalFractalSet.Weapons;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
+using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingContents;
+using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingEffects;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Core;
+using LogSpiralLibrary.CodeLibrary.Utilties;
+using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
 using LogSpiralLibrary.ForFun.FractalSpawn;
 using LogSpiralLibrary.ForFun.ScreenTransformUI;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,6 +24,7 @@ using Terraria.Graphics;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using static FinalFractalSet.REAL_NewVersions.Iron.SteelSpecialAttack;
+using static LogSpiralLibrary.CodeLibrary.Utilties.Extensions.VectorMethods;
 using static Terraria.Utils;
 namespace FinalFractalSet.REAL_NewVersions.Final;
 
@@ -28,6 +33,9 @@ public abstract class FinalFractalAssistantProjectile : ModProjectile
     public const string FractalTexturePath = "FinalFractalSet/REAL_NewVersions/Final/FinalFractalProjectile";
     public override string Texture => FractalTexturePath;
 }
+
+// Unused
+/*
 public class FractalStormSpawner : FinalFractalAssistantProjectile
 {
 
@@ -121,10 +129,6 @@ public class FractalStormSpawner : FinalFractalAssistantProjectile
 
 public class FractalStorm : FinalFractalAssistantProjectile
 {
-    class FractalStromSwoosh : UltraSwoosh
-    {
-
-    }
     public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
     {
         target.immune[Projectile.owner] = 0;
@@ -201,10 +205,11 @@ public class FractalStorm : FinalFractalAssistantProjectile
         if (Main.netMode == NetmodeID.Server) return;
         if (swoosh == null)
         {
-            swoosh = UltraSwoosh.NewUltraSwoosh<FractalStromSwoosh>(Color.Violet, LogSpiralLibrarySystem.vertexEffects, 30, 1, null, ModAsset.bar_19.Value, colorVec: new(0.16667f, 0.33333f, 0.5f));
+            swoosh = UltraSwoosh
+            swoosh = UltraSwoosh.NewUltraSwoosh<FractalStromSwoosh>(Color.Violet, RenderCanvasSystem.RenderDrawingContents, 30, 1, null, ModAsset.bar_19.Value, colorVec: new(0.16667f, 0.33333f, 0.5f));
             swoosh.heatMap = Main.rand.Next([ModAsset.bar_16, ModAsset.bar_17, ModAsset.bar_18, ModAsset.bar_19, ModAsset.bar_20, ModAsset.bar_25]).Value;
             swoosh.autoUpdate = false;
-            swoosh.ModityAllRenderInfo([new BloomEffectInfo(0, 1f, 1f, 3, true) with { useModeMK = true }]);
+            swoosh.ModityAllRenderInfo([new BloomEffectInfo(0, 1f, 1f, 3, true) with { UseModeMK = true }]);
             //swoosh.ModityAllRenderInfo(FinalFractal_NewVer_Proj.RenderDrawInfos);
             swoosh.weaponTex = TextureAssets.Item[Main.player[Projectile.owner].HeldItem.type].Value;
         }
@@ -280,7 +285,7 @@ public class FractalStorm : FinalFractalAssistantProjectile
         return false;
     }
 }
-
+*/
 public class FractalTear : FinalFractalAssistantProjectile
 {
     public override void SetDefaults()
@@ -315,14 +320,20 @@ public class FractalTear : FinalFractalAssistantProjectile
         if (Main.netMode == NetmodeID.Server) return;
         if (swoosh == null)
         {
-            swoosh = UltraSwoosh.NewUltraSwoosh(Color.Violet, 30, 240, Projectile.Center, ModAsset.bar_19.Value, Projectile.velocity.X < 0, Projectile.velocity.ToRotation(), 3, colorVec: new(0.16667f, 0.33333f, 0.5f));
+            var u = swoosh = UltraSwoosh.NewUltraSwoosh(FinalFractal_NewVer_Proj.CanvasName, 30, 240, Projectile.Center, (-1.125f, 0.7125f));
+            u.heatMap = ModAsset.bar_19.Value;
+            u.negativeDir = Projectile.velocity.X < 0;
+            u.rotation = Projectile.velocity.ToRotation();
+            u.xScaler = 3;
+            u.ColorVector = new(0.16667f, 0.33333f, 0.5f);
+            u.aniTexIndex = 3;
+            u.baseTexIndex = 7;
             swoosh.autoUpdate = false;
-            swoosh.ModityAllRenderInfo(FinalFractal_NewVer_Proj.RenderDrawInfos);
             swoosh.weaponTex = TextureAssets.Item[Main.player[Projectile.owner].HeldItem.type].Value;
             //SoundEngine.PlaySound(MySoundID.Scythe, Projectile.Center);
         }
         if (Projectile.timeLeft > 45)
-            swoosh.timeLeft = 2 * (60 - Projectile.timeLeft);
+            swoosh.timeLeft = 2 * (60 - Projectile.timeLeft) + 2;
         else
             swoosh.timeLeft++;
 
@@ -934,7 +945,7 @@ public class FractalChargingWingProj : ModProjectile
                             break;
                         case 61:
                             for (int n = 0; n < 10; n++)
-                                OtherMethods.FastDust(proj.Center,
+                                MiscMethods.FastDust(proj.Center,
                                     Main.rand.NextVector2Unit() * Main.rand.NextFloat() * 2 - proj.velocity * Main.rand.NextFloat(),
                                     Main.hslToRgb(Main.rand.NextFloat(0.4f, 0.6f), 1f, 0.75f),
                                     Main.rand.NextFloat(1, 1.5f) * .5f);
@@ -1290,7 +1301,7 @@ public abstract class PlayerLikeProjectile : FinalFractalAssistantProjectile
         if (Projectile.timeLeft == 1)
         {
             for (int n = 0; n < 10; n++)
-                OtherMethods.FastDust(Projectile.Center + new Vector2(Main.rand.NextFloat(-20, 20), Main.rand.NextFloat(-28, 28)),
+                MiscMethods.FastDust(Projectile.Center + new Vector2(Main.rand.NextFloat(-20, 20), Main.rand.NextFloat(-28, 28)),
                     Vector2.UnitY * Main.rand.NextFloat(-8, -2), Color.White, Main.rand.NextFloat(.5f, 1f));
         }
         base.AI();
@@ -1387,7 +1398,10 @@ public class WoodSwordPlrProj : PlayerLikeProjectile
             Projectile.rotation = delta.ToRotation();
             Projectile.Center += delta.SafeNormalize(default) * (delta.Length() + 64);
             Projectile.velocity = delta.SafeNormalize(default);
-            var stab = UltraStab.NewUltraStab(Color.White, 15, 300, Main.npc[targetIndex].Center - Projectile.velocity * 64, null, false, Projectile.rotation, 2);
+            var stab = UltraStab.NewUltraStabOnDefaultCanvas(15, 300, Main.npc[targetIndex].Center - Projectile.velocity * 64);
+            stab.negativeDir = false;
+            stab.rotation = Projectile.rotation;
+            stab.xScaler = 2;
             Projectile.rotation -= MathHelper.PiOver2;
             stab.weaponTex = ModAsset.LivingWoodSword_NewVer.Value;
             SoundEngine.PlaySound(MySoundID.SwooshNormal_1);
@@ -1457,10 +1471,13 @@ public class StoneSwordPlrProj : PlayerLikeProjectile
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, delta.SafeNormalize(default) * 16,
                 ModContent.ProjectileType<StoneSAProjectile>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 2);
 
-
-            var u = UltraSwoosh.NewUltraSwoosh(Color.Gray, 60, 150, Projectile.Center, null, Projectile.velocity.X < 0, delta.ToRotation() + Main.rand.NextFloat(-1,1), Main.rand.NextFloat(1,2), (1.7f, -.2f), 3, 7);
+            var u = UltraSwoosh.NewUltraSwoosh(StoneSpecialAttack.CanvasName, 60, 150, Projectile.Center, (1.7f, -.2f));
+            u.negativeDir = Projectile.velocity.X < 0;
+            u.rotation = delta.ToRotation() + Main.rand.NextFloat(-1, 1);
+            u.xScaler = Main.rand.NextFloat(1, 2);
+            u.aniTexIndex = 3;
+            u.baseTexIndex = 7;
             u.weaponTex = ModAsset.CrystalStoneSword_NewVer.Value;
-            u.ModityAllRenderInfo([[new AirDistortEffectInfo(12)], [new ArmorDyeInfo(ItemID.FogboundDye)]]);
         }
         Projectile.rotation = Projectile.velocity.ToRotation() + 4 * (MathF.Sin(MathHelper.SmoothStep(0,1, Projectile.ai[2] / 10f) * MathHelper.PiOver2) + .25f) * .75f * MathF.Sign(Projectile.velocity.X);// (MathF.Sin(Projectile.ai[2] / 20f * MathHelper.TwoPi) * 4f - 4f);
         //if (Projectile.spriteDirection == -1)

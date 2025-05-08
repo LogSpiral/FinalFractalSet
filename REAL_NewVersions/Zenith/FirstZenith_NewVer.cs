@@ -1,8 +1,12 @@
 ﻿using FinalFractalSet.REAL_NewVersions.Stone;
 using FinalFractalSet.Weapons;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
+using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingContents;
+using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingEffects;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Core;
+using LogSpiralLibrary.CodeLibrary.Utilties;
+using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
 using Mono.Cecil;
 using System;
 using System.Collections.Generic;
@@ -51,24 +55,30 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
     }
     public class FirstZenith_NewVer_Proj : MeleeSequenceProj
     {
+        public const string CanvasName = "FinalFractalSet:FirstZenith";
         public override string Texture => base.Texture.Replace("_Proj", "");
-        public override StandardInfo StandardInfo => base.StandardInfo with
+        static readonly AirDistortEffect _airDistort = new(4, 1.5f, 0, .5f);
+        static readonly MaskEffect _mask = new(LogSpiralLibraryMod.Mask[2].Value, Color.Blue, 0.15f, 0.2f, new Vector2((float)LogSpiralLibraryMod.ModTime), true, false);
+        static readonly BloomEffect _bloom = new(0f, 1f, 1, 3, true, 2, true);
+        public override void Load()
         {
-            standardColor = Color.Cyan * .25f,
-            vertexStandard = new()
-            {
-                active = true,
-                scaler = 90,
-                timeLeft = 15,
-                alphaFactor = 2f,
-                //heatMap = ModAsset.bar_25.Value,
-                renderInfos = [[new AirDistortEffectInfo(4, 0, 0.5f)],
-                    [new MaskEffectInfo(LogSpiralLibraryMod.Mask[2].Value, Color.Blue, 0.15f, 0.2f, new Vector2((float)LogSpiralLibraryMod.ModTime), true, false),
-                    new BloomEffectInfo(0, 1f, 1, 3, true) { useModeMK = true, downSampleLevel = 2 }]]
-            },
-            soundStyle = MySoundID.Scythe with { volume = .5f},
-            itemType = ModContent.ItemType<FirstZenith_NewVer>()
-        };
+            RenderCanvasSystem.RegisterCanvasFactory(CanvasName, () => new RenderingCanvas([[_airDistort], [_mask, _bloom]]));
+            base.Load();
+        }
+
+        public override void InitializeStandardInfo(StandardInfo standardInfo, VertexDrawStandardInfo vertexStandard)
+        {
+            standardInfo.standardColor = Color.Cyan * .25f;
+            standardInfo.soundStyle = MySoundID.Scythe with { volume = .5f };
+            standardInfo.itemType = ModContent.ItemType<FirstZenith_NewVer>();
+
+            vertexStandard.scaler = 90;
+            vertexStandard.timeLeft = 15;
+            vertexStandard.alphaFactor = 2f;
+            vertexStandard.canvasName = CanvasName;
+
+            base.InitializeStandardInfo(standardInfo, vertexStandard);
+        }
         public override bool LabeledAsCompleted => true;
         [SequenceDelegate]
         static void ShootFirstZenith(MeleeAction action)
@@ -154,10 +164,6 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
         public override Vector2 offsetOrigin => base.offsetOrigin;
         public override float offsetDamage => base.offsetDamage;
         public override bool Attacktive => Factor < .75f;
-        public override void OnEndSingle()
-        {
-            base.OnEndSingle();
-        }
         public override void OnStartAttack()
         {
             VectorMethods.GetClosestVectorsFromNPC(Owner.Center, 15, 2048, out var indexs, out _);
@@ -170,19 +176,15 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
                 for (int n = 0; n < 15; n++)
                     FirstZenith_NewVer_Proj.ShootFirstZenithViaPosition(this, n >= q ? Main.MouseWorld : Main.npc[indexs[n]].Center, n >= q);
             SoundEngine.PlaySound(SoundID.Item92);
-            var u = UltraSwoosh.NewUltraSwoosh(standardInfo.standardColor, 60, 150, Owner.Center, null, !flip, Rotation, 2, (1.7f, -.2f), 3, 7);
+            var u = UltraSwoosh.NewUltraSwoosh(FirstZenith_NewVer_Proj.CanvasName, 60, 150, Owner.Center, (1.7f, -.2f));
+            u.negativeDir = !flip;
+            u.rotation = Rotation;
+            u.xScaler = 2;
+            u.aniTexIndex = 3;
+            u.baseTexIndex = 7;
             u.ApplyStdValueToVtxEffect(standardInfo);
 
             base.OnStartAttack();
-        }
-        public override void OnCharge()
-        {
-
-            base.OnCharge();
-        }
-        public override void OnStartSingle()
-        {
-            base.OnStartSingle();
         }
         public override void Update(bool triggered)
         {
@@ -192,30 +194,8 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
     }
     public class FirstZenithRainAttack : FinalFractalSetAction
     {
-        public override float CompositeArmRotation => base.CompositeArmRotation;
         public override float offsetRotation => MathHelper.SmoothStep(0, 1, MathF.Pow(1 - Factor, 2)) * (-MathHelper.PiOver2 - (Rotation > MathHelper.PiOver2 ? Rotation - MathHelper.TwoPi : Rotation));
-        public override float offsetSize => base.offsetSize;
-        public override Vector2 offsetCenter => base.offsetCenter;
-        public override Vector2 offsetOrigin => base.offsetOrigin;
-        public override float offsetDamage => base.offsetDamage;
         public override bool Attacktive => timer == 1;
-        public override void OnEndSingle()
-        {
-            base.OnEndSingle();
-        }
-        public override void OnStartAttack()
-        {
-            base.OnStartAttack();
-        }
-        public override void OnCharge()
-        {
-
-            base.OnCharge();
-        }
-        public override void OnStartSingle()
-        {
-            base.OnStartSingle();
-        }
         public override void OnAttack()
         {
             Vector2 position = Owner.Center + new Vector2(Main.rand.NextFloat(-1280, 1280), -960);
@@ -226,14 +206,13 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
                 unit = Main.rand.NextFloat(MathHelper.Pi / 3, MathHelper.Pi / 3 * 2).ToRotationVector2();
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), position, unit * 32, ModContent.ProjectileType<FirstZenithProj>(), CurrentDamage, Projectile.knockBack, Main.myPlayer, Main.rand.NextFloat(-.01f, .01f), Main.rand.NextFloat());
 
-            OtherMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 4) + (Rotation + offsetRotation).ToRotationVector2() * Main.rand.NextFloat(0, 64), standardInfo.standardColor, Main.rand.NextFloat(1, 2));
+            MiscMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 4) + (Rotation + offsetRotation).ToRotationVector2() * Main.rand.NextFloat(0, 64), standardInfo.standardColor, Main.rand.NextFloat(1, 2));
 
             base.OnAttack();
         }
         public override bool Collide(Rectangle rectangle) => false;
         public override void Update(bool triggered)
         {
-            standardInfo = standardInfo with { extraLight = 3 * MathF.Pow(1 - Factor, 4f) };
             flip = Owner.direction == -1;
             switch (Owner)
             {
@@ -252,9 +231,9 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
                 for (int n = 0; n < 4; n++)
                 {
                     Vector2 unit = (MathHelper.PiOver2 * n + 4 * Factor).ToRotationVector2();
-                    OtherMethods.FastDust(Owner.Center + unit * (MathF.Exp(Factor) - 1) * 128, default, standardInfo.standardColor, 2f);
+                    MiscMethods.FastDust(Owner.Center + unit * (MathF.Exp(Factor) - 1) * 128, default, standardInfo.standardColor, 2f);
 
-                    OtherMethods.FastDust(Owner.Center + new Vector2(unit.X + unit.Y, -unit.X + unit.Y) * (MathF.Exp(Factor) - 1) * 128, default, standardInfo.standardColor, 1.5f);
+                    MiscMethods.FastDust(Owner.Center + new Vector2(unit.X + unit.Y, -unit.X + unit.Y) * (MathF.Exp(Factor) - 1) * 128, default, standardInfo.standardColor, 1.5f);
 
                 }
             if (timer == 1 && counter == Cycle)
@@ -263,8 +242,8 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
                 SoundEngine.PlaySound(SoundID.Item84);
                 for (int n = 0; n < 40; n++)
                 {
-                    OtherMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 32), standardInfo.standardColor, Main.rand.NextFloat(1, 4));
-                    OtherMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 4) + (Rotation + offsetRotation).ToRotationVector2() * Main.rand.NextFloat(0, 64), standardInfo.standardColor, Main.rand.NextFloat(1, 2));
+                    MiscMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 32), standardInfo.standardColor, Main.rand.NextFloat(1, 4));
+                    MiscMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 4) + (Rotation + offsetRotation).ToRotationVector2() * Main.rand.NextFloat(0, 64), standardInfo.standardColor, Main.rand.NextFloat(1, 2));
 
                 }
             }
@@ -279,6 +258,13 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
                 timer = 0;
                 SoundEngine.PlaySound(MySoundID.MagicStaff);
             }
+        }
+        public override void Draw(SpriteBatch spriteBatch, Texture2D texture)
+        {
+            float origLight = standardInfo.extraLight;
+            standardInfo.extraLight = 3 * MathF.Pow(1 - Factor, 4f);
+            base.Draw(spriteBatch, texture);
+            standardInfo.extraLight = origLight;
         }
     }
     public class FractalDash : ModProjectile
@@ -333,10 +319,13 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
             projectile.frame = Main.rand.Next(15);
             drawPlayer = new Player();
             if (Main.netMode == NetmodeID.Server) return;
-            stab = UltraStab.NewUltraStab(Color.Violet, 30, 1, null, ModAsset.bar_19.Value, xscaler: 3, colorVec: new(0.16667f, 0.33333f, 0.5f));// UltraSwoosh.NewUltraSwoosh(Color.Violet, 30, 1, null, ModAsset.bar_19.Value, colorVec: new(0.16667f, 0.33333f, 0.5f));
+            stab = UltraStab.NewUltraStab(FirstZenith_NewVer_Proj.CanvasName, 30, 1, default);
+            stab.timeLeft = 30;
+            stab.heatMap = ModAsset.bar_19.Value;
+            stab.xScaler = 3;
+            stab.ColorVector = new(0.16667f, 0.33333f, 0.5f);
             stab.weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
             stab.gather = false;
-            stab.ModityAllRenderInfo([[new AirDistortEffectInfo(4, 0, 0.5f)], [new MaskEffectInfo(LogSpiralLibraryMod.Mask[2].Value, Color.Violet, 0.15f, 0.2f, new Vector2((float)LogSpiralLibraryMod.ModTime), true, false), new BloomEffectInfo(0, 1f, 1, 3, true) { useModeMK = true, downSampleLevel = 2 }]]);
 
         }
         public override void AI()
@@ -369,8 +358,11 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
             if (Main.netMode == NetmodeID.Server) return;
             if (stab == null)
             {
-                stab = UltraStab.NewUltraStab(Color.Violet, 30, 360, null, ModAsset.bar_19.Value, xscaler: 3, colorVec: new(0.16667f, 0.33333f, 0.5f));// UltraSwoosh.NewUltraSwoosh(Color.Violet, 30, 1, null, ModAsset.bar_19.Value, colorVec: new(0.16667f, 0.33333f, 0.5f));
-                stab.ModityAllRenderInfo([[new AirDistortEffectInfo(4, 0, 0.5f)], [new MaskEffectInfo(LogSpiralLibraryMod.Mask[2].Value, Color.Violet, 0.15f, 0.2f, new Vector2((float)LogSpiralLibraryMod.ModTime), true, false), new BloomEffectInfo(0, 1f, 1, 3, true) { useModeMK = true, downSampleLevel = 2 }]]);
+                stab = UltraStab.NewUltraStab(FirstZenith_NewVer_Proj.CanvasName, 30, 1, default);
+                stab.timeLeft = 30;
+                stab.heatMap = ModAsset.bar_19.Value;
+                stab.xScaler = 3;
+                stab.ColorVector = new(0.16667f, 0.33333f, 0.5f);
                 stab.weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
                 stab.gather = false;
             }

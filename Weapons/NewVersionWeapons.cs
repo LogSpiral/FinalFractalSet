@@ -8,6 +8,10 @@ using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
 using Terraria.Audio;
 using Terraria.Utilities;
 using FinalFractalSet.REAL_NewVersions.Wood;
+using LogSpiralLibrary.CodeLibrary.Utilties.BaseClasses;
+using LogSpiralLibrary.CodeLibrary.Utilties;
+using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingContents;
+using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingEffects;
 
 namespace FinalFractalSet.Weapons
 {
@@ -545,8 +549,11 @@ namespace FinalFractalSet.Weapons
         public override void OnEndAttack()
         {
             bool large = controlState == 2 || controlTier % 5 == 4;
-            UltraSwoosh.NewUltraSwoosh(Color.Brown, large ?30:15, TextureAssets.Item[Player.HeldItem.type].Size().Length(), Player.Center, null, controlTier % 2 == 1, 0, large ? 1.25f : 1f, (Player.direction == 1 ? -1.125f : 2.125f, Player.direction == 1 ? 3f / 8 : 0.625f));
 
+            var u = UltraSwoosh.NewUltraSwooshOnDefaultCanvas(large ? 30 : 15, TextureAssets.Item[Player.HeldItem.type].Size().Length(), Player.Center, (Player.direction == 1 ? -1.125f : 2.125f, Player.direction == 1 ? 3f / 8 : 0.625f));
+            u.negativeDir = controlTier % 2 == 1;
+            u.rotation = 0;
+            u.xScaler = large ? 1.25f : 1f;
             base.OnEndAttack();
         }
         public override void OnCharging(bool left, bool right)
@@ -808,16 +815,16 @@ namespace FinalFractalSet.Weapons
         {
             get
             {
-                var theta = ((float)Math.Pow(Factor, 2)).Lerp(MathHelper.Pi / 8 * 3 * (projectile.ai[0] > MaxTime ? -1 : 1), -MathHelper.PiOver2 - MathHelper.Pi / 8);
+                var theta = float.Lerp(MathHelper.Pi / 8 * 3 * (projectile.ai[0] > MaxTime ? -1 : 1), -MathHelper.PiOver2 - MathHelper.Pi / 8, Math.Clamp((float)Math.Pow(Factor, 2), 0, 1));
                 if (projectile.ai[1] > 0)
                 {
                     if (Charged)
                     {
-                        theta = (projectile.ai[1] / MaxTimeLeft / Factor).Lerp(theta, MathHelper.Pi / 8 * 3);
+                        theta = float.Lerp(theta, MathHelper.Pi / 8 * 3, Math.Clamp(projectile.ai[1] / MaxTimeLeft / Factor, 0, 1));
                     }
                     else
                     {
-                        theta = ((timeCount - projectile.ai[1]) / MaxTime).Lerp(MathHelper.Pi / 8 * 3, -MathHelper.PiOver2);
+                        theta = float.Lerp(MathHelper.Pi / 8 * 3, -MathHelper.PiOver2, Math.Clamp((timeCount - projectile.ai[1]) / MaxTime, 0, 1));
                     }
                 }
                 theta = -MathHelper.PiOver2;
@@ -838,8 +845,10 @@ namespace FinalFractalSet.Weapons
             if (Charged || controlState == 1 && (timeCount - 3) % MaxTime >= MaxTime * .75f)
             {
                 bool large = controlState == 2 || (int)(timeCount / MaxTime) % 5 == 4;
-                UltraSwoosh.NewUltraSwoosh(Color.Brown, large ? 30 : 15, TextureAssets.Item[Player.HeldItem.type].Size().Length() * (large ? 2 : 1), Player.Center, null, false, large ? MathHelper.Pi : 0, large ? 1.25f : 1f, (Player.direction == 1 ? -1.125f : 2.125f, Player.direction == 1 ? 3f / 8 : 0.625f));
-
+                var u = UltraSwoosh.NewUltraSwooshOnDefaultCanvas(large ? 30 : 15, TextureAssets.Item[Player.HeldItem.type].Size().Length() * (large ? 2 : 1), Player.Center, (Player.direction == 1 ? -1.125f : 2.125f, Player.direction == 1 ? 3f / 8 : 0.625f));
+                u.negativeDir = false;
+                u.rotation = large ? MathHelper.Pi : 0;
+                u.xScaler = large ? 1.25f : 1f;
             }
         }
         public override void OnCharging(bool left, bool right)
@@ -895,11 +904,6 @@ namespace FinalFractalSet.Weapons
                 sourceItem = itemSource.Item;
             }
             base.OnSpawn(source);
-        }
-        public override void RenderInfomation(ref BloomEffectInfo useBloom, ref AirDistortEffectInfo useDistort, ref MaskEffectInfo useMask)
-        {
-            //useBloom = new BloomEffectInfo(0, 1, 6, 3, true);
-            //useDistort = new AirDistortEffectInfo(1.5f);
         }
         public override void VertexInfomation(ref bool additive, ref int indexOfGreyTex, ref float endAngle, ref bool useHeatMap, ref int p)
         {
@@ -1362,11 +1366,6 @@ namespace FinalFractalSet.Weapons
                 sourceItem = itemSource.Item;
             }
             base.OnSpawn(source);
-        }
-        public override void RenderInfomation(ref BloomEffectInfo useBloom, ref AirDistortEffectInfo useDistort, ref MaskEffectInfo useMask)
-        {
-            //useBloom = new BloomEffectInfo(0, 1, 6, 3, true);
-            //useDistort = new AirDistortEffectInfo(1.5f);
         }
         public override void VertexInfomation(ref bool additive, ref int indexOfGreyTex, ref float endAngle, ref bool useHeatMap, ref int p)
         {

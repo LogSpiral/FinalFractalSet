@@ -1,9 +1,11 @@
 ﻿using FinalFractalSet.Weapons;
+using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee.ExtendedMelee;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Core;
+using LogSpiralLibrary.CodeLibrary.Utilties;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -55,18 +57,17 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
     {
         public override bool LabeledAsCompleted => true;
         public override string Texture => base.Texture.Replace("_Proj", "");
-        public override StandardInfo StandardInfo => base.StandardInfo with
+        public override void InitializeStandardInfo(StandardInfo standardInfo, VertexDrawStandardInfo vertexStandard)
         {
-            standardColor = Color.SandyBrown * .25f,
-            vertexStandard = new()
-            {
-                active = true,
-                scaler = 90,
-                timeLeft = 15,
-                alphaFactor = 2f,
-            },
-            itemType = ModContent.ItemType<WitheredWoodSword_NewVer>()
-        };
+            standardInfo.standardColor = Color.SandyBrown * .25f;
+            standardInfo.itemType = ModContent.ItemType<WitheredWoodSword_NewVer>();
+
+            vertexStandard.scaler = 90;
+            vertexStandard.timeLeft = 15;
+            vertexStandard.alphaFactor = 2f;
+
+            base.InitializeStandardInfo(standardInfo, vertexStandard);
+        }
     }
     public class LivingWoodSword_NewVer : MeleeSequenceItem<LivingWoodSword_NewVer_Proj>
     {
@@ -91,18 +92,17 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
     {
         public override bool LabeledAsCompleted => true;
         public override string Texture => base.Texture.Replace("_Proj", "");
-        public override StandardInfo StandardInfo => base.StandardInfo with
+        public override void InitializeStandardInfo(StandardInfo standardInfo, VertexDrawStandardInfo vertexStandard)
         {
-            standardColor = Color.LimeGreen * .5f,
-            vertexStandard = new()
-            {
-                active = true,
-                scaler = 100,
-                timeLeft = 15,
-                alphaFactor = 2f,
-            },
-            itemType = ModContent.ItemType<LivingWoodSword_NewVer>()
-        };
+            standardInfo.standardColor = Color.LimeGreen * .5f;
+            standardInfo.itemType = ModContent.ItemType<LivingWoodSword_NewVer>();
+
+            vertexStandard.scaler = 100;
+            vertexStandard.timeLeft = 15;
+            vertexStandard.alphaFactor = 2f;
+
+            base.InitializeStandardInfo(standardInfo, vertexStandard);
+        }
         [SequenceDelegate]
         static void SpawnThorn(MeleeAction action)
         {
@@ -418,7 +418,7 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
             Main.graphics.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
             Main.graphics.GraphicsDevice.BlendState = BlendState.NonPremultiplied;
             var swooshUL = LogSpiralLibraryMod.ShaderSwooshUL;
-            swooshUL.Parameters["uTransform"].SetValue(VertexDrawInfo.uTransform);
+            swooshUL.Parameters["uTransform"].SetValue(RenderCanvasSystem.uTransform);
             var sampler = SamplerState.AnisotropicWrap;
             Main.graphics.GraphicsDevice.SamplerStates[0] = sampler;
             Main.graphics.GraphicsDevice.SamplerStates[1] = sampler;

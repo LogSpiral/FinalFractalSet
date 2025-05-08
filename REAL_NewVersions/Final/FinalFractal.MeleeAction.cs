@@ -1,5 +1,6 @@
 ﻿using FinalFractalSet.REAL_NewVersions.Zenith;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee.ExtendedMelee;
+using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
 using System;
 using Terraria.Audio;
 
@@ -124,7 +125,7 @@ public class FractalChargingWing : ChargingInfo
         SoundEngine.PlaySound(SoundID.Item84);
         for (int n = 0; n < 20; n++)
         {
-            OtherMethods.FastDust(action.Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 32), action.standardInfo.standardColor, Main.rand.NextFloat(1, 4));
+            MiscMethods.FastDust(action.Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 32), action.standardInfo.standardColor, Main.rand.NextFloat(1, 4));
         }
         float m = 4 * action.counter;
         //m = Math.Min(m, 12);
@@ -157,12 +158,12 @@ public class FractalSnowFlake : FinalFractalSetAction
         for (int n = 0; n < 60; n++)
         {
             var unit = Main.rand.NextVector2Unit();
-            OtherMethods.FastDust(Owner.Center, unit * 16, Main.hslToRgb(Main.rand.NextFloat(.4f, .6f), 1, .75f));
+            MiscMethods.FastDust(Owner.Center, unit * 16, Main.hslToRgb(Main.rand.NextFloat(.4f, .6f), 1, .75f));
         }
         for (int n = 0; n < 40; n++)
         {
-            OtherMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 32), standardInfo.standardColor, Main.rand.NextFloat(1, 4));
-            OtherMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 4) + (Rotation + offsetRotation).ToRotationVector2() * Main.rand.NextFloat(0, 64), standardInfo.standardColor, Main.rand.NextFloat(1, 2));
+            MiscMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 32), standardInfo.standardColor, Main.rand.NextFloat(1, 4));
+            MiscMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 4) + (Rotation + offsetRotation).ToRotationVector2() * Main.rand.NextFloat(0, 64), standardInfo.standardColor, Main.rand.NextFloat(1, 2));
 
         }
         SoundEngine.PlaySound(SoundID.Item92);
@@ -175,7 +176,7 @@ public class FractalSnowFlake : FinalFractalSetAction
         for (int n = 0; n < 60; n++)
         {
             var unit = Main.rand.NextVector2Unit();
-            OtherMethods.FastDust(Owner.Center + unit * 256, -unit * 16, Main.hslToRgb(Main.rand.NextFloat(.4f, .6f), 1, .75f));
+            MiscMethods.FastDust(Owner.Center + unit * 256, -unit * 16, Main.hslToRgb(Main.rand.NextFloat(.4f, .6f), 1, .75f));
         }
         base.OnStartSingle();
     }

@@ -1,9 +1,11 @@
 ﻿using FinalFractalSet.Weapons;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
+using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingEffects;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee.ExtendedMelee;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee.StandardMelee;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Core;
+using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
 using Mono.Cecil;
 using System;
 using System.Collections.Generic;
@@ -51,21 +53,24 @@ namespace FinalFractalSet.REAL_NewVersions.Pure
     public class PureFractal_NewVer_Proj : MeleeSequenceProj
     {
         public override string Texture => base.Texture.Replace("_Proj", "");
-        public override StandardInfo StandardInfo => base.StandardInfo with
+        public const string CanvasName = "FinalFractalSet:PureFractal";
+        readonly IRenderEffect[][] _renderEffects = [[new AirDistortEffect(4,1.5f, 0, 0.5f)],
+                    [new DyeEffect(ItemID.VortexDye), new BloomEffect(0, 1f, 1, 3, true,2,true) ]];
+        public override void Load()
         {
-            standardColor = Color.Green * .5f,
-            vertexStandard = new()
-            {
-                active = true,
-                scaler = 90,
-                timeLeft = 15,
-                alphaFactor = 2f,
-                renderInfos = [[new AirDistortEffectInfo(4, 0, 0.5f)],
-                    [new ArmorDyeInfo(ItemID.VortexDye),
-                    new BloomEffectInfo(0, 1f, 1, 3, true) { useModeMK = true, downSampleLevel = 2 }]]
-            },
-            itemType = ModContent.ItemType<PureFractal_NewVer>()
-        };
+            RenderCanvasSystem.RegisterCanvasFactory(CanvasName, () => new(_renderEffects));
+            base.Load();
+        }
+        public override void InitializeStandardInfo(StandardInfo standardInfo, VertexDrawStandardInfo vertexStandard)
+        {
+            standardInfo.standardColor = Color.Green * .5f;
+            standardInfo.itemType = ModContent.ItemType<PureFractal_NewVer>();
+
+            vertexStandard.scaler = 90;
+            vertexStandard.timeLeft = 15;
+            vertexStandard.alphaFactor = 2f;
+            vertexStandard.canvasName = CanvasName;
+        }
         public override bool LabeledAsCompleted => true;
         [SequenceDelegate]
         static void ShootPurefractalProj_Few(MeleeAction action)
@@ -117,7 +122,7 @@ namespace FinalFractalSet.REAL_NewVersions.Pure
         }
     }
 
-    public class PureFractalCharging : ChargingInfo 
+    public class PureFractalCharging : ChargingInfo
     {
         public override string Category => "";
         public override void OnDeactive()
@@ -145,7 +150,7 @@ namespace FinalFractalSet.REAL_NewVersions.Pure
             SoundEngine.PlaySound(SoundID.Item84);
             for (int n = 0; n < 20; n++)
             {
-                OtherMethods.FastDust(action.Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 32), action.standardInfo.standardColor, Main.rand.NextFloat(1, 4));
+                MiscMethods.FastDust(action.Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 32), action.standardInfo.standardColor, Main.rand.NextFloat(1, 4));
             }
             float m = 8 + 8 * action.counter;
             for (int n = 0; n < m; n++)

@@ -3,16 +3,19 @@ using FinalFractalSet.REAL_NewVersions.Zenith;
 using FinalFractalSet.Weapons;
 using FinalFractalSet.Weapons.FinalFractal_Old;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
+using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingEffects;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee.ExtendedMelee;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Core;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.System;
+using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.Localization;
+using Terraria.ModLoader.IO;
 
 namespace FinalFractalSet.REAL_NewVersions.Final;
 
@@ -52,25 +55,30 @@ public class FinalFractal_NewVer_Proj : MeleeSequenceProj
 
     public override string Texture => base.Texture.Replace("_Proj", "");
 
-    public static IRenderDrawInfo[][] RenderDrawInfos = [[new AirDistortEffectInfo(16, 0, 0.5f)],
-                [new MaskEffectInfo(LogSpiralLibraryMod.Mask[2].Value, Color.Violet, 0.15f, 0.2f, new Vector2((float)LogSpiralLibraryMod.ModTime), true, false),
-                new ArmorDyeInfo(ItemID.StardustDye),
-                new BloomEffectInfo(0, 1f, 1, 3, true) { useModeMK = true, downSampleLevel = 2 }]];
+    public static readonly IRenderEffect[][] RenderDrawInfos = [[new AirDistortEffect(16,1.5f, 0, 0.5f)],
+                [new MaskEffect(LogSpiralLibraryMod.Mask[2].Value, Color.Violet, 0.15f, 0.2f, new Vector2((float)LogSpiralLibraryMod.ModTime), true, false),
+                new DyeEffect(ItemID.StardustDye),
+                new BloomEffect(0, 1f, 1, 3, true,2,true)]];
 
-    public override StandardInfo StandardInfo => base.StandardInfo with
+    public const string CanvasName = "FinalFractalSet:FinalFractal";
+
+    public override void Load()
     {
-        standardColor = Color.MediumPurple * .5f,
-        vertexStandard = new()
-        {
-            active = true,
-            scaler = 140,
-            timeLeft = 45,
-            alphaFactor = 2f,
-            renderInfos = RenderDrawInfos
-        },
-        itemType = ModContent.ItemType<FinalFractal_NewVer>()
-    };
+        RenderCanvasSystem.RegisterCanvasFactory(CanvasName, () => new(RenderDrawInfos));
+        base.Load();
+    }
 
+    public override void InitializeStandardInfo(StandardInfo standardInfo, VertexDrawStandardInfo vertexStandard)
+    {
+        standardInfo.standardColor = Color.MediumPurple * .5f;
+        standardInfo.itemType = ModContent.ItemType<FinalFractal_NewVer>();
+
+        vertexStandard.scaler = 140;
+        vertexStandard.timeLeft = 45;
+        vertexStandard.alphaFactor = 2f;
+        vertexStandard.canvasName = CanvasName;
+        base.InitializeStandardInfo(standardInfo, vertexStandard);
+    }
     // 给左键第一斩用
     [SequenceDelegate]
     static void FinalFractalChop(MeleeAction action)

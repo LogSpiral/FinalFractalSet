@@ -5,6 +5,9 @@ using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
 using static Terraria.ModLoader.ModContent;
 using System.IO;
 using System.Reflection;
+using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
+using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingContents;
+using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingEffects;
 
 namespace FinalFractalSet.Weapons
 {
@@ -121,6 +124,16 @@ namespace FinalFractalSet.Weapons
     }
     public class PureFractalProj : ModProjectile
     {
+        public const string CanvasName = "FinalFractalSet:PureFractalProj";
+        static readonly IRenderEffect[][] _renderEffect =
+            [[new AirDistortEffect(4,1.05f, 0, 0.5f)],
+            [new BloomEffect(0, 1f, 1, 3, true,2,true)]];
+        public override void Load()
+        {
+            RenderCanvasSystem.RegisterCanvasFactory(CanvasName, () => new(_renderEffect));
+            base.Load();
+        }
+
         //public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
         static Color GetColorInfo(int frame) => frame switch
         {
@@ -285,11 +298,12 @@ namespace FinalFractalSet.Weapons
             {
                 for (int n = 0; n < 4; n++)
                 {
-                    swooshes[n] = UltraSwoosh.NewUltraSwoosh(newColor, 30, 1, Main.player[projectile.owner].Center, null, false, colorVec: new(0.1667f, 0.3333f, 0.5f));//0.25f, 0.25f, 0.5f//0.1667f, 0.3333f, 0.5f
-                    swooshes[n].autoUpdate = false;
-                    swooshes[n].weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
+                    var u = swooshes[n] = UltraSwoosh.NewUltraSwoosh(CanvasName, 30, 1, Main.player[projectile.owner].Center, (-1.125f, 0.7125f));
+                    u.negativeDir = false;
+                    u.ColorVector = new(0.1667f, 0.3333f, 0.5f);
+                    u.autoUpdate = false;
+                    u.weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
                 }
-                swooshes[0].ModityAllRenderInfo([[new AirDistortEffectInfo(8, 0, 0.5f)], [new BloomEffectInfo(0, 1f, 1, 3, true) { useModeMK = true, downSampleLevel = 2 }]]);
             }
             for (int n = 0; n < 4; n++)
                 if (swooshes[n] != null) swooshes[n].autoUpdate = false;
@@ -379,12 +393,12 @@ namespace FinalFractalSet.Weapons
             if (Main.netMode == NetmodeID.Server) return;
             for (int n = 0; n < 4; n++)
             {
-                swooshes[n] = UltraSwoosh.NewUltraSwoosh(newColor, 30, 1, Main.player[projectile.owner].Center, null, false, colorVec: new(0.1667f, 0.3333f, 0.5f));//0.25f, 0.25f, 0.5f//0.1667f, 0.3333f, 0.5f
-                swooshes[n].autoUpdate = false;
-                swooshes[n].weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
-
+                var u = swooshes[n] = UltraSwoosh.NewUltraSwoosh(CanvasName, 30, 1, Main.player[projectile.owner].Center, (-1.125f, 0.7125f));
+                u.negativeDir = false;
+                u.ColorVector = new(0.1667f, 0.3333f, 0.5f);
+                u.autoUpdate = false;
+                u.weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
             }
-            swooshes[0].ModityAllRenderInfo([[new AirDistortEffectInfo(4, 0, 0.5f)], [new BloomEffectInfo(0, 1f, 1, 3, true) { useModeMK = true, downSampleLevel = 2 }]]);
             base.OnSpawn(source);
         }
         public override void OnKill(int timeLeft)
@@ -583,7 +597,7 @@ namespace FinalFractalSet.Weapons
             projectile.penetrate = -1;
 
         }
-       
+
         public override Color? GetAlpha(Color lightColor)
         {
             lightColor = Color.White * projectile.Opacity;
