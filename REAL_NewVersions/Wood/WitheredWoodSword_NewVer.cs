@@ -465,39 +465,6 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
             return false;
         }
     }
-    public class Thorn_Proj : ModProjectile
-    {
-        public override void SetDefaults()
-        {
-            Projectile.timeLeft = 60;
-            Projectile.DamageType = DamageClass.Melee;
-            Projectile.width = Projectile.height = 1;
-            Projectile.friendly = true;
-            Projectile.aiStyle = -1;
-            Projectile.ignoreWater = true;
-            Projectile.penetrate = -1;
-            Projectile.tileCollide = false;
-        }
-        public override bool PreDraw(ref Color lightColor)
-        {
-            for (int n = 9; n > -1; n--)
-            {
-                var c = Lighting.GetColor((Projectile.Center / 16).ToPoint(), Color.White);// n == 0 ? Color.White : color
-                if (n != 0)
-                {
-                    var fac = (1 - n * .1f) * .5f;
-                    c = c * fac * fac;
-                    c.A = (byte)(c.A * (9 - n) / 9f);
-                }
-                Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, Projectile.oldPos[n] - Main.screenPosition, null, c * MathHelper.Clamp(Projectile.timeLeft / 30f - 1, 0, 1), Projectile.oldRot[n], new Vector2(0, 14), 16f, 0, 0);
-            }
-            return false;
-        }
-        public override void AI()
-        {
-            base.AI();
-        }
-    }
     public class ThornTree
     {
         public struct TreeGenerateInfo
