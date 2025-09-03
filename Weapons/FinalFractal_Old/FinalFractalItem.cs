@@ -1,17 +1,15 @@
 using System;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework.Graphics;
-using static Terraria.ModLoader.ModContent;
-using Terraria.GameContent;
 using System.IO;
 using Terraria.Localization;
-using LogSpiralLibrary;
+using static Terraria.ModLoader.ModContent;
 
 namespace FinalFractalSet.Weapons.FinalFractal_Old
 {
     public class FinalFractalPlayer : ModPlayer
     {
         public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
+
         public Player player => Player;
         public bool holdingFinalFractal = false;
         public int usingFinalFractal = 0;
@@ -20,9 +18,11 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
         public int finalFractalTier = 0;
         public int firstTierCounter;
     }
+
     public class FinalFractal_Old : ModItem
     {
         public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
+
         //public override void SetStaticDefaults()
         //{
         //    DisplayName.SetDefault("最终分形");
@@ -34,10 +34,11 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             for (int n = 1; n < 4; n++)
             {
                 tooltips.Add(new TooltipLine(Mod, "PureSuggestion", Language.GetOrRegister("Mods.FinalFractalSet.FinalFractalTip." + n).Value) { OverrideColor = Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * (LogSpiralLibraryMod.ModTime + 40 * n)) / 2 + 0.5f) });
-
             }
         }
-        Item item => Item;
+
+        private Item item => Item;
+
         public override void AddRecipes()
         {
             CreateRecipe().AddIngredient<PureFractal_Old>().QuickAddIngredient(4144, 3368).AddTile(TileID.LunarCraftingStation).Register();
@@ -53,14 +54,14 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             //ItemID.EnchantedSword,
             //ItemID.BeeKeeper,
             //ItemID.Starfury,
-            //ItemID.CopperShortsword, 
-            //3258, 
-            //3823, 
-            //676, 
-            //3106, 
-            //671, 
-            //1928, 
-            //3827, 
+            //ItemID.CopperShortsword,
+            //3258,
+            //3823,
+            //676,
+            //3106,
+            //671,
+            //1928,
+            //3827,
             //4923,
             //ItemID.WoodenSword,
             //ItemID.BorealWoodSword,
@@ -128,10 +129,12 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
         {
             item.ShaderItemEffectInventory(spriteBatch, position, origin, LogSpiralLibraryMod.Misc[0].Value, Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * LogSpiralLibraryMod.ModTime) / 2 + 0.5f), scale);
         }
+
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
             item.ShaderItemEffectInWorld(spriteBatch, LogSpiralLibraryMod.Misc[0].Value, Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * LogSpiralLibraryMod.ModTime) / 2 + 0.5f), rotation);
         }
+
         public override void SetDefaults()
         {
             item.damage = 350;
@@ -148,7 +151,9 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             item.autoReuse = true;
             item.shoot = ProjectileType<FinalFractalItem>();
         }
+
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] < 1/* && player.name == ""*/;
+
         public override void HoldItem(Player player)
         {
             if (player.whoAmI == Main.myPlayer)
@@ -166,8 +171,10 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
     public class FinalFractalItem : ModProjectile
     {
         public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
+
         private Player Player => Main.player[Projectile.owner];
         public bool right;
+
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             right = reader.ReadBoolean();
@@ -181,6 +188,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             mplr.finalFractalTier = reader.ReadInt32();
             mplr.firstTierCounter = reader.ReadInt32();
         }
+
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(right);
@@ -192,24 +200,28 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             writer.Write(mplr.waitingFinalFractal);
             writer.Write(mplr.finalFractalTier);
             writer.Write(mplr.firstTierCounter);
-
         }
+
         private bool Right
         {
             get => right;
             set { if (Player.GetModPlayer<FinalFractalPlayer>().usingFinalFractal <= 0) { right = value; } }//else Main.NewText(Player.direction);
         }
+
         private int useFirstTier
         {
             get => (int)Projectile.ai[1];
             set { projectile.ai[1] = value; }
         }
+
         private int zenithProjCount
         {
             get => (int)Projectile.ai[0];
             set { projectile.ai[0] = value; }
         }
-        Projectile projectile => Projectile;
+
+        private Projectile projectile => Projectile;
+
         public override bool PreDraw(ref Color lightColor)
         {
             SpriteBatch spriteBatch = Main.spriteBatch;
@@ -322,7 +334,6 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                         }
                         Player.bodyFrame.Y = 56 * (4 - (int)((MathHelper.Pi / 8 - (MathHelper.Pi / 6 * 5 + MathHelper.Pi / 8) * (1 - (float)Math.Pow(Player.itemAnimationMax - illusionBoundPlayer.usingFinalFractal, 2) / (Player.itemAnimationMax * Player.itemAnimationMax))) / (MathHelper.Pi / 8 - (MathHelper.Pi / 6 * 5 + MathHelper.Pi / 8)) * 4));
                         spriteBatch.Draw(TextureAssets.Projectile[projectile.type].Value, Player.Center + new Vector2(4, 4) - Main.screenPosition, null, Color.White, -MathHelper.Pi - (MathHelper.Pi / 8 - (MathHelper.Pi / 6 * 5 + MathHelper.Pi / 8) * (1 - (float)Math.Pow(Player.itemAnimationMax - illusionBoundPlayer.usingFinalFractal, 2) / (Player.itemAnimationMax * Player.itemAnimationMax))), new Vector2(12, 11), 1f, spriteEffects, 0);
-
                     }
                     if (illusionBoundPlayer.finalFractalTier == 2)
                     {
@@ -382,6 +393,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             }
             return false;
         }
+
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             if (Right)
@@ -390,6 +402,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             }
             return targetHitbox.Intersects(new Rectangle(projectile.Hitbox.X, projectile.Hitbox.Y, projectile.Hitbox.Width / 2, projectile.Hitbox.Height));
         }
+
         private bool GetTarget(out List<NPC> validTargets)
         {
             validTargets = [];
@@ -404,6 +417,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             }
             return validTargets.Count != 0;
         }
+
         private bool GetZenithTarget(Vector2 searchCenter, float maxDistance, out int npcTargetIndex)
         {
             npcTargetIndex = 0;
@@ -429,6 +443,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             npcTargetIndex = num.Value;
             return true;
         }
+
         public override void AI()
         {
             projectile.damage = Player.GetWeaponDamage(Player.HeldItem);
@@ -522,7 +537,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                         Vector2 value6 = -vector35;
                         Vector2 position = value5 + value6;
                         float lerpValue2 = Main.rand.Next(0, 25);
-                        var proj = Main.rand.NextBool(2) 
+                        var proj = Main.rand.NextBool(2)
                          ? Projectile.NewProjectileDirect(projectile.GetSource_FromThis(), position, vector34 * 2, ProjectileType<FinalFractalDimensionalSwoosh>(), projectile.damage, projectile.knockBack, projectile.owner, num83, lerpValue2)
                          : Projectile.NewProjectileDirect(projectile.GetSource_FromThis(), position, vector34 * 2, ProjectileType<FirstZenithProj>(), projectile.damage, projectile.knockBack, projectile.owner, num83, lerpValue2);
                         proj.netUpdate = true;
@@ -734,8 +749,8 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             projectile.DamageType = DamageClass.Melee;
             projectile.penetrate = -1;
             projectile.light = 1f;
-
         }
+
         //public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         //{
         //    hitCoolDown = 5;

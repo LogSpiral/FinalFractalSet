@@ -1,23 +1,17 @@
-using System.Collections.Generic;
-using Terraria.Localization;
-using static Terraria.Utils;
-using Terraria.Enums;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria.GameContent;
-using System;
-using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
-using Terraria.Audio;
-using System.IO;
-using Terraria.ID;
-using FinalFractalSet.REAL_NewVersions.Wood;
-using FinalFractalSet.REAL_NewVersions.Stone;
 using FinalFractalSet.REAL_NewVersions.Iron;
-using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingContents;
-using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingEffects;
-using LogSpiralLibrary.CodeLibrary.Utilties;
-using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
-using LogSpiralLibrary.CodeLibrary.Utilties.BaseClasses;
+using FinalFractalSet.REAL_NewVersions.Stone;
+using FinalFractalSet.REAL_NewVersions.Wood;
 using FinalFractalSet.REAL_NewVersions.Zenith;
+using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingContents;
+using LogSpiralLibrary.CodeLibrary.Utilties;
+using LogSpiralLibrary.CodeLibrary.Utilties.BaseClasses;
+using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using Terraria.Audio;
+using Terraria.Enums;
+using static Terraria.Utils;
 
 namespace FinalFractalSet.Weapons
 {
@@ -45,6 +39,7 @@ namespace FinalFractalSet.Weapons
             Item.shoot = ProjectileID.FirstFractal;
             Item.glowMask = 271;
         }
+
         private bool GetSparkleGuitarTarget(out List<NPC> validTargets)
         {
             Player player = Main.player[Main.myPlayer];
@@ -60,6 +55,7 @@ namespace FinalFractalSet.Weapons
             }
             return validTargets.Count != 0;
         }
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 value5 = Main.MouseWorld;
@@ -110,6 +106,7 @@ namespace FinalFractalSet.Weapons
             }
             return false;
         }
+
         public override void AddRecipes()
         {
             if (FinalFractalSetConfig.instance.LoadOldVersionWeapons)
@@ -164,17 +161,21 @@ namespace FinalFractalSet.Weapons
                 .Register();
         }
     }
+
     public class FirstZenith_Old : ModItem
     {
         public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
+
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             Item.ShaderItemEffectInventory(spriteBatch, position, origin, LogSpiralLibraryMod.Misc[0].Value, Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * LogSpiralLibraryMod.ModTime) / 2 + 0.5f), scale);
         }
+
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
             Item.ShaderItemEffectInWorld(spriteBatch, LogSpiralLibraryMod.Misc[0].Value, Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * LogSpiralLibraryMod.ModTime) / 2 + 0.5f), rotation);
         }
+
         public override void SetDefaults()
         {
             Item.useStyle = ItemUseStyleID.Shoot;
@@ -187,7 +188,7 @@ namespace FinalFractalSet.Weapons
             Item.channel = true;
             Item.noMelee = true;
             Item.useAnimation = 40;
-            Item.useTime = Item.useAnimation / 10;// 
+            Item.useTime = Item.useAnimation / 10;//
             Item.shootSpeed = 16f;
             Item.damage = 500;
             Item.knockBack = 6.5f;
@@ -197,6 +198,7 @@ namespace FinalFractalSet.Weapons
             Item.shoot = ModContent.ProjectileType<FirstZenithProj>();
             //Item.glowMask = 271;
         }
+
         public static bool GetSparkleGuitarTarget(out List<NPC> validTargets)
         {
             Player player = Main.player[Main.myPlayer];
@@ -212,6 +214,7 @@ namespace FinalFractalSet.Weapons
             }
             return validTargets.Count != 0;
         }
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 value5 = Main.MouseWorld;
@@ -262,6 +265,7 @@ namespace FinalFractalSet.Weapons
             }
             return false;
         }
+
         public override void AddRecipes()
         {
             var recipe = CreateRecipe();
@@ -280,6 +284,7 @@ namespace FinalFractalSet.Weapons
             recipe.Register();
         }
     }
+
     public class FirstZenithProj : ModProjectile
     {
         //public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
@@ -288,13 +293,16 @@ namespace FinalFractalSet.Weapons
             target.immune[projectile.owner] = 0;
             base.OnHitNPC(target, hit, damageDone);
         }
+
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (info.PvP) target.immune = false;
             base.OnHitPlayer(target, info);
         }
-        Projectile projectile => Projectile;
+
+        private Projectile projectile => Projectile;
         public Player drawPlayer;
+
         public override void SetDefaults()
         {
             projectile.width = 32;
@@ -311,18 +319,21 @@ namespace FinalFractalSet.Weapons
             projectile.penetrate = -1;
             //ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
+
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 45;
             base.SetStaticDefaults();
         }
+
         public float drawColor => projectile.ai[1];
-        UltraSwoosh swoosh;
+        private UltraSwoosh swoosh;
+
         public override void OnSpawn(IEntitySource source)
         {
             projectile.frame = Main.rand.Next(15);
             drawPlayer = new Player();
-            if (Main.netMode == NetmodeID.Server) return;
+            if (Main.dedServ) return;
 
             var u = swoosh = UltraSwoosh.NewUltraSwoosh(FirstZenith_NewVer_Proj.CanvasName, 30, 1, default, (-1.125f, 0.7125f));
             u.heatMap = ModAsset.bar_19.Value;
@@ -330,9 +341,10 @@ namespace FinalFractalSet.Weapons
             u.weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
             u.autoUpdate = false;
         }
+
         public override void AI()
         {
-            //if (Main.player[projectile.owner].name == "FFT") 
+            //if (Main.player[projectile.owner].name == "FFT")
             //{
             //    projectile.extraUpdates = 3;
             //}
@@ -383,7 +395,7 @@ namespace FinalFractalSet.Weapons
             projectile.oldPos[0] = projectile.Center - projectile.velocity.SafeNormalize(Vector2.Zero) * 42f;
             projectile.oldRot[0] = projectile.velocity.ToRotation() + projectile.ai[0] * float.Lerp(-180, 90, MathHelper.Clamp(projectile.localAI[0] / 60, 0, 1));
             float lightScaler = MathHelper.SmoothStep(0, 1, 1 - Math.Abs(45 - projectile.localAI[0]) / 45f);
-            if (Main.netMode == NetmodeID.Server) return;
+            if (Main.dedServ) return;
             if (swoosh == null)
             {
                 var u = swoosh = UltraSwoosh.NewUltraSwoosh(FirstZenith_NewVer_Proj.CanvasName, 30, 1, default, (-1.125f, 0.7125f));
@@ -399,6 +411,7 @@ namespace FinalFractalSet.Weapons
             {
                 case < 4:
                     return;
+
                 case >= 45:
                     for (int n = 0; n < 45; n++)
                     {
@@ -409,6 +422,7 @@ namespace FinalFractalSet.Weapons
                         swoosh.VertexInfos[2 * n + 1] = new(projectile.oldPos[n], c, new(0, 0, 1));
                     }
                     return;
+
                 default:
                     int t = (int)projectile.localAI[0];
                     Vector2[] vecOuter = new Vector2[t];
@@ -429,15 +443,16 @@ namespace FinalFractalSet.Weapons
                     }
                     return;
             }
-
         }
+
         public override void OnKill(int timeLeft)
         {
-            if (Main.netMode == NetmodeID.Server) return;
+            if (Main.dedServ) return;
 
             swoosh.timeLeft = 0;
             base.OnKill(timeLeft);
         }
+
         public override bool PreDraw(ref Color lightColor)
         {
             DrawOthers();
@@ -483,6 +498,7 @@ namespace FinalFractalSet.Weapons
             color84.A /= 2;
             projectile.DrawPrettyStarSparkle(Main.spriteBatch, spriteEffects, vector71, color84, Main.hslToRgb(drawColor, 1f, 0.5f));
         }
+
         public void DrawSword()
         {
             SpriteEffects spriteEffects = projectile.ai[0] > 0 ? 0 : SpriteEffects.FlipHorizontally;
@@ -497,9 +513,11 @@ namespace FinalFractalSet.Weapons
             Main.spriteBatch.Draw(texture2D4, projectile.oldPos[0] - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle29), color84, rot, origin, 1, spriteEffects, 0);
         }
     }
+
     public class WitheredWoodSword_Old : ModItem
     {
         public Item item => Item;
+
         public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
 
         public override void SetDefaults()
@@ -516,6 +534,7 @@ namespace FinalFractalSet.Weapons
             item.useStyle = ItemUseStyleID.Swing;
             item.autoReuse = true;
         }
+
         public override bool CanUseItem(Player player)
         {
             if (player.altFunctionUse == 2)
@@ -533,14 +552,15 @@ namespace FinalFractalSet.Weapons
                 item.noUseGraphic = false;
                 item.noMelee = false;
                 item.mana = 0;
-
             }
             return player.ownedProjectileCounts[item.shoot] < 1/* && player.name == ""*/;
         }
+
         public override bool AltFunctionUse(Player player)
         {
             return true;
         }
+
         public override void AddRecipes()
         {
             var recipe = CreateRecipe();
@@ -561,6 +581,7 @@ namespace FinalFractalSet.Weapons
             recipe.Register();
         }
     }
+
     public class LivingWoodSword_Old : WitheredWoodSword_Old
     {
         public override bool CanUseItem(Player player)
@@ -580,10 +601,10 @@ namespace FinalFractalSet.Weapons
                 item.noUseGraphic = false;
                 item.noMelee = false;
                 item.mana = 0;
-
             }
             return player.ownedProjectileCounts[item.shoot] < 1/* && player.name == ""*/;
         }
+
         public override void SetDefaults()
         {
             base.SetDefaults();
@@ -594,6 +615,7 @@ namespace FinalFractalSet.Weapons
             Item.damage = 60;
             Item.rare = ItemRarityID.Yellow;
         }
+
         public override void AddRecipes()
         {
             var recipe = CreateRecipe();
@@ -604,26 +626,32 @@ namespace FinalFractalSet.Weapons
             recipe.Register();
         }
     }
+
     public class WitheredWoodSwordProj : VertexHammerProj
     {
         public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
+
         public override string HammerName => base.HammerName;
         public override float MaxTime => (controlState == 2 ? 2f : 1f) * UpgradeValue(12, 9);
         public override float Factor => base.Factor;
         public override Vector2 CollidingSize => base.CollidingSize;
+
         //public override Vector2 projCenter => base.projCenter + new Vector2(Player.direction * 16, -16);
         public override Vector2 CollidingCenter => base.CollidingCenter;//new Vector2(projTex.Size().X / 3 - 16, 16)
+
         public override Vector2 DrawOrigin => base.DrawOrigin + new Vector2(-12, 12);
         public override Color color => base.color;
+
         public override Color VertexColor(float time) => Color.Lerp(Color.DarkGreen, UpgradeValue(Color.Brown, Color.Green), time);//Color.Lerp(UpgradeValue(Color.Brown, Color.Green), Color.DarkGreen, time)
+
         public override float MaxTimeLeft => (controlState == 2 ? 0.75f : 1f) * UpgradeValue(8, 7);
         public override float Rotation => base.Rotation;
         public override bool UseRight => true;
         public override bool UseLeft => false;
         public override (int X, int Y) FrameMax => (2, 1);
+
         public override void OnKill(int timeLeft)
         {
-
             //Lighting.add
 
             int max = (int)(30 * Factor);
@@ -641,6 +669,7 @@ namespace FinalFractalSet.Weapons
             //}
             base.OnKill(timeLeft);
         }
+
         public override void OnChargedShoot()
         {
             SoundEngine.PlaySound(SoundID.Item60, projectile.position);
@@ -667,6 +696,7 @@ namespace FinalFractalSet.Weapons
                 NetMessage.SendData(MessageID.ShotAnimationAndSound, -1, -1, null, Player.whoAmI);
             }
         }
+
         public override void OnRelease(bool charged, bool left)
         {
             if (Charged)
@@ -683,38 +713,47 @@ namespace FinalFractalSet.Weapons
             //Main.NewText(new NPCs.Baron.Baron().CanTownNPCSpawn(10, 10));
             base.OnRelease(charged, left);
         }
+
         public override Rectangle? frame => projTex.Frame(2, 1, UpgradeValue(0, 1));
         public bool Extra;
         public virtual int ExtraItemType => ModContent.ItemType<LivingWoodSword_Old>();
+
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(Extra);
             base.SendExtraAI(writer);
         }
+
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             Extra = reader.ReadBoolean();
             base.ReceiveExtraAI(reader);
         }
+
         public override void OnSpawn(IEntitySource source)
         {
             if (source is EntitySource_ItemUse_WithAmmo itemSource)
                 Extra = itemSource.Item.type == ExtraItemType;
             base.OnSpawn(source);
         }
+
         public T UpgradeValue<T>(T normal, T extra, T defaultValue = default)
         {
             return Extra ? extra : normal;
         }
+
         public override void VertexInfomation(ref bool additive, ref int indexOfGreyTex, ref float endAngle, ref bool useHeatMap, ref int passCount)
         {
             base.VertexInfomation(ref additive, ref indexOfGreyTex, ref endAngle, ref useHeatMap, ref passCount);
         }
     }
+
     public class DyingStoneSword_Old : ModItem
     {
         public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
+
         public Item item => Item;
+
         public override void SetDefaults()
         {
             item.damage = 40;
@@ -729,6 +768,7 @@ namespace FinalFractalSet.Weapons
             item.useStyle = ItemUseStyleID.Swing;
             item.autoReuse = true;
         }
+
         public override bool CanUseItem(Player player)
         {
             if (player.altFunctionUse == 2)
@@ -746,14 +786,15 @@ namespace FinalFractalSet.Weapons
                 item.noUseGraphic = false;
                 item.noMelee = false;
                 item.mana = 0;
-
             }
             return player.ownedProjectileCounts[item.shoot] < 1/* && player.name == ""*/;
         }
+
         public override bool AltFunctionUse(Player player)
         {
             return true;
         }
+
         public override void AddRecipes()
         {
             var recipe = CreateRecipe();
@@ -780,6 +821,7 @@ namespace FinalFractalSet.Weapons
             recipe.Register();
         }
     }
+
     public class MossStoneSword_Old : DyingStoneSword_Old
     {
         public override void SetDefaults()
@@ -791,6 +833,7 @@ namespace FinalFractalSet.Weapons
             item.useTime = 18;
             item.useAnimation = 18;
         }
+
         public override bool CanUseItem(Player player)
         {
             if (player.altFunctionUse == 2)
@@ -808,10 +851,10 @@ namespace FinalFractalSet.Weapons
                 item.noUseGraphic = false;
                 item.noMelee = false;
                 item.mana = 0;
-
             }
             return player.ownedProjectileCounts[item.shoot] < 1/* && player.name == ""*/;
         }
+
         public override void AddRecipes()
         {
             var recipe = CreateRecipe();
@@ -822,9 +865,11 @@ namespace FinalFractalSet.Weapons
             recipe.Register();
         }
     }
+
     public class DyingStoneSwordProj : WitheredWoodSwordProj
     {
         public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
+
         public static void ShootSharpTears(Vector2 targetPos, Player player, Projectile projectile)
         {
             player.LimitPointToPlayerReachableArea(ref targetPos);
@@ -834,6 +879,7 @@ namespace FinalFractalSet.Weapons
             Vector2 vector23 = (vector22 - value7).SafeNormalize(-Vector2.UnitY) * 16f;
             Projectile.NewProjectile(projectile.GetSource_FromThis(), value7.X, value7.Y, vector23.X, vector23.Y, ModContent.ProjectileType<SharpStoneTears>(), projectile.damage / 4, projectile.knockBack, player.whoAmI, 0f, Main.rand.NextFloat() * 0.5f + 0.5f);
         }
+
         public override void OnRelease(bool charged, bool left)
         {
             if (Charged)
@@ -860,9 +906,12 @@ namespace FinalFractalSet.Weapons
                 projectile.Kill();
             }
         }
+
         public override Color VertexColor(float time) => Color.Lerp(Color.DarkGray, UpgradeValue(Color.Gray, Color.Green), time);
+
         public override int ExtraItemType => ModContent.ItemType<MossStoneSword_Old>();
     }
+
     public class SharpStoneTears : ModProjectile
     {
         public override void SetDefaults()
@@ -879,6 +928,7 @@ namespace FinalFractalSet.Weapons
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 25;
         }
+
         public override void OnKill(int timeLeft)
         {
             for (float num6 = 0f; num6 < 1f; num6 += 0.025f)
@@ -891,7 +941,9 @@ namespace FinalFractalSet.Weapons
                 dust2.alpha = 100;
             }
         }
-        Projectile projectile => Projectile;
+
+        private Projectile projectile => Projectile;
+
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D value33 = TextureAssets.Projectile[projectile.type].Value;
@@ -908,6 +960,7 @@ namespace FinalFractalSet.Weapons
             Main.EntitySpriteDraw(value33, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), value34, alpha4, projectile.rotation, origin11, scale8, spriteEffects, 0);
             return false;
         }
+
         public override void AI()
         {
             int num = MyDustId.GreyStone;
@@ -942,7 +995,6 @@ namespace FinalFractalSet.Weapons
                     dust2.scale = 0.8f + Main.rand.NextFloat() * 0.5f;
                     dust2.fadeIn = 1f;
                     dust2.scale *= dustScaler;
-
                 }
 
                 SoundEngine.PlaySound(SoundID.Item60, Projectile.Center);
@@ -959,9 +1011,7 @@ namespace FinalFractalSet.Weapons
                     dust3.velocity *= 0.5f;
                     dust3.scale = 0.8f + Main.rand.NextFloat() * 0.5f;
                     dust3.scale *= dustScaler;
-
                 }
-
             }
 
             if (flag2)
@@ -974,9 +1024,7 @@ namespace FinalFractalSet.Weapons
                     dust4.velocity *= 0.5f;
                     dust4.scale = 0.8f + Main.rand.NextFloat() * 0.5f;
                     dust4.scale *= dustScaler;
-
                 }
-
             }
 
             if (flag3)
@@ -984,6 +1032,7 @@ namespace FinalFractalSet.Weapons
             DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
             PlotTileLine(Projectile.Center, Projectile.Center + Projectile.velocity.SafeNormalize(-Vector2.UnitY) * 200f * Projectile.scale, 22f * Projectile.scale, DelegateMethods.CutTiles);
         }
+
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float collisionPoint15 = 0f;
@@ -991,12 +1040,16 @@ namespace FinalFractalSet.Weapons
                 return true;
             return false;
         }
+
         public override bool ShouldUpdatePosition() => false;
     }
+
     public class RustySteelBlade_Old : ModItem
     {
         public Item item => Item;
+
         public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
+
         public override void SetDefaults()
         {
             item.damage = 70;
@@ -1011,6 +1064,7 @@ namespace FinalFractalSet.Weapons
             item.useStyle = ItemUseStyleID.Swing;
             item.autoReuse = true;
         }
+
         public override bool CanUseItem(Player player)
         {
             if (player.altFunctionUse == 2)
@@ -1028,14 +1082,15 @@ namespace FinalFractalSet.Weapons
                 item.noUseGraphic = false;
                 item.noMelee = false;
                 item.mana = 0;
-
             }
             return player.ownedProjectileCounts[item.shoot] < 1/* && player.name == ""*/;
         }
+
         public override bool AltFunctionUse(Player player)
         {
             return true;
         }
+
         public override void AddRecipes()
         {
             var recipe = CreateRecipe();
@@ -1067,6 +1122,7 @@ namespace FinalFractalSet.Weapons
             recipe.Register();
         }
     }
+
     public class RefinedSteelBlade_Old : RustySteelBlade_Old
     {
         public override void SetDefaults()
@@ -1077,6 +1133,7 @@ namespace FinalFractalSet.Weapons
             item.useTime = 15;
             item.useAnimation = 15;
         }
+
         public override void AddRecipes()
         {
             var recipe = CreateRecipe();
@@ -1087,9 +1144,11 @@ namespace FinalFractalSet.Weapons
             recipe.Register();
         }
     }
+
     public class RustySteelBladeProj : WitheredWoodSwordProj
     {
         public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
+
         public override void OnRelease(bool charged, bool left)
         {
             if (Charged)
@@ -1145,7 +1204,9 @@ namespace FinalFractalSet.Weapons
                 projectile.Kill();
             }
         }
+
         public override Color VertexColor(float time) => Color.Lerp(Color.DarkGray, UpgradeValue(Color.Brown, Color.Gray), time);
+
         public override int ExtraItemType => ModContent.ItemType<RefinedSteelBlade_Old>();
     }
 }

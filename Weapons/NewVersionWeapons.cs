@@ -1,17 +1,15 @@
-﻿using System.Collections.Generic;
-using Terraria.Localization;
-using static Terraria.Utils;
-using System;
-using static Terraria.ModLoader.ModContent;
-using static LogSpiralLibrary.LogSpiralLibraryMod;
-using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
-using Terraria.Audio;
-using Terraria.Utilities;
-using FinalFractalSet.REAL_NewVersions.Wood;
-using LogSpiralLibrary.CodeLibrary.Utilties.BaseClasses;
-using LogSpiralLibrary.CodeLibrary.Utilties;
+﻿using FinalFractalSet.REAL_NewVersions.Wood;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingContents;
-using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingEffects;
+using LogSpiralLibrary.CodeLibrary.Utilties;
+using LogSpiralLibrary.CodeLibrary.Utilties.BaseClasses;
+using System;
+using System.Collections.Generic;
+using Terraria.Audio;
+using Terraria.Localization;
+using Terraria.Utilities;
+using static LogSpiralLibrary.LogSpiralLibraryMod;
+using static Terraria.ModLoader.ModContent;
+using static Terraria.Utils;
 
 namespace FinalFractalSet.Weapons
 {
@@ -25,20 +23,24 @@ namespace FinalFractalSet.Weapons
             public bool drawLeaf;
             public Rectangle leafFrame;
         };
+
         public Node root;
         private UnifiedRandom random;
+
         public LightTree(UnifiedRandom random)
         {
             cnt = 0;
             root = null;
             this.random = random;
         }
+
         public LightTree(Node node, UnifiedRandom random)
         {
             cnt = 0;
             root = node;
             this.random = random;
         }
+
         private Vector2 target;
         private int cnt;
         public List<Vector2> keyPoints;
@@ -79,6 +81,7 @@ namespace FinalFractalSet.Weapons
                     SpawnProjectile(projectile, position + unit * node.length, unit, child, chance + Main.rand.NextFloat(-.05f, .15f));
                 }
         }
+
         public void Generate(Vector2 pos, Vector2 vel, Vector2 target, bool hasLeaf)
         {
             // 根节点生成，朝向0，粗细1，长度随机50中选
@@ -88,6 +91,7 @@ namespace FinalFractalSet.Weapons
             root = _build(root, pos, vel, true, hasLeaf);
             // Main.NewText($"生成了一个{cnt}个节点的树状结构");
         }
+
         public void Generate(Vector2 pos, Vector2 vel, Vector2 target, float lengthStart, bool hasLeaf)
         {
             // 根节点生成，朝向0，粗细1，长度随机50中选
@@ -97,6 +101,7 @@ namespace FinalFractalSet.Weapons
             root = _build(root, pos, vel, true, hasLeaf);
             // Main.NewText($"生成了一个{cnt}个节点的树状结构");
         }
+
         public void Generate(Vector2 pos, Vector2 vel, Vector2 target, float lengthStart, float minSize, float minLength, float minDistance, float randAngleMain, float randAngleBranch, float chance, float decreaseSize, float decreaseLength, float decreaseSizeB, float decreaseLengthB, bool hasLeaf)
         {
             // 根节点生成，朝向0，粗细1，长度随机50中选
@@ -106,6 +111,7 @@ namespace FinalFractalSet.Weapons
             root = _build(root, pos, vel, true, minSize, minLength, minDistance, randAngleMain, randAngleBranch, chance, decreaseSize, decreaseLength, decreaseSizeB, decreaseLengthB, hasLeaf);
             // Main.NewText($"生成了一个{cnt}个节点的树状结构");
         }
+
         private Node _build(Node node, Vector2 pos, Vector2 vel, bool root, bool hasLeaf)
         {
             keyPoints.Add(pos);
@@ -150,7 +156,6 @@ namespace FinalFractalSet.Weapons
                 {
                     if (rand() > 0.75f)
                     {
-
                         r = rand(MathHelper.Pi / 3f);
                         unit = (vel.ToRotation() + r).ToRotationVector2();
                         Node child = new Node(r, (.5f + rand() * .5f) * node.size * 0.65f, node.length * (cnt == 1 ? .25f : .6f));
@@ -160,6 +165,7 @@ namespace FinalFractalSet.Weapons
             }
             return node;
         }
+
         private Node _build(Node node, Vector2 pos, Vector2 vel, bool root, float minSize, float minLength, float minDistance, float randAngleMain, float randAngleBranch, float chance, float decreaseSize, float decreaseLength, float decreaseSizeB, float decreaseLengthB, bool hasLeaf)
         {
             keyPoints.Add(pos);
@@ -204,7 +210,6 @@ namespace FinalFractalSet.Weapons
                 {
                     if (rand() > 0.75f)
                     {
-
                         r = rand(randAngleBranch);
                         unit = (vel.ToRotation() + r).ToRotationVector2();
                         Node child = new Node(r, (.5f + rand() * .5f) * node.size * decreaseSizeB, node.length * (cnt == 1 ? .25f : decreaseLengthB));
@@ -236,22 +241,27 @@ namespace FinalFractalSet.Weapons
             //sb.End();
             //sb.Begin();
         }
+
         public void Draw(SpriteBatch sb, Texture2D tex, Rectangle frame, float width, Texture2D branch, Vector2 pos, Vector2 vel, float factor)
         {
             _draw(sb, tex, frame, width, branch, pos, vel, root, Color.White, factor);
         }
+
         public void Draw(SpriteBatch sb, Texture2D branch, Vector2 pos, Vector2 vel, Color c, float width, float factor)
         {
             _draw(sb, branch, pos, vel, root, c, width, factor);
         }
+
         public void Draw(SpriteBatch sb, Vector2 pos, Vector2 vel, Color c, float width, float factor)
         {
             _draw(sb, pos, vel, root, c, width, factor);
         }
+
         public void SpawnDust(Vector2 pos, Vector2 vel)
         {
             _dust(pos, vel, root);
         }
+
         private void _draw(SpriteBatch sb, Texture2D branch, Vector2 pos, Vector2 vel, Node node, Color c, float width, float factor)
         {
             // 树枝实际的方向向量
@@ -268,7 +278,6 @@ namespace FinalFractalSet.Weapons
             try
             {
                 if (!TextureAssets.Tile[5].IsLoaded) Main.instance.LoadTiles(5);
-
             }
             catch { }
             var tex = TextureAssets.Tile[5].Value;
@@ -283,7 +292,6 @@ namespace FinalFractalSet.Weapons
                 sb.Draw(branch, pos + unit * node.length, new Rectangle(42, 0, 42, 42), c, vel.ToRotation() + node.rad, new Vector2(2, 22), width * MathF.Sqrt(node.size) * _fac / 4f, 0, 0);
                 sb.Draw(branch, pos + unit * node.length, new Rectangle(42, 0, 42, 42), c, vel.ToRotation() + node.rad + MathHelper.Pi / 6, new Vector2(2, 22), width * MathF.Sqrt(node.size) * _fac / 8f, 0, 0);
                 sb.Draw(branch, pos + unit * node.length, new Rectangle(42, 0, 42, 42), c, vel.ToRotation() + node.rad - MathHelper.Pi / 6, new Vector2(2, 22), width * MathF.Sqrt(node.size) * _fac / 8f, 0, 0);
-
             }
             else
                 foreach (var child in node.children)
@@ -294,6 +302,7 @@ namespace FinalFractalSet.Weapons
                     factor -= .1f;
                 }
         }
+
         private void _draw(SpriteBatch sb, Texture2D tex, Rectangle frame, float width, Texture2D branch, Vector2 pos, Vector2 vel, Node node, Color c, float factor)
         {
             // 树枝实际的方向向量
@@ -344,7 +353,6 @@ namespace FinalFractalSet.Weapons
                 sb.Draw(branch, pos + unit * node.length, node.leafFrame, c, vel.ToRotation() + node.rad, new Vector2(2, 22), width * MathF.Sqrt(node.size) * _fac / 4f, 0, 0);
                 sb.Draw(branch, pos + unit * node.length, node.leafFrame, c, vel.ToRotation() + node.rad + MathHelper.Pi / 6, new Vector2(2, 22), width * MathF.Sqrt(node.size) * _fac / 8f, 0, 0);
                 sb.Draw(branch, pos + unit * node.length, node.leafFrame, c, vel.ToRotation() + node.rad - MathHelper.Pi / 6, new Vector2(2, 22), width * MathF.Sqrt(node.size) * _fac / 8f, 0, 0);
-
             }
             else
                 foreach (var child in node.children)
@@ -375,10 +383,12 @@ namespace FinalFractalSet.Weapons
                 _dust(pos + unit * node.length, unit, child);
             }
         }
+
         public bool Check(Rectangle hitbox, Vector2 pos, Vector2 vel, float factor)
         {
             return _check(hitbox, pos, vel, root, factor);
         }
+
         private bool _check(Rectangle hitbox, Vector2 pos, Vector2 vel, Node node, float factor)
         {
             Vector2 unit = (vel.ToRotation() + node.rad).ToRotationVector2();
@@ -393,6 +403,7 @@ namespace FinalFractalSet.Weapons
                 }
             return false;
         }
+
         public bool Check(Rectangle hitbox)
         {
             foreach (var pt in keyPoints)
@@ -400,10 +411,13 @@ namespace FinalFractalSet.Weapons
             return false;
         }
     }
+
     public class WitheredWoodSword : ModItem
     {
         public override bool IsLoadingEnabled(Mod mod) => false;
+
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] < 1;
+
         public override void SetDefaults()
         {
             Item.damage = 30;
@@ -424,6 +438,7 @@ namespace FinalFractalSet.Weapons
             Item.value = Item.sellPrice(0, 0, 0, 0);
             Item.shoot = ProjectileType<WitheredWoodSword_Blade>();
         }
+
         public override void AddRecipes()
         {
             var recipe = CreateRecipe();
@@ -443,11 +458,13 @@ namespace FinalFractalSet.Weapons
             recipe.ReplaceResult(this);
             recipe.Register();
         }
+
         public override bool AltFunctionUse(Player player)
         {
             return true;
         }
     }
+
     public class LivingWoodSword : WitheredWoodSword
     {
         public override void SetDefaults()
@@ -460,6 +477,7 @@ namespace FinalFractalSet.Weapons
             Item.damage = 60;
             Item.rare = ItemRarityID.Yellow;
         }
+
         public override void AddRecipes()
         {
             var recipe = CreateRecipe();
@@ -470,6 +488,7 @@ namespace FinalFractalSet.Weapons
             recipe.Register();
         }
     }
+
     public class WitheredWoodSword_Blade : HandMeleeProj
     {
         public virtual T UpgradeValue<T>(T normal, T extra, T defaultValue = default)
@@ -479,29 +498,35 @@ namespace FinalFractalSet.Weapons
                 WitheredWoodSword => normal,
                 _ => defaultValue
             };
+
         public override bool Charged => base.Charged;
         public override bool Charging => base.Charging;
         public override SpriteEffects flip => Player.direction == -1 ^ (controlState == 1 && controlTier % 2 == 1) ? SpriteEffects.FlipHorizontally : 0;
         public override Rectangle? frame => projTex.Frame(2, 1, UpgradeValue(0, 1));//
         public override Vector2 projCenter => base.projCenter;
         public override Vector2 scale => base.scale;
+
         public override float timeCount
         {
             get => base.timeCount;
             set => base.timeCount = value;
         }
+
         public override string ProjName => "WitheredWoodSword";
+
         public override float MaxTime => controlState == 2 ? 48 : (controlTier % 5) switch
         {
             4 => 32,
             _ => 16
         };
+
         public override float factor => base.factor;
         public override Vector2 CollidingSize => base.CollidingSize;
         public override Vector2 CollidingCenter => base.CollidingCenter;
         public override Vector2 DrawOrigin => new Vector2(12, size.Y / FrameMax.Y - 12);
         public override Color color => base.color;
         public override float MaxTimeLeft => 8;
+
         public override float RealRotation
         {
             get
@@ -524,16 +549,17 @@ namespace FinalFractalSet.Weapons
                         _factor = MathF.Pow(_factor, 2);
                     }
 
-
                     if (tier % 2 == 1) _factor = 1 - _factor;
                     return MathHelper.Hermite(MathHelper.Pi * 6 / 8, 0, -MathHelper.Pi * 6 / 8, 0, _factor);
                 }
                 return base.RealRotation;
             }
         }
+
         public override bool UseRight => true;
         public override bool UseLeft => true;
         public override (int X, int Y) FrameMax => (2, 1);
+
         public override void OnKill(int timeLeft)
         {
             if (Charged && Player.CheckMana(50, true))
@@ -546,6 +572,7 @@ namespace FinalFractalSet.Weapons
                 }
             }
         }
+
         public override void OnEndAttack()
         {
             bool large = controlState == 2 || controlTier % 5 == 4;
@@ -556,6 +583,7 @@ namespace FinalFractalSet.Weapons
             u.xScaler = large ? 1.25f : 1f;
             base.OnEndAttack();
         }
+
         public override void OnCharging(bool left, bool right)
         {
             SACoolDown--;
@@ -579,6 +607,7 @@ namespace FinalFractalSet.Weapons
             }
             projectile.friendly = projectile.ai[0] > when;
         }
+
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.immune[projectile.owner] = 5;
@@ -594,13 +623,16 @@ namespace FinalFractalSet.Weapons
             }
             base.OnHitNPC(target, hit, damageDone);
         }
+
         public override void OnRelease(bool charged, bool left)
         {
             SACoolDown--;
             base.OnRelease(charged, left);
         }
+
         public Item sourceItem;
         public int SACoolDown;
+
         public override void OnSpawn(IEntitySource source)
         {
             if (source is EntitySource_ItemUse_WithAmmo itemSource)
@@ -609,6 +641,7 @@ namespace FinalFractalSet.Weapons
             }
         }
     }
+
     public class WitheredTree : ModProjectile
     {
         public override void SetDefaults()
@@ -622,15 +655,19 @@ namespace FinalFractalSet.Weapons
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
         }
+
         public override string Texture => "Terraria/Images/Item_1";
+
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
         }
+
         public override void OnKill(int timeLeft)
         {
             tree.SpawnProjectile(Projectile, Projectile.Center, new Vector2(0, -1), tree.root, -.15f);
         }
+
         public override void AI()
         {
             Projectile.ai[1]++;
@@ -639,23 +676,28 @@ namespace FinalFractalSet.Weapons
                 tree.SpawnDust(Projectile.Center, new Vector2(0, -1));
             }
         }
+
         private LightTree tree;
+
         public override void OnSpawn(IEntitySource source)
         {
             tree = new LightTree(Main.rand);
             tree.Generate(Projectile.Center, new Vector2(0, -.5f), new Vector2(0, -2048) + Projectile.Center, ((int)Projectile.ai[0] % 2 == 0 ? 64 : 128) * (tree.rand() * .25f + .75f), Projectile.ai[0] > 1);
         }
+
         public override bool PreDraw(ref Color lightColor)
         {
             tree?.Draw(Main.spriteBatch, Projectile.Center - Main.screenPosition, new Vector2(0, -1), Lighting.GetColor((Projectile.Center / 16f).ToPoint()), 16f, Projectile.ai[1] / 2f);
             return false;
         }
+
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             tree?.Check(targetHitbox);
             return false;
         }
     }
+
     public class WitheredWood : ModProjectile
     {
         public override string Texture => "Terraria/Images/Item_1";
@@ -671,11 +713,14 @@ namespace FinalFractalSet.Weapons
             Projectile.penetrate = 1;
             Projectile.tileCollide = false;
         }
+
         public LightTree tree;
+
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
         }
+
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             if (tree?.Check(targetHitbox, Projectile.Center, Projectile.rotation.ToRotationVector2(), 10) == true)
@@ -693,6 +738,7 @@ namespace FinalFractalSet.Weapons
             }
             return false;
         }
+
         public override void AI()
         {
             Projectile.velocity += new Vector2(0, .5f);
@@ -709,6 +755,7 @@ namespace FinalFractalSet.Weapons
             Projectile.oldPos[0] = Projectile.Center;
             Projectile.oldRot[0] = Projectile.rotation;
         }
+
         public override bool PreDraw(ref Color lightColor)
         {
             //try
@@ -760,6 +807,7 @@ namespace FinalFractalSet.Weapons
             return false;
         }
     }
+
     public class WitheredWoodSword_Blade_GivenUp : VertexHammerProj
     {
         public virtual T UpgradeValue<T>(T normal, T extra, T defaultValue = default)
@@ -779,6 +827,7 @@ namespace FinalFractalSet.Weapons
 
             return defaultValue;
         }
+
         public override bool Charged => base.Charged;
         public override bool Charging => base.Charging;
         public override SpriteEffects flip => (int)((timeCount - 1) / MaxTime) % 2 == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
@@ -786,6 +835,7 @@ namespace FinalFractalSet.Weapons
         public override Vector2 projCenter => base.projCenter;
         public override bool RedrawSelf => base.RedrawSelf;
         public override Vector2 scale => base.scale;
+
         public override float timeCount
         {
             get => controlState == 2 ? base.timeCount : projectile.ai[0];
@@ -799,18 +849,23 @@ namespace FinalFractalSet.Weapons
                 }
             }
         }
+
         public override bool WhenVertexDraw => base.WhenVertexDraw;
         public override string Texture => base.Texture.Replace("_Blade_GivenUp", "Proj");
         public override string HammerName => "WitheredWoodSword";
         public override float MaxTime => 16;
         public override float Factor => (projectile.ai[0] % MaxTime == 0 && projectile.ai[0] > 0 ? MaxTime - 1 : projectile.ai[0] % MaxTime) / MaxTime;
         public override Vector2 CollidingSize => base.CollidingSize;
+
         //public override Vector2 projCenter => base.projCenter + new Vector2(Player.direction * 16, -16);
         public override Vector2 CollidingCenter => base.CollidingCenter;//new Vector2(projTex.Size().X / 3 - 16, 16)
+
         public override Vector2 DrawOrigin => base.DrawOrigin + new Vector2(-12, 12);
         public override Color color => base.color;
+
         //public override Color VertexColor(float time) => Color.Lerp(Color.DarkGreen, UpgradeValue(Color.Brown, Color.Green), time);//Color.Lerp(UpgradeValue(Color.Brown, Color.Green), Color.DarkGreen, time)
         public override float MaxTimeLeft => 8;
+
         public override float Rotation
         {
             get
@@ -830,12 +885,13 @@ namespace FinalFractalSet.Weapons
                 theta = -MathHelper.PiOver2;
                 //if(timeCount / MaxTime % 2 == 1)theta = -theta;
                 return Player.direction == -1 ? MathHelper.Pi * 1.5f - theta : theta;
-
             }
         }
+
         public override bool UseRight => true;
         public override bool UseLeft => true;
         public override (int X, int Y) FrameMax => (2, 1);
+
         public override void OnKill(int timeLeft)
         {
             //if (factor == 1)
@@ -851,6 +907,7 @@ namespace FinalFractalSet.Weapons
                 u.xScaler = large ? 1.25f : 1f;
             }
         }
+
         public override void OnCharging(bool left, bool right)
         {
             if (left)
@@ -861,6 +918,7 @@ namespace FinalFractalSet.Weapons
                 }
             }
         }
+
         public override void OnRelease(bool charged, bool left)
         {
             if (Charged)
@@ -887,8 +945,6 @@ namespace FinalFractalSet.Weapons
                     projectile.ai[1] = 0;
                     projectile.ai[0]++;
                     OnKill(projectile.timeLeft);
-
-
                 }
                 else
                 {
@@ -896,7 +952,9 @@ namespace FinalFractalSet.Weapons
                 }
             }
         }
+
         public Item sourceItem;
+
         public override void OnSpawn(IEntitySource source)
         {
             if (source is EntitySource_ItemUse_WithAmmo itemSource)
@@ -905,11 +963,13 @@ namespace FinalFractalSet.Weapons
             }
             base.OnSpawn(source);
         }
+
         public override void VertexInfomation(ref bool additive, ref int indexOfGreyTex, ref float endAngle, ref bool useHeatMap, ref int p)
         {
             p = 2;
         }
     }
+
     public class DyingStoneSword : WitheredWoodSword
     {
         public override void SetDefaults()
@@ -927,11 +987,10 @@ namespace FinalFractalSet.Weapons
             Item.useStyle = ItemUseStyleID.Swing;
             Item.autoReuse = true;
             Item.shoot = ProjectileType<DyingStoneSword_Blade>();
-
         }
+
         public override void AddRecipes()
         {
-
             var recipe = CreateRecipe();
             for (int n = 0; n < 6; n++)
                 recipe.AddIngredient(3764 + n);//六种晶光刃
@@ -956,6 +1015,7 @@ namespace FinalFractalSet.Weapons
             recipe.Register();
         }
     }
+
     public class CrystalStoneSword : DyingStoneSword
     {
         public override void SetDefaults()
@@ -967,6 +1027,7 @@ namespace FinalFractalSet.Weapons
             Item.useTime = 18;
             Item.useAnimation = 18;
         }
+
         public override void AddRecipes()
         {
             var recipe = CreateRecipe();
@@ -977,6 +1038,7 @@ namespace FinalFractalSet.Weapons
             recipe.Register();
         }
     }
+
     public class DyingStoneSword_Blade : WitheredWoodSword_Blade
     {
         public override bool Charged => base.Charged;
@@ -985,26 +1047,34 @@ namespace FinalFractalSet.Weapons
         public override Rectangle? frame => projTex.Frame(2, 1, UpgradeValue(0, 1));//
         public override Vector2 projCenter => base.projCenter;
         public override Vector2 scale => base.scale;
+
         public override float timeCount
         {
             get => base.timeCount;
             set => base.timeCount = value;
         }
+
         //public override string Texture => base.Texture.Replace("_Blade", "Proj");
         public override string ProjName => "WitheredWoodSword";
+
         public override float MaxTime => controlState == 2 ? 48 : (controlTier % 5) switch
         {
             4 => 32,
             _ => 16
         };
+
         public override float factor => base.factor;
         public override Vector2 CollidingSize => base.CollidingSize;
+
         //public override Vector2 projCenter => base.projCenter + new Vector2(Player.direction * 16, -16);
         public override Vector2 CollidingCenter => base.CollidingCenter;//new Vector2(projTex.Size().X / 3 - 16, 16)
+
         public override Vector2 DrawOrigin => new Vector2(12, size.Y / FrameMax.Y - 12);// + new Vector2(-12, 12)
         public override Color color => base.color;
+
         //public override Color VertexColor(float time) => Color.Lerp(Color.DarkGreen, UpgradeValue(Color.Brown, Color.Green), time);//Color.Lerp(UpgradeValue(Color.Brown, Color.Green), Color.DarkGreen, time)
         public override float MaxTimeLeft => 8;
+
         public override float RealRotation
         {
             get
@@ -1028,19 +1098,19 @@ namespace FinalFractalSet.Weapons
                         _factor = MathF.Pow(_factor, 2);
                     }
 
-
                     if (tier % 2 == 1) _factor = 1 - _factor;
                     return MathHelper.Hermite(MathHelper.Pi * 6 / 8, 0, -MathHelper.Pi * 6 / 8, 0, _factor);//MathHelper.SmoothStep(MathHelper.Pi * 6 / 8, -MathHelper.Pi * 6 / 8, _factor)
                 }
                 return base.RealRotation;
             }
         }
+
         public override float Rotation
         {
             get
             {
                 ////Main.NewText(timeCount);
-                //if (Player.controlUseTile) 
+                //if (Player.controlUseTile)
                 //{
                 //    var factor = MathHelper.Clamp(projectile.ai[0] / MaxTime, 0, 1);
                 //    var theta = ((float)Math.Pow(factor, 2)).Lerp(MathHelper.Pi / 8 * 3, -MathHelper.PiOver2 - MathHelper.Pi / 8);
@@ -1062,12 +1132,13 @@ namespace FinalFractalSet.Weapons
                 //}
                 //return base.Rotation;
                 return base.Rotation;
-
             }
         }
+
         public override bool UseRight => true;
         public override bool UseLeft => true;
         public override (int X, int Y) FrameMax => (2, 1);
+
         public override void OnKill(int timeLeft)
         {
             //TODO 枯石蓄力攻击
@@ -1080,12 +1151,13 @@ namespace FinalFractalSet.Weapons
             //        Dust.NewDustPerfect(cen, UpgradeValue(MyDustId.Wood, MyDustId.GreenGrass), (MathHelper.TwoPi / 30 * n).ToRotationVector2() * Main.rand.NextFloat(2, 8));
             //    }
             //}
-
         }
+
         public override void OnEndAttack()
         {
             base.OnEndAttack();
         }
+
         public override void OnCharging(bool left, bool right)
         {
             SACoolDown--;
@@ -1109,6 +1181,7 @@ namespace FinalFractalSet.Weapons
             }
             projectile.friendly = projectile.ai[0] > when;
         }
+
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.immune[projectile.owner] = 5;
@@ -1127,6 +1200,7 @@ namespace FinalFractalSet.Weapons
                 }
             }
         }
+
         public override void OnRelease(bool charged, bool left)
         {
             if (Charged && Player.CheckMana(5, true))
@@ -1140,6 +1214,7 @@ namespace FinalFractalSet.Weapons
             }
             base.OnRelease(charged, left);
         }
+
         public override T UpgradeValue<T>(T normal, T extra, T defaultValue = default)
             => sourceItem.ModItem switch
             {
@@ -1148,6 +1223,7 @@ namespace FinalFractalSet.Weapons
                 _ => defaultValue
             };
     }
+
     public class RustySteelBlade : WitheredWoodSword
     {
         public override void SetDefaults()
@@ -1165,6 +1241,7 @@ namespace FinalFractalSet.Weapons
             Item.useStyle = ItemUseStyleID.Swing;
             Item.autoReuse = true;
         }
+
         public override void AddRecipes()
         {
             var recipe = CreateRecipe();
@@ -1196,6 +1273,7 @@ namespace FinalFractalSet.Weapons
             recipe.Register();
         }
     }
+
     public class RefinedSteelBlade : RustySteelBlade
     {
         public override void SetDefaults()
@@ -1206,6 +1284,7 @@ namespace FinalFractalSet.Weapons
             Item.useTime = 15;
             Item.useAnimation = 15;
         }
+
         public override void AddRecipes()
         {
             var recipe = CreateRecipe();
@@ -1216,16 +1295,19 @@ namespace FinalFractalSet.Weapons
             recipe.Register();
         }
     }
+
     public class PureFractal : WitheredWoodSword
     {
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             Item.ShaderItemEffectInventory(spriteBatch, position, origin, LogSpiralLibraryMod.Misc[1].Value, Color.Lerp(new Color(0, 162, 232), new Color(34, 177, 76), (float)Math.Sin(MathHelper.Pi / 60 * ModTime) / 2 + 0.5f), scale);
         }
+
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
             Item.ShaderItemEffectInWorld(spriteBatch, LogSpiralLibraryMod.Misc[1].Value, Color.Lerp(new Color(0, 162, 232), new Color(34, 177, 76), (float)Math.Sin(MathHelper.Pi / 60 * ModTime) / 2 + 0.5f), rotation);
         }
+
         public override void SetDefaults()
         {
             base.SetDefaults();
@@ -1247,6 +1329,7 @@ namespace FinalFractalSet.Weapons
             Item.noUseGraphic = true;
             Item.noMelee = true;
         }
+
         //public override void AddRecipes() => CreateRecipe().AddIngredient(ItemID.Zenith).AddIngredient<FirstFractal_CIVE>().AddTile(TileID.LunarCraftingStation).Register();
         public override void AddRecipes()
         {
@@ -1257,16 +1340,19 @@ namespace FinalFractalSet.Weapons
             recipe.Register();
         }
     }
+
     public class FirstZenith : WitheredWoodSword
     {
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             Item.ShaderItemEffectInventory(spriteBatch, position, origin, LogSpiralLibraryMod.Misc[0].Value, Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * ModTime) / 2 + 0.5f), scale);
         }
+
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
             Item.ShaderItemEffectInWorld(spriteBatch, LogSpiralLibraryMod.Misc[0].Value, Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * ModTime) / 2 + 0.5f), rotation);
         }
+
         public override void SetDefaults()
         {
             Item.useStyle = ItemUseStyleID.Swing;
@@ -1279,7 +1365,7 @@ namespace FinalFractalSet.Weapons
             Item.channel = true;
             Item.noMelee = true;
             Item.useAnimation = 15;
-            Item.useTime = 15;// 
+            Item.useTime = 15;//
             Item.shootSpeed = 16f;
             Item.damage = 500;
             Item.knockBack = 6.5f;
@@ -1288,6 +1374,7 @@ namespace FinalFractalSet.Weapons
             Item.rare = ItemRarityID.Purple;
             Item.shoot = ProjectileType<FirstZenith_Blade>();
         }
+
         public override void AddRecipes()
         {
             var recipe = CreateRecipe();
@@ -1306,6 +1393,7 @@ namespace FinalFractalSet.Weapons
             recipe.Register();
         }
     }
+
     public class FirstZenith_Blade : VertexHammerProj
     {
         public override bool Charged => base.Charged;
@@ -1322,16 +1410,21 @@ namespace FinalFractalSet.Weapons
         public override float MaxTime => 12;
         public override float Factor => base.Factor;
         public override Vector2 CollidingSize => base.CollidingSize;
+
         //public override Vector2 projCenter => base.projCenter + new Vector2(Player.direction * 16, -16);
         public override Vector2 CollidingCenter => base.CollidingCenter;//new Vector2(projTex.Size().X / 3 - 16, 16)
+
         public override Vector2 DrawOrigin => base.DrawOrigin + new Vector2(-12, 12);
         public override Color color => base.color;
+
         //public override Color VertexColor(float time) => Color.Lerp(Color.DarkGreen, UpgradeValue(Color.Brown, Color.Green), time);//Color.Lerp(UpgradeValue(Color.Brown, Color.Green), Color.DarkGreen, time)
         public override float MaxTimeLeft => 8;
+
         public override float Rotation => base.Rotation;
         public override bool UseRight => true;
         public override bool UseLeft => true;
         public override (int X, int Y) FrameMax => (1, 1);
+
         public override void OnKill(int timeLeft)
         {
             //if (factor == 1)
@@ -1342,10 +1435,11 @@ namespace FinalFractalSet.Weapons
 
             base.OnKill(timeLeft);
         }
+
         public override void OnCharging(bool left, bool right)
         {
-
         }
+
         public override void OnRelease(bool charged, bool left)
         {
             if (Charged)
@@ -1358,7 +1452,9 @@ namespace FinalFractalSet.Weapons
             //Main.NewText(new NPCs.Baron.Baron().CanTownNPCSpawn(10, 10));
             base.OnRelease(charged, left);
         }
+
         public Item sourceItem;
+
         public override void OnSpawn(IEntitySource source)
         {
             if (source is EntitySource_ItemUse_WithAmmo itemSource)
@@ -1367,14 +1463,17 @@ namespace FinalFractalSet.Weapons
             }
             base.OnSpawn(source);
         }
+
         public override void VertexInfomation(ref bool additive, ref int indexOfGreyTex, ref float endAngle, ref bool useHeatMap, ref int p)
         {
             p = 2;
         }
+
         public override void OnChargedShoot()
         {
         }
     }
+
     public class FinalFractal : WitheredWoodSword
     {
         public override void AddRecipes()
@@ -1382,14 +1481,17 @@ namespace FinalFractalSet.Weapons
             CreateRecipe().AddIngredient<PureFractal_Old>().QuickAddIngredient(4144, 3368).AddTile(TileID.LunarCraftingStation).Register();
             CreateRecipe().AddIngredient<FirstZenith_Old>().QuickAddIngredient(4144, 3368).AddTile(TileID.LunarCraftingStation).Register();
         }
+
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             Item.ShaderItemEffectInventory(spriteBatch, position, origin, LogSpiralLibraryMod.Misc[0].Value, Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * ModTime) / 2 + 0.5f), scale);
         }
+
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
             Item.ShaderItemEffectInWorld(spriteBatch, LogSpiralLibraryMod.Misc[0].Value, Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * ModTime) / 2 + 0.5f), rotation);
         }
+
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             for (int n = 1; n < 4; n++)
@@ -1397,6 +1499,7 @@ namespace FinalFractalSet.Weapons
                 tooltips.Add(new TooltipLine(Mod, "PureSuggestion", Language.GetOrRegister("Mods.FinalFractalSet.FinalFractalTip." + n).Value) { OverrideColor = Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * (ModTime + 40 * n)) / 2 + 0.5f) });
             }
         }
+
         public override void SetDefaults()
         {
             base.SetDefaults();

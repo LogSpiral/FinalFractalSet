@@ -1,21 +1,13 @@
-﻿using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FinalFractalSet.REAL_NewVersions.Stone;
+﻿using FinalFractalSet.Weapons;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
-using Terraria.Audio;
-using System.IO;
-using System.ComponentModel;
-using System.Xml;
+using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingContents;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Core;
-using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingContents;
-using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingEffects;
 using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
-using FinalFractalSet.Weapons;
+using System;
+using System.ComponentModel;
+using System.IO;
+using Terraria.Audio;
 
 namespace FinalFractalSet.REAL_NewVersions.Iron
 {
@@ -26,6 +18,7 @@ namespace FinalFractalSet.REAL_NewVersions.Iron
             base.SetDefaults();
             Item.damage = 40;
         }
+
         public override void AddRecipes()
         {
             var recipe = CreateRecipe();
@@ -44,12 +37,15 @@ namespace FinalFractalSet.REAL_NewVersions.Iron
             recipe.AddTile(TileID.Anvils);
             recipe.Register();
         }
+
         public override bool AltFunctionUse(Player player) => true;
     }
+
     public class RustySteelBlade_NewVer_Proj : MeleeSequenceProj
     {
         public override bool LabeledAsCompleted => true;
         public override string Texture => base.Texture.Replace("_Proj", "");
+
         public override void InitializeStandardInfo(StandardInfo standardInfo, VertexDrawStandardInfo vertexStandard)
         {
             standardInfo.standardColor = Color.Lerp(Color.SandyBrown, Color.Brown, .25f) * .5f;
@@ -61,6 +57,7 @@ namespace FinalFractalSet.REAL_NewVersions.Iron
             base.InitializeStandardInfo(standardInfo, vertexStandard);
         }
     }
+
     public class RefinedSteelBlade_NewVer : MeleeSequenceItem<RefinedSteelBlade_NewVer_Proj>
     {
         public override void SetDefaults()
@@ -68,6 +65,7 @@ namespace FinalFractalSet.REAL_NewVersions.Iron
             base.SetDefaults();
             Item.damage = 100;
         }
+
         public override void AddRecipes()
         {
             var recipe = CreateRecipe();
@@ -87,12 +85,15 @@ namespace FinalFractalSet.REAL_NewVersions.Iron
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.Register();
         }
+
         public override bool AltFunctionUse(Player player) => true;
     }
+
     public class RefinedSteelBlade_NewVer_Proj : MeleeSequenceProj
     {
         public override bool LabeledAsCompleted => true;
         public override string Texture => base.Texture.Replace("_Proj", "");
+
         public override void InitializeStandardInfo(StandardInfo standardInfo, VertexDrawStandardInfo vertexStandard)
         {
             standardInfo.standardColor = Color.Gray * .5f;
@@ -104,6 +105,7 @@ namespace FinalFractalSet.REAL_NewVersions.Iron
             base.InitializeStandardInfo(standardInfo, vertexStandard);
         }
     }
+
     public class SteelSpecialAttack : FinalFractalSetAction
     {
         public override float CompositeArmRotation => base.CompositeArmRotation;
@@ -113,10 +115,12 @@ namespace FinalFractalSet.REAL_NewVersions.Iron
         public override Vector2 offsetOrigin => base.offsetOrigin;
         public override float offsetDamage => base.offsetDamage;
         public override bool Attacktive => Factor < .75f;
+
         public override void OnEndSingle()
         {
             base.OnEndSingle();
         }
+
         public override void OnStartAttack()
         {
             int t = 0;
@@ -126,7 +130,7 @@ namespace FinalFractalSet.REAL_NewVersions.Iron
                 while (t < 80)
                 {
                     t++;
-                    var tile = Main.tile[(Owner.Center + unit * t).ToTileCoordinates()];
+                    var tile = Framing.GetTileSafely((Owner.Center + unit * t).ToTileCoordinates());
                     if (tile.HasTile && Main.tileSolid[tile.TileType])
                         break;
                 }
@@ -136,7 +140,7 @@ namespace FinalFractalSet.REAL_NewVersions.Iron
 
             for (int n = 0; n < 300; n++)
             {
-                MiscMethods.FastDust(Owner.Center + n / 300f * unit * t, Vector2.Lerp(Main.rand.NextVector2Unit(), Main.rand.NextVector2Unit() * 4 - unit, n / 300f), standardInfo.standardColor);
+                MiscMethods.FastDust(Owner.Center + n / 300f * unit * t, Vector2.Lerp(Main.rand.NextVector2Unit(), Main.rand.NextVector2Unit() * 4 - unit, n / 300f), StandardInfo.standardColor);
             }
 
             t -= 2;
@@ -148,15 +152,14 @@ namespace FinalFractalSet.REAL_NewVersions.Iron
                 }
             SoundEngine.PlaySound(SoundID.Item92);
 
-
             //Owner.Center += unit * t;
-            var u = UltraSwoosh.NewUltraSwoosh(standardInfo.VertexStandard.canvasName, 30, 8 * t + 90, Owner.Center - unit * t * .25f,(1.7f, -.2f));
-            u.negativeDir = !flip;
+            var u = UltraSwoosh.NewUltraSwoosh(StandardInfo.VertexStandard.canvasName, 30, 8 * t + 90, Owner.Center - unit * t * .25f, (1.7f, -.2f));
+            u.negativeDir = !Flip;
             u.rotation = Rotation;
             u.xScaler = t * .25f + 2;
             u.aniTexIndex = 3;
             u.baseTexIndex = 7;
-            u.ApplyStdValueToVtxEffect(standardInfo);
+            u.ApplyStdValueToVtxEffect(StandardInfo);
             for (int n = 0; n < 4; n++)
             {
                 var cen = Owner.Center - unit * .5f * t + Main.rand.NextVector2Unit() * unit.Length() * Main.rand.NextFloat(0, t * .15f);
@@ -198,29 +201,33 @@ namespace FinalFractalSet.REAL_NewVersions.Iron
             }
             base.OnStartAttack();
         }
+
         public override void OnCharge()
         {
-
             base.OnCharge();
         }
+
         public override void OnStartSingle()
         {
             base.OnStartSingle();
         }
-        public override void Update(bool triggered)
-        {
 
-            flip = Owner.direction == 1;
-            base.Update(triggered);
+        public override void UpdateStatus(bool triggered)
+        {
+            Flip = Owner.direction == 1;
+            base.UpdateStatus(triggered);
         }
+
         [ElementCustomData]
         [DefaultValue(false)]
         public bool Upgraded;
+
         public class SteelSAProjectile : ModProjectile
         {
             public override string Texture => base.Texture.Replace("SteelSAProjectile", "RustySteelBlade_NewVer");
 
-            Projectile projectile => Projectile;
+            private Projectile projectile => Projectile;
+
             public override void PostAI()
             {
                 Vector2 value1 = Main.player[projectile.owner].position - Main.player[projectile.owner].oldPosition;
@@ -238,12 +245,12 @@ namespace FinalFractalSet.REAL_NewVersions.Iron
                 projectile.oldRot[0] = projectile.rotation;
                 projectile.oldSpriteDirection[0] = projectile.spriteDirection;
 
-                if (Main.netMode == NetmodeID.Server) return;
+                if (Main.dedServ) return;
                 if (swooshes[0] == null)
                 {
                     for (int n = 0; n < 4; n++)
                     {
-                        var u = swooshes[n] = UltraSwoosh.NewUltraSwooshOnDefaultCanvas(30,1, Main.player[projectile.owner].Center,(-1.125f,0.7125f));
+                        var u = swooshes[n] = UltraSwoosh.NewUltraSwooshOnDefaultCanvas(30, 1, Main.player[projectile.owner].Center, (-1.125f, 0.7125f));
                         u.negativeDir = false;
                         u.ColorVector = new(0.1667f, 0.3333f, 0.5f);
                         u.autoUpdate = false;
@@ -286,6 +293,7 @@ namespace FinalFractalSet.REAL_NewVersions.Iron
                     }
                 }
             }
+
             public override void AI()
             {
                 projectile.localNPCHitCooldown = projectile.frame == 1 ? 5 : 15;
@@ -329,14 +337,16 @@ namespace FinalFractalSet.REAL_NewVersions.Iron
                 }
                 projectile.Opacity = Utils.GetLerpValue(0f, 5f, projectile.localAI[0], true) * Utils.GetLerpValue(120f, 115f, projectile.localAI[0], true);//修改透明度
             }
-            UltraSwoosh[] swooshes = new UltraSwoosh[4];
-            Color newColor => projectile.frame == 1 ? Color.Gray : Color.SandyBrown;
+
+            private UltraSwoosh[] swooshes = new UltraSwoosh[4];
+            private Color newColor => projectile.frame == 1 ? Color.Gray : Color.SandyBrown;
+
             public override void OnSpawn(IEntitySource source)
             {
-                if (Main.netMode == NetmodeID.Server) return;
+                if (Main.dedServ) return;
                 for (int n = 0; n < 4; n++)
                 {
-                    var u = swooshes[n] = UltraSwoosh.NewUltraSwoosh(PureFractalProj.CanvasName,30, 1, Main.player[projectile.owner].Center, (-1.125f, 0.7125f));
+                    var u = swooshes[n] = UltraSwoosh.NewUltraSwoosh(PureFractalProj.CanvasName, 30, 1, Main.player[projectile.owner].Center, (-1.125f, 0.7125f));
                     u.negativeDir = false;
                     u.ColorVector = new(0.1667f, 0.3333f, 0.5f);
                     u.autoUpdate = false;
@@ -344,19 +354,22 @@ namespace FinalFractalSet.REAL_NewVersions.Iron
                 }
                 base.OnSpawn(source);
             }
+
             public override void OnKill(int timeLeft)
             {
-                if (Main.netMode == NetmodeID.Server) return;
+                if (Main.dedServ) return;
                 for (int n = 0; n < 4; n++)
                 {
                     swooshes[n].timeLeft = 0;
                 }
                 base.OnKill(timeLeft);
             }
+
             public override bool PreDraw(ref Color lightColor)
             {
                 return false;
             }
+
             public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
             {
                 Rectangle _lanceHitboxBounds = new Rectangle(0, 0, 300, 300);
@@ -382,6 +395,7 @@ namespace FinalFractalSet.REAL_NewVersions.Iron
                 _lanceHitboxBounds.Y = (int)projectile.position.Y - _lanceHitboxBounds.Height / 2;
                 return _lanceHitboxBounds.Intersects(targetHitbox) && Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center - value3 * scaleFactor, projectile.Center + value3 * scaleFactor, 20f, ref num2);
             }
+
             public override void SetDefaults()
             {
                 projectile.width = 32;
@@ -398,19 +412,23 @@ namespace FinalFractalSet.REAL_NewVersions.Iron
                 projectile.localNPCHitCooldown = 15;
                 projectile.penetrate = -1;
             }
+
             public override void SendExtraAI(BinaryWriter writer)
             {
                 writer.Write((byte)projectile.frame);
             }
+
             public override void ReceiveExtraAI(BinaryReader reader)
             {
                 projectile.frame = reader.ReadByte();
             }
+
             public override Color? GetAlpha(Color lightColor)
             {
                 lightColor = Color.White * projectile.Opacity;
                 return lightColor;
             }
+
             public override void SetStaticDefaults()
             {
                 ProjectileID.Sets.TrailCacheLength[projectile.type] = 60;

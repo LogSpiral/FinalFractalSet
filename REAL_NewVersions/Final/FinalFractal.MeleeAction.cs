@@ -5,14 +5,18 @@ using System;
 using Terraria.Audio;
 
 namespace FinalFractalSet.REAL_NewVersions.Final;
+
 public class FractalCloudMowingSword : StormInfo
 {
     #region 辅助字段
-    int HitCausedZenithCooldown;
-    bool IsColliding;
-    #endregion
+
+    private int HitCausedZenithCooldown;
+    private bool IsColliding;
+
+    #endregion 辅助字段
 
     #region 重写属性
+
     public override string Category => "FinalFractal";
 
     public override float Factor => 1 - MathF.Pow(1 - base.Factor, 2);
@@ -22,7 +26,8 @@ public class FractalCloudMowingSword : StormInfo
     public override bool Attacktive => base.Attacktive;
 
     public override bool OwnerHitCheek => false;
-    #endregion
+
+    #endregion 重写属性
 
     #region 重写函数
 
@@ -41,7 +46,6 @@ public class FractalCloudMowingSword : StormInfo
         return flag;
     }
 
-
     public override void OnHitEntity(Entity victim, int damageDone, object[] context)
     {
         base.OnHitEntity(victim, damageDone, context);
@@ -56,13 +60,16 @@ public class FractalCloudMowingSword : StormInfo
         else
             HitCausedZenithCooldown -= 2;
     }
-    #endregion
+
+    #endregion 重写函数
 }
+
 public class FractalStrom : StormInfo
 {
     public override string Category => "FinalFractal";
 
     #region 重写函数
+
     public override void OnStartAttack()
     {
         Owner.velocity += Rotation.ToRotationVector2() * 64;
@@ -72,7 +79,7 @@ public class FractalStrom : StormInfo
 
     public override void OnAttack()
     {
-        if (timer % Math.Max(timerMax / 9, 1) == 0)
+        if (Timer % Math.Max(TimerMax / 9, 1) == 0)
         {
             var velocity = Main.rand.NextVector2Unit() * 32;
             Projectile.NewProjectile(Projectile.GetSource_FromThis(),
@@ -86,8 +93,10 @@ public class FractalStrom : StormInfo
         base.OnHitEntity(victim, damageDone, context);
         Projectile.localNPCHitCooldown = 2;
     }
-    #endregion
+
+    #endregion 重写函数
 }
+
 public class FractalTreeStab : PunctureInfo
 {
     public override string Category => "FinalFractal";
@@ -99,9 +108,9 @@ public class FractalTreeStab : PunctureInfo
         base.OnBurst(fallFac);
     }
 }
+
 public class FractalChargingWing : ChargingInfo
 {
-
     public override string Category => "FinalFractal";
 
     public override void OnDeactive()
@@ -116,8 +125,8 @@ public class FractalChargingWing : ChargingInfo
                 proj.frameCounter = 0;
             }
         }
-
     }
+
     public override void OnStartAttack()
     {
         base.OnStartAttack();
@@ -125,34 +134,37 @@ public class FractalChargingWing : ChargingInfo
         SoundEngine.PlaySound(SoundID.Item84);
         for (int n = 0; n < 20; n++)
         {
-            MiscMethods.FastDust(action.Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 32), action.standardInfo.standardColor, Main.rand.NextFloat(1, 4));
+            MiscMethods.FastDust(action.Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 32), action.StandardInfo.standardColor, Main.rand.NextFloat(1, 4));
         }
-        float m = 4 * action.counter;
+        float m = 4 * action.Counter;
         //m = Math.Min(m, 12);
         for (int n = 0; n < m; n++)
         {
             float t = (n + 1f) / m;
             var proj = Projectile.NewProjectileDirect(action.Projectile.GetProjectileSource_FromThis(),
                 action.Owner.Center, default, ModContent.ProjectileType<FractalChargingWingProj>(),
-                action.CurrentDamage, action.Projectile.damage / 4, Main.myPlayer, t, action.counter);
+                action.CurrentDamage, action.Projectile.damage / 4, Main.myPlayer, t, action.Counter);
             proj.netUpdate = true;
             proj.frame = 25;
 
             proj = Projectile.NewProjectileDirect(action.Projectile.GetProjectileSource_FromThis(),
     action.Owner.Center, default, ModContent.ProjectileType<FractalChargingWingProj>(),
-    action.CurrentDamage, action.Projectile.damage / 4, Main.myPlayer, t + 1, action.counter);
+    action.CurrentDamage, action.Projectile.damage / 4, Main.myPlayer, t + 1, action.Counter);
 
             proj.netUpdate = true;
             proj.frame = 25;
         }
     }
 }
+
 public class FractalSnowFlake : FinalFractalSetAction
 {
     public override string Category => "FinalFractal";
     public override bool Attacktive => Factor < .1f;
     public override float offsetRotation => -Rotation - MathHelper.PiOver2;
+
     public override bool Collide(Rectangle rectangle) => false;
+
     public override void OnStartAttack()
     {
         for (int n = 0; n < 60; n++)
@@ -162,13 +174,13 @@ public class FractalSnowFlake : FinalFractalSetAction
         }
         for (int n = 0; n < 40; n++)
         {
-            MiscMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 32), standardInfo.standardColor, Main.rand.NextFloat(1, 4));
-            MiscMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 4) + (Rotation + offsetRotation).ToRotationVector2() * Main.rand.NextFloat(0, 64), standardInfo.standardColor, Main.rand.NextFloat(1, 2));
-
+            MiscMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 32), StandardInfo.standardColor, Main.rand.NextFloat(1, 4));
+            MiscMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 4) + (Rotation + offsetRotation).ToRotationVector2() * Main.rand.NextFloat(0, 64), StandardInfo.standardColor, Main.rand.NextFloat(1, 2));
         }
         SoundEngine.PlaySound(SoundID.Item92);
         base.OnStartAttack();
     }
+
     public override void OnStartSingle()
     {
         Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center, default,
@@ -181,9 +193,11 @@ public class FractalSnowFlake : FinalFractalSetAction
         base.OnStartSingle();
     }
 }
+
 public class FractalJuilaSet : PunctureInfo
 {
     public override string Category => "FinalFractal";
+
     public override void OnBurst(float fallFac)
     {
         Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center, default, ModContent.ProjectileType<FractalJuilaSetProj>(), CurrentDamage, Projectile.knockBack, Projectile.owner);

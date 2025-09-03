@@ -1,21 +1,13 @@
-﻿using FinalFractalSet.REAL_NewVersions.Stone;
-using FinalFractalSet.Weapons;
+﻿using FinalFractalSet.Weapons;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingContents;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingEffects;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee;
-using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Core;
 using LogSpiralLibrary.CodeLibrary.Utilties;
 using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
-using Mono.Cecil;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria.Audio;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace FinalFractalSet.REAL_NewVersions.Zenith
 {
@@ -26,10 +18,12 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
             base.SetDefaults();
             Item.damage = 240;
         }
+
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             base.ModifyTooltips(tooltips);
         }
+
         public override void AddRecipes()
         {
             CreateRecipe()
@@ -43,23 +37,28 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
                 .AddTile(TileID.LunarCraftingStation)
                 .Register();
         }
+
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             Item.ShaderItemEffectInventory(spriteBatch, position, origin, LogSpiralLibraryMod.Misc[0].Value, Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * LogSpiralLibraryMod.ModTime) / 2 + 0.5f), scale);
         }
+
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
             Item.ShaderItemEffectInWorld(spriteBatch, LogSpiralLibraryMod.Misc[0].Value, Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * LogSpiralLibraryMod.ModTime) / 2 + 0.5f), rotation);
         }
+
         public override bool AltFunctionUse(Player player) => true;
     }
+
     public class FirstZenith_NewVer_Proj : MeleeSequenceProj
     {
         public const string CanvasName = "FinalFractalSet:FirstZenith";
         public override string Texture => base.Texture.Replace("_Proj", "");
-        static readonly AirDistortEffect _airDistort = new(4, 1.5f, 0, .5f);
-        static readonly MaskEffect _mask = new(LogSpiralLibraryMod.Mask[2].Value, Color.Blue, 0.15f, 0.2f, new Vector2((float)LogSpiralLibraryMod.ModTime), true, false);
-        static readonly BloomEffect _bloom = new(0f, 1f, 1, 3, true, 2, true);
+        private static readonly AirDistortEffect _airDistort = new(4, 1.5f, 0, .5f);
+        private static readonly MaskEffect _mask = new(LogSpiralLibraryMod.Mask[2].Value, Color.Blue, 0.15f, 0.2f, new Vector2((float)LogSpiralLibraryMod.ModTime), true, false);
+        private static readonly BloomEffect _bloom = new(0f, 1f, 1, 3, true, 2, true);
+
         public override void Load()
         {
             RenderCanvasSystem.RegisterCanvasFactory(CanvasName, () => new RenderingCanvas([[_airDistort], [_mask, _bloom]]));
@@ -79,9 +78,11 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
 
             base.InitializeStandardInfo(standardInfo, vertexStandard);
         }
+
         public override bool LabeledAsCompleted => true;
+
         [SequenceDelegate]
-        static void ShootFirstZenith(MeleeAction action)
+        private static void ShootFirstZenith(MeleeAction action)
         {
             if (action.Projectile.ModProjectile is not FirstZenith_NewVer_Proj proj) return;
             if (proj.HitCausedZenithCooldown <= 0)
@@ -93,7 +94,6 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
             }
             else
                 proj.HitCausedZenithCooldown -= 3;
-
         }
 
         [SequenceDelegate]
@@ -103,7 +103,6 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
             //     (plr.GetModPlayer<LogSpiralLibraryPlayer>().targetedMousePosition - action.Owner.Center).SafeNormalize(default) : action.Rotation.ToRotationVector2();
             Vector2 unit = action.Rotation.ToRotationVector2();
             Projectile.NewProjectile(action.Projectile.GetSource_FromThis(), action.Owner.Center, unit * 32, ModContent.ProjectileType<FractalDash>(), action.Projectile.damage, action.Projectile.knockBack, Main.myPlayer, 0, Main.rand.NextFloat(), 2);// Main.rand.NextFloat(-.002f, .002f)
-
         }
 
         public static void ShootFirstZenithViaPosition(MeleeAction action, Vector2 vector, bool randomOffset)
@@ -148,13 +147,15 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
             }
         }
 
-        int HitCausedZenithCooldown;
+        private int HitCausedZenithCooldown;
+
         public override void AI()
         {
             HitCausedZenithCooldown--;
             base.AI();
         }
     }
+
     public class FirstZenithSpecialAttack : FinalFractalSetAction
     {
         public override float CompositeArmRotation => base.CompositeArmRotation;
@@ -164,6 +165,7 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
         public override Vector2 offsetOrigin => base.offsetOrigin;
         public override float offsetDamage => base.offsetDamage;
         public override bool Attacktive => Factor < .75f;
+
         public override void OnStartAttack()
         {
             VectorMethods.GetClosestVectorsFromNPC(Owner.Center, 15, 2048, out var indexs, out _);
@@ -177,25 +179,28 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
                     FirstZenith_NewVer_Proj.ShootFirstZenithViaPosition(this, n >= q ? Main.MouseWorld : Main.npc[indexs[n]].Center, n >= q);
             SoundEngine.PlaySound(SoundID.Item92);
             var u = UltraSwoosh.NewUltraSwoosh(FirstZenith_NewVer_Proj.CanvasName, 60, 150, Owner.Center, (1.7f, -.2f));
-            u.negativeDir = !flip;
+            u.negativeDir = !Flip;
             u.rotation = Rotation;
             u.xScaler = 2;
             u.aniTexIndex = 3;
             u.baseTexIndex = 7;
-            u.ApplyStdValueToVtxEffect(standardInfo);
+            u.ApplyStdValueToVtxEffect(StandardInfo);
 
             base.OnStartAttack();
         }
-        public override void Update(bool triggered)
+
+        public override void UpdateStatus(bool triggered)
         {
-            flip = Owner.direction == 1;
-            base.Update(triggered);
+            Flip = Owner.direction == 1;
+            base.UpdateStatus(triggered);
         }
     }
+
     public class FirstZenithRainAttack : FinalFractalSetAction
     {
         public override float offsetRotation => MathHelper.SmoothStep(0, 1, MathF.Pow(1 - Factor, 2)) * (-MathHelper.PiOver2 - (Rotation > MathHelper.PiOver2 ? Rotation - MathHelper.TwoPi : Rotation));
-        public override bool Attacktive => timer == 1;
+        public override bool Attacktive => Timer == 1;
+
         public override void OnAttack()
         {
             Vector2 position = Owner.Center + new Vector2(Main.rand.NextFloat(-1280, 1280), -960);
@@ -206,14 +211,16 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
                 unit = Main.rand.NextFloat(MathHelper.Pi / 3, MathHelper.Pi / 3 * 2).ToRotationVector2();
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), position, unit * 32, ModContent.ProjectileType<FirstZenithProj>(), CurrentDamage, Projectile.knockBack, Main.myPlayer, Main.rand.NextFloat(-.01f, .01f), Main.rand.NextFloat());
 
-            MiscMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 4) + (Rotation + offsetRotation).ToRotationVector2() * Main.rand.NextFloat(0, 64), standardInfo.standardColor, Main.rand.NextFloat(1, 2));
+            MiscMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 4) + (Rotation + offsetRotation).ToRotationVector2() * Main.rand.NextFloat(0, 64), StandardInfo.standardColor, Main.rand.NextFloat(1, 2));
 
             base.OnAttack();
         }
+
         public override bool Collide(Rectangle rectangle) => false;
-        public override void Update(bool triggered)
+
+        public override void UpdateStatus(bool triggered)
         {
-            flip = Owner.direction == -1;
+            Flip = Owner.direction == -1;
             switch (Owner)
             {
                 case Player player:
@@ -224,52 +231,51 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
                         Rotation = (tarpos - Owner.Center).ToRotation();
                         break;
                     }
-
             }
-            base.Update(triggered);
-            if (timer > 0)
+            base.UpdateStatus(triggered);
+            if (Timer > 0)
                 for (int n = 0; n < 4; n++)
                 {
                     Vector2 unit = (MathHelper.PiOver2 * n + 4 * Factor).ToRotationVector2();
-                    MiscMethods.FastDust(Owner.Center + unit * (MathF.Exp(Factor) - 1) * 128, default, standardInfo.standardColor, 2f);
+                    MiscMethods.FastDust(Owner.Center + unit * (MathF.Exp(Factor) - 1) * 128, default, StandardInfo.standardColor, 2f);
 
-                    MiscMethods.FastDust(Owner.Center + new Vector2(unit.X + unit.Y, -unit.X + unit.Y) * (MathF.Exp(Factor) - 1) * 128, default, standardInfo.standardColor, 1.5f);
-
+                    MiscMethods.FastDust(Owner.Center + new Vector2(unit.X + unit.Y, -unit.X + unit.Y) * (MathF.Exp(Factor) - 1) * 128, default, StandardInfo.standardColor, 1.5f);
                 }
-            if (timer == 1 && counter == Cycle)
+            if (Timer == 1 && Counter == CounterMax)
             {
-                timer = 0;
+                Timer = 0;
                 SoundEngine.PlaySound(SoundID.Item84);
                 for (int n = 0; n < 40; n++)
                 {
-                    MiscMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 32), standardInfo.standardColor, Main.rand.NextFloat(1, 4));
-                    MiscMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 4) + (Rotation + offsetRotation).ToRotationVector2() * Main.rand.NextFloat(0, 64), standardInfo.standardColor, Main.rand.NextFloat(1, 2));
-
+                    MiscMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 32), StandardInfo.standardColor, Main.rand.NextFloat(1, 4));
+                    MiscMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 4) + (Rotation + offsetRotation).ToRotationVector2() * Main.rand.NextFloat(0, 64), StandardInfo.standardColor, Main.rand.NextFloat(1, 2));
                 }
             }
-            if (timer < 2 && counter == Cycle)
+            if (Timer < 2 && Counter == CounterMax)
             {
-
                 if (triggered)
-                    timer++;
+                    Timer++;
             }
-            if (!triggered && timer != 0)
+            if (!triggered && Timer != 0)
             {
-                timer = 0;
+                Timer = 0;
                 SoundEngine.PlaySound(MySoundID.MagicStaff);
             }
         }
+
         public override void Draw(SpriteBatch spriteBatch, Texture2D texture)
         {
-            float origLight = standardInfo.extraLight;
-            standardInfo.extraLight = 3 * MathF.Pow(1 - Factor, 4f);
+            float origLight = StandardInfo.extraLight;
+            StandardInfo.extraLight = 3 * MathF.Pow(1 - Factor, 4f);
             base.Draw(spriteBatch, texture);
-            standardInfo.extraLight = origLight;
+            StandardInfo.extraLight = origLight;
         }
     }
+
     public class FractalDash : ModProjectile
     {
         public override string Texture => base.Texture.Replace("FractalDash", "FirstZenith_NewVer");
+
         //public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
@@ -284,13 +290,16 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
             }
             base.OnHitNPC(target, hit, damageDone);
         }
+
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (info.PvP) target.immune = false;
             base.OnHitPlayer(target, info);
         }
-        Projectile projectile => Projectile;
+
+        private Projectile projectile => Projectile;
         public Player drawPlayer;
+
         public override void SetDefaults()
         {
             projectile.width = 64;
@@ -307,18 +316,21 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
             projectile.penetrate = -1;
             //ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
+
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 45;
             base.SetStaticDefaults();
         }
+
         public float drawColor => projectile.ai[1];
-        UltraStab stab;
+        private UltraStab stab;
+
         public override void OnSpawn(IEntitySource source)
         {
             projectile.frame = Main.rand.Next(15);
             drawPlayer = new Player();
-            if (Main.netMode == NetmodeID.Server) return;
+            if (Main.dedServ) return;
             stab = UltraStab.NewUltraStab(FirstZenith_NewVer_Proj.CanvasName, 30, 1, default);
             stab.timeLeft = 30;
             stab.heatMap = ModAsset.bar_19.Value;
@@ -326,11 +338,11 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
             stab.ColorVector = new(0.16667f, 0.33333f, 0.5f);
             stab.weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
             stab.gather = false;
-
         }
+
         public override void AI()
         {
-            //if (Main.player[projectile.owner].name == "FFT") 
+            //if (Main.player[projectile.owner].name == "FFT")
             //{
             //    projectile.extraUpdates = 3;
             //}
@@ -355,7 +367,7 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
                     dust.velocity += projectile.velocity * 2f;
                 }
             }
-            if (Main.netMode == NetmodeID.Server) return;
+            if (Main.dedServ) return;
             if (stab == null)
             {
                 stab = UltraStab.NewUltraStab(FirstZenith_NewVer_Proj.CanvasName, 30, 1, default);
@@ -377,13 +389,15 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
             if (!stab.OnSpawn)
                 stab.timeLeft++;
         }
+
         public override void OnKill(int timeLeft)
         {
-            if (Main.netMode == NetmodeID.Server) return;
+            if (Main.dedServ) return;
 
             stab.timeLeft = 0;
             base.OnKill(timeLeft);
         }
+
         public override bool PreDraw(ref Color lightColor)
         {
             DrawOthers();
@@ -429,6 +443,7 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
             color84.A /= 2;
             //projectile.DrawPrettyStarSparkle(Main.spriteBatch, spriteEffects, vector71, color84, Main.hslToRgb(drawColor, 1f, 0.5f));
         }
+
         public void DrawSword()
         {
             SpriteEffects spriteEffects = drawPlayer.direction > 0 ? 0 : SpriteEffects.FlipHorizontally;

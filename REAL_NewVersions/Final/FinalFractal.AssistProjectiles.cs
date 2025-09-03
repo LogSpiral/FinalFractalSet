@@ -4,28 +4,18 @@ using FinalFractalSet.REAL_NewVersions.Zenith;
 using FinalFractalSet.Weapons;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingContents;
-using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingEffects;
-using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Core;
 using LogSpiralLibrary.CodeLibrary.Utilties;
 using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
-using LogSpiralLibrary.ForFun.FractalSpawn;
-using LogSpiralLibrary.ForFun.ScreenTransformUI;
-using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Content;
-using Steamworks;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Metrics;
 using System.IO;
 using System.Linq;
-using Terraria;
 using Terraria.Audio;
 using Terraria.Graphics;
-using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
 using static FinalFractalSet.REAL_NewVersions.Iron.SteelSpecialAttack;
 using static LogSpiralLibrary.CodeLibrary.Utilties.Extensions.VectorMethods;
 using static Terraria.Utils;
+
 namespace FinalFractalSet.REAL_NewVersions.Final;
 
 public abstract class FinalFractalAssistantProjectile : ModProjectile
@@ -38,7 +28,6 @@ public abstract class FinalFractalAssistantProjectile : ModProjectile
 /*
 public class FractalStormSpawner : FinalFractalAssistantProjectile
 {
-
     public override void SetDefaults()
     {
         Projectile.width = 16;
@@ -72,7 +61,7 @@ public class FractalStormSpawner : FinalFractalAssistantProjectile
         num3 *= 0.6f;
         Lighting.AddLight((int)((Projectile.position.X + Projectile.width / 2) / 16f), (int)((Projectile.position.Y + Projectile.height / 2) / 16f), num, num2, num3);
 
-        if (Main.netMode == NetmodeID.Server) return;
+        if (Main.dedServ) return;
         if (stab == null)
         {
             stab = UltraStab.NewUltraStab(Color.Violet, 30, 360, null, ModAsset.bar_19.Value, xscaler: 3, colorVec: new(0.16667f, 0.33333f, 0.5f));// UltraSwoosh.NewUltraSwoosh(Color.Violet, 30, 1, null, ModAsset.bar_19.Value, colorVec: new(0.16667f, 0.33333f, 0.5f));
@@ -112,9 +101,8 @@ public class FractalStormSpawner : FinalFractalAssistantProjectile
                 new Vector2(-1, 0).RotatedBy(Projectile.rotation - MathHelper.PiOver4 + MathHelper.TwoPi / 3 * n + MathHelper.Pi),
                 ModContent.ProjectileType<FractalStorm>(), Projectile.damage, 0, Projectile.owner, 1f, 3f);
 
-        //if (Main.netMode == NetmodeID.Server) return;
+        //if (Main.dedServ) return;
         //stab.timeLeft = 0;
-
     }
     public override bool PreDraw(ref Color lightColor)
     {
@@ -193,7 +181,6 @@ public class FractalStorm : FinalFractalAssistantProjectile
                     new Vector2(64, 0).RotatedBy(Projectile.rotation - MathHelper.PiOver4 + MathHelper.TwoPi / 3 * n),
                     new Vector2(-1, 0).RotatedBy(Projectile.rotation - MathHelper.PiOver4 + MathHelper.TwoPi / 3 * n),
                     Type, Projectile.damage, 0, Projectile.owner, 0, Projectile.ai[1] - 1).scale = 0.3f * (Projectile.ai[1] - 1);
-
         }
         if (Timer == startTime + flyTime + Projectile.ai[1] * (startTime + flyTime))
             Projectile.velocity = Projectile.rotation.ToRotationVector2() * 32;
@@ -202,7 +189,7 @@ public class FractalStorm : FinalFractalAssistantProjectile
             // && (Main.player[Projectile.owner].name == "WitherStorm" || Main.player[Projectile.owner].name == "FFT")
             Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.TwoPi / 30 * MathF.Pow(Projectile.timeLeft / 300f, 4));
         //return;
-        if (Main.netMode == NetmodeID.Server) return;
+        if (Main.dedServ) return;
         if (swoosh == null)
         {
             swoosh = UltraSwoosh
@@ -230,6 +217,7 @@ public class FractalStorm : FinalFractalAssistantProjectile
         {
             case < 4:
                 return;
+
             case >= 45:
                 for (int n = 0; n < 45; n++)
                 {
@@ -241,6 +229,7 @@ public class FractalStorm : FinalFractalAssistantProjectile
                     swoosh.VertexInfos[2 * n + 1] = new(vec + unit * 45, c, new(0, 0, 1));
                 }
                 return;
+
             default:
                 int t = (int)Projectile.localAI[0];
                 Vector2[] vecOuter = new Vector2[t];
@@ -268,7 +257,7 @@ public class FractalStorm : FinalFractalAssistantProjectile
     public override void OnKill(int timeLeft)
     {
         base.OnKill(timeLeft);
-        //if (Main.netMode == NetmodeID.Server) return;
+        //if (Main.dedServ) return;
         //swoosh.timeLeft = 0;
     }
     public override bool PreDraw(ref Color lightColor)
@@ -286,6 +275,7 @@ public class FractalStorm : FinalFractalAssistantProjectile
     }
 }
 */
+
 public class FractalTear : FinalFractalAssistantProjectile
 {
     public override void SetDefaults()
@@ -301,7 +291,9 @@ public class FractalTear : FinalFractalAssistantProjectile
         Projectile.friendly = true;
         base.SetDefaults();
     }
-    UltraSwoosh swoosh;
+
+    private UltraSwoosh swoosh;
+
     public override void AI()
     {
         if (Projectile.timeLeft % 10 == 0)
@@ -317,7 +309,7 @@ public class FractalTear : FinalFractalAssistantProjectile
                 if (!Main.rand.NextBool(3)) break;
             }
         }
-        if (Main.netMode == NetmodeID.Server) return;
+        if (Main.dedServ) return;
         if (swoosh == null)
         {
             var u = swoosh = UltraSwoosh.NewUltraSwoosh(FinalFractal_NewVer_Proj.CanvasName, 30, 240, Projectile.Center, (-1.125f, 0.7125f));
@@ -339,19 +331,21 @@ public class FractalTear : FinalFractalAssistantProjectile
 
         base.AI();
     }
+
     public override bool PreDraw(ref Color lightColor) => false;
+
     public override bool ShouldUpdatePosition() => false;
 }
 
 public class PythagoreanTree
 {
-    class Node()
+    private class Node()
     {
-        Node branchLeft;
-        Node branchRight;
-        float angle;
-        float lengthScaler;
-        float width;
+        private Node branchLeft;
+        private Node branchRight;
+        private float angle;
+        private float lengthScaler;
+        private float width;
 
         public Node(float width, float length, float angle) : this()
         {
@@ -416,9 +410,7 @@ public class PythagoreanTree
             }
             branchLeft?.AddToVertexs(vertexInfos, c1, (target + rectangleVertexs[4].Position) * .5f, startRotation + angle * .5f, factor - .5f);
             branchRight?.AddToVertexs(vertexInfos, c2, (target + rectangleVertexs[2].Position) * .5f, startRotation + angle * .5f - MathHelper.PiOver2, factor - .5f);
-
         }
-
 
         public void RunTask(Action<Vector2, Vector2> task, Vector2 startCoord, float startRotation, int tier)
         {
@@ -447,9 +439,11 @@ public class PythagoreanTree
             //width *= .5f;
         }
     }
+
     //float Width;
-    float Rotation;
-    Node StartNode;
+    private float Rotation;
+
+    private Node StartNode;
 
     public PythagoreanTree(float width, float length, float rotation)
     {
@@ -491,11 +485,11 @@ public class PythagoreanTreeProj : FinalFractalAssistantProjectile
                     //}
                     //Projectile.NewProjectile(Projectile.GetSource_FromThis(), center, unit * 16, ModContent.ProjectileType<FractalDash>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0, Main.rand.NextFloat());
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), center, unit * 16, ModContent.ProjectileType<FractalStabProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner, unit.ToRotation(), (float)Main.rand.GaussianRandom(0.5f, 0.16f));
-
                 }, Projectile.Center, (60 - Projectile.timeLeft) / 3);
         }
         base.AI();
     }
+
     public override void SetDefaults()
     {
         Projectile.timeLeft = 120;
@@ -508,12 +502,14 @@ public class PythagoreanTreeProj : FinalFractalAssistantProjectile
         Projectile.tileCollide = false;
         base.SetDefaults();
     }
+
     public override void OnSpawn(IEntitySource source)
     {
         tree = new PythagoreanTree(32, 256, MathHelper.Pi);
 
         base.OnSpawn(source);
     }
+
     public override bool PreDraw(ref Color lightColor)
     {
         float factor1 = MathF.Pow(Utils.GetLerpValue(120, 60, Projectile.timeLeft, true), 4.0f);
@@ -521,13 +517,12 @@ public class PythagoreanTreeProj : FinalFractalAssistantProjectile
 
         //float k = (1 - MathF.Cos(MathHelper.TwoPi * MathF.Sqrt(1 - Projectile.timeLeft / 60f))) * .5f;
 
-
         tree?.Draw(Main.spriteBatch, Color.Blue with { A = 64 } * factor2, Projectile.Center - Main.screenPosition, factor1);
         return false;
     }
-    PythagoreanTree tree;
-}
 
+    private PythagoreanTree tree;
+}
 
 public class FractalStabProj : ModProjectile
 {
@@ -545,6 +540,7 @@ public class FractalStabProj : ModProjectile
 
         base.SetDefaults();
     }
+
     public override void AI()
     {
         //Projectile.velocity *= 1.05f;
@@ -553,7 +549,9 @@ public class FractalStabProj : ModProjectile
 
         base.AI();
     }
+
     public override string Texture => "Terraria/Images/Extra_98";
+
     public override bool PreDraw(ref Color lightColor)
     {
         float t = Projectile.timeLeft / 30f;
@@ -584,17 +582,18 @@ public class FractalChargingWingProj : ModProjectile
 
         base.SetDefaults();
     }
+
     public override void SetStaticDefaults()
     {
         ProjectileID.Sets.TrailCacheLength[Type] = 20;
         base.SetStaticDefaults();
     }
 
-    int attackTimer;
+    private int attackTimer;
 
-    int targetIndex;
+    private int targetIndex;
 
-    void StartAndIdle()
+    private void StartAndIdle()
     {
         int counter = Projectile.frameCounter;
         Player plr = Main.player[Projectile.owner];
@@ -665,12 +664,11 @@ public class FractalChargingWingProj : ModProjectile
         if (plr.direction == 1)
             targetRotation = MathHelper.Pi - targetRotation;
 
-
         Projectile.Center = Vector2.Lerp(Projectile.Center, target + plr.Center, 0.3f);
         Projectile.rotation = Utils.AngleLerp(Projectile.rotation, targetRotation, 0.3f);
     }
 
-    void OldDataUpdates()
+    private void OldDataUpdates()
     {
         for (int n = 19; n > 0; n--)
         {
@@ -681,9 +679,8 @@ public class FractalChargingWingProj : ModProjectile
         Projectile.oldRot[0] = Projectile.rotation + MathHelper.PiOver2 + .05f;
     }
 
-    void AttackTarget()
+    private void AttackTarget()
     {
-
         int max1 = 90;
         int max2 = 60;
 
@@ -797,7 +794,6 @@ public class FractalChargingWingProj : ModProjectile
             projectile.Center = Vector2.Lerp(vector5, nPC2.Center, lerpValue3);
             if (lerpValue4 > 0f)
                 projectile.Center = Vector2.Lerp(nPC2.Center, value, lerpValue4);
-
         }
 
         if (attackTimer == (float)checkTime)
@@ -940,9 +936,11 @@ public class FractalChargingWingProj : ModProjectile
                         case < 48:
                             proj.velocity = unit * MathHelper.SmoothStep(0, -12, counter / 48f);
                             break;
+
                         case < 61:
                             proj.velocity = unit * MathHelper.SmoothStep(-12, 16, (counter - 48) / 12f);
                             break;
+
                         case 61:
                             for (int n = 0; n < 10; n++)
                                 MiscMethods.FastDust(proj.Center,
@@ -958,6 +956,7 @@ public class FractalChargingWingProj : ModProjectile
         OldDataUpdates();
         base.AI();
     }
+
     public override bool PreDraw(ref Color lightColor)
     {
         var tex = PureFractalProj.ItemTextures[Projectile.frame];
@@ -998,21 +997,23 @@ public class FractalChargingWingProj : ModProjectile
             Main.spriteBatch.Draw(TextureAssets.Extra[98].Value, Projectile.Center + Projectile.velocity * 4 - Main.screenPosition, null, Color.White with { A = 0 } * factor, Projectile.rotation + MathHelper.PiOver2, new(36), new Vector2(1, 4 + Projectile.frameCounter * .05f) * .75f * factor, 0, 0);
         }
 
-
         return false;
     }
+
     public override void ReceiveExtraAI(BinaryReader reader)
     {
         Projectile.frame = reader.ReadInt32();
         Projectile.frameCounter = reader.ReadInt32();
         base.ReceiveExtraAI(reader);
     }
+
     public override void SendExtraAI(BinaryWriter writer)
     {
         writer.Write(Projectile.frame);
         writer.Write(Projectile.frameCounter);
         base.SendExtraAI(writer);
     }
+
     public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
     {
         if (Projectile.ai[0] > 1)
@@ -1022,6 +1023,7 @@ public class FractalChargingWingProj : ModProjectile
         }
         base.DrawBehind(index, behindNPCsAndTiles, behindNPCs, behindProjectiles, overPlayers, overWiresUI);
     }
+
     public override string Texture => $"Terraria/Images/Item_{ItemID.TerraBlade}";
 }
 
@@ -1053,18 +1055,22 @@ public class FractalSnowFlakeProj : FinalFractalAssistantProjectile
         }
         base.AI();
     }
-    static BlendState InverseDestination;
+
+    private static BlendState InverseDestination;
+
     public override void Load()
     {
         InverseDestination = new BlendState("FinalFractalSet:InverseDestination", Blend.InverseDestinationColor, Blend.One, Blend.InverseSourceAlpha, Blend.Zero);
         base.Load();
     }
+
     public override void Unload()
     {
         InverseDestination?.Dispose();
         base.Unload();
     }
-    static void DrawSnowFlakePart(SpriteBatch spriteBatch, Vector2 Position, Color color, float size, float rotation, float angle, float tier)
+
+    private static void DrawSnowFlakePart(SpriteBatch spriteBatch, Vector2 Position, Color color, float size, float rotation, float angle, float tier)
     {
         Vector2 unit = rotation.ToRotationVector2();
         if (tier > 1)
@@ -1081,7 +1087,8 @@ public class FractalSnowFlakeProj : FinalFractalAssistantProjectile
         else
             spriteBatch.DrawLine(Position - unit * size * .5f, unit * size * tier, color, 2, true);
     }
-    static void DrawSnowFlake(SpriteBatch spriteBatch, Vector2 Position, Color color, float size, float rotation, float angle, float tier)
+
+    private static void DrawSnowFlake(SpriteBatch spriteBatch, Vector2 Position, Color color, float size, float rotation, float angle, float tier)
     {
         Vector2 unit = rotation.ToRotationVector2();
         Vector2 normal = new(-unit.Y, unit.X);
@@ -1091,6 +1098,7 @@ public class FractalSnowFlakeProj : FinalFractalAssistantProjectile
         DrawSnowFlakePart(spriteBatch, Position + offset.RotatedBy(MathHelper.TwoPi / 3), color, size, rotation + MathHelper.TwoPi / 3, angle, tier);
         DrawSnowFlakePart(spriteBatch, Position + offset.RotatedBy(-MathHelper.TwoPi / 3), color, size, rotation - MathHelper.TwoPi / 3, angle, tier);
     }
+
     public override bool PreDraw(ref Color lightColor)
     {
         //float r = MathHelper.PiOver2 * (1 + MathF.Cos(Main.GlobalTimeWrappedHourly));
@@ -1141,6 +1149,7 @@ public class FractalSnowFlakeProj : FinalFractalAssistantProjectile
         }
         return false;
     }
+
     public override void SetDefaults()
     {
         Projectile.width = Projectile.height = 1;
@@ -1149,16 +1158,17 @@ public class FractalSnowFlakeProj : FinalFractalAssistantProjectile
         Projectile.timeLeft = 105;
         base.SetDefaults();
     }
+
     public override void OnSpawn(IEntitySource source)
     {
         var player = Main.player[Projectile.owner];
         var fplayer = player.GetModPlayer<FractalPlayer>();
-        //if (fplayer.RecordOldDatas) 
+        //if (fplayer.RecordOldDatas)
         //{
         //    Projectile.Kill();
         //    foreach (var proj in Main.projectile)
         //    {
-        //        if (proj.active && proj.owner == Projectile.owner && proj.ModProjectile is PlayerLikeProjectile) 
+        //        if (proj.active && proj.owner == Projectile.owner && proj.ModProjectile is PlayerLikeProjectile)
         //        {
         //            proj.timeLeft += 600;
         //        }
@@ -1174,6 +1184,7 @@ public abstract class PlayerLikeProjectile : FinalFractalAssistantProjectile
 {
     public Player Player => Main.player[Projectile.owner];
     public FractalPlayer FractalPlayer => Player.GetModPlayer<FractalPlayer>();
+
     public override void SetDefaults()
     {
         Projectile.timeLeft = 600;
@@ -1186,18 +1197,22 @@ public abstract class PlayerLikeProjectile : FinalFractalAssistantProjectile
         Projectile.melee = true;
         base.SetDefaults();
     }
+
     public Player drawPlayer;
     public int targetIndex;
+
     public override void ReceiveExtraAI(BinaryReader reader)
     {
         targetIndex = reader.ReadByte();
         base.ReceiveExtraAI(reader);
     }
+
     public override void SendExtraAI(BinaryWriter writer)
     {
         writer.Write((byte)targetIndex);
         base.SendExtraAI(writer);
     }
+
     public void DrawPlayer()
     {
         var projectile = Projectile;
@@ -1242,12 +1257,14 @@ public abstract class PlayerLikeProjectile : FinalFractalAssistantProjectile
         color84.A /= 2;
         //projectile.DrawPrettyStarSparkle(Main.spriteBatch, spriteEffects, vector71, color84, Main.hslToRgb(drawColor, 1f, 0.5f));
     }
+
     public override void OnSpawn(IEntitySource source)
     {
         drawPlayer = new Player();
 
         base.OnSpawn(source);
     }
+
     public override void AI()
     {
         switch ((int)Projectile.ai[0])
@@ -1294,7 +1311,6 @@ public abstract class PlayerLikeProjectile : FinalFractalAssistantProjectile
                     }
                     break;
                 }
-
         }
         if (Projectile.timeLeft < 60)
             Projectile.Opacity = MathHelper.SmoothStep(0, 1, Projectile.timeLeft / 60f);
@@ -1306,27 +1322,36 @@ public abstract class PlayerLikeProjectile : FinalFractalAssistantProjectile
         }
         base.AI();
     }
-    public virtual void Idle() { }
-    public virtual void Attack() { }
-    public virtual void ModifyDrawPlayer(Player drawPlayer) { }
+
+    public virtual void Idle()
+    { }
+
+    public virtual void Attack()
+    { }
+
+    public virtual void ModifyDrawPlayer(Player drawPlayer)
+    { }
+
     public override bool PreDraw(ref Color lightColor)
     {
         DrawPlayer();
         DrawSword();
         return false;
     }
+
     public virtual void DrawSword()
     {
-
     }
 }
+
 public class FractalPlayer : ModPlayer
 {
     public Vector2[] OldPos = new Vector2[30];
     public int[] OldDirection = new int[30];
     public Rectangle[] OldBodyFrame = new Rectangle[30];
     public Rectangle[] OldLegFrame = new Rectangle[30];
-    bool recordOldDatas;
+    private bool recordOldDatas;
+
     public bool RecordOldDatas
     {
         get => recordOldDatas;
@@ -1344,6 +1369,7 @@ public class FractalPlayer : ModPlayer
         Array.Fill(OldBodyFrame, default);
         Array.Fill(OldLegFrame, default);
     }
+
     public override void PostUpdate()
     {
         if (recordOldDatas)
@@ -1362,21 +1388,23 @@ public class FractalPlayer : ModPlayer
                 OldBodyFrame[0] = Player.bodyFrame;
                 OldLegFrame[0] = Player.legFrame;
             }
-
         }
         base.PostUpdate();
     }
 }
+
 public class WoodSwordPlrProj : PlayerLikeProjectile
 {
     public override void AI()
     {
         base.AI();
     }
+
     public override bool PreDraw(ref Color lightColor)
     {
         return base.PreDraw(ref lightColor);
     }
+
     public override void DrawSword()
     {
         var rotation = Projectile.rotation - MathHelper.Pi / 12 * Projectile.spriteDirection;// - MathHelper.PiOver4;
@@ -1388,6 +1416,7 @@ public class WoodSwordPlrProj : PlayerLikeProjectile
             Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : 0, 0);
         base.DrawSword();
     }
+
     public override void Attack()
     {
         if (Projectile.ai[2] == 10)
@@ -1413,6 +1442,7 @@ public class WoodSwordPlrProj : PlayerLikeProjectile
         }
         base.Attack();
     }
+
     public override void ModifyDrawPlayer(Player drawPlayer)
     {
         var fPlr = FractalPlayer;
@@ -1428,6 +1458,7 @@ public class WoodSwordPlrProj : PlayerLikeProjectile
 
         base.ModifyDrawPlayer(drawPlayer);
     }
+
     public override void Idle()
     {
         var target = FractalPlayer.OldPos[29];
@@ -1436,16 +1467,19 @@ public class WoodSwordPlrProj : PlayerLikeProjectile
         base.Idle();
     }
 }
+
 public class StoneSwordPlrProj : PlayerLikeProjectile
 {
     public override void AI()
     {
         base.AI();
     }
+
     public override bool PreDraw(ref Color lightColor)
     {
         return base.PreDraw(ref lightColor);
     }
+
     public override void DrawSword()
     {
         var rotation = Projectile.rotation - MathHelper.Pi / 12 * Projectile.spriteDirection;// - MathHelper.PiOver4;
@@ -1457,6 +1491,7 @@ public class StoneSwordPlrProj : PlayerLikeProjectile
             Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : 0, 0);
         base.DrawSword();
     }
+
     public override void Attack()
     {
         if (Projectile.ai[2] == 10)
@@ -1479,11 +1514,12 @@ public class StoneSwordPlrProj : PlayerLikeProjectile
             u.baseTexIndex = 7;
             u.weaponTex = ModAsset.CrystalStoneSword_NewVer.Value;
         }
-        Projectile.rotation = Projectile.velocity.ToRotation() + 4 * (MathF.Sin(MathHelper.SmoothStep(0,1, Projectile.ai[2] / 10f) * MathHelper.PiOver2) + .25f) * .75f * MathF.Sign(Projectile.velocity.X);// (MathF.Sin(Projectile.ai[2] / 20f * MathHelper.TwoPi) * 4f - 4f);
+        Projectile.rotation = Projectile.velocity.ToRotation() + 4 * (MathF.Sin(MathHelper.SmoothStep(0, 1, Projectile.ai[2] / 10f) * MathHelper.PiOver2) + .25f) * .75f * MathF.Sign(Projectile.velocity.X);// (MathF.Sin(Projectile.ai[2] / 20f * MathHelper.TwoPi) * 4f - 4f);
         //if (Projectile.spriteDirection == -1)
         //    Projectile.rotation += MathHelper.Pi;
         base.Attack();
     }
+
     public override void ModifyDrawPlayer(Player drawPlayer)
     {
         var fPlr = FractalPlayer;
@@ -1498,6 +1534,7 @@ public class StoneSwordPlrProj : PlayerLikeProjectile
             drawPlayer.direction = fPlr.OldDirection[index];
         base.ModifyDrawPlayer(drawPlayer);
     }
+
     public override void Idle()
     {
         var target = FractalPlayer.OldPos[19];
@@ -1506,16 +1543,19 @@ public class StoneSwordPlrProj : PlayerLikeProjectile
         base.Idle();
     }
 }
+
 public class IronSwordPlrProj : PlayerLikeProjectile
 {
     public override void AI()
     {
         base.AI();
     }
+
     public override bool PreDraw(ref Color lightColor)
     {
         return base.PreDraw(ref lightColor);
     }
+
     public override void DrawSword()
     {
         var rotation = Projectile.rotation - MathHelper.Pi / 12 * Projectile.spriteDirection;// - MathHelper.PiOver4;
@@ -1527,6 +1567,7 @@ public class IronSwordPlrProj : PlayerLikeProjectile
             Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : 0, 0);
         base.DrawSword();
     }
+
     public override void Attack()
     {
         if (Projectile.ai[2] == 5)
@@ -1541,11 +1582,11 @@ public class IronSwordPlrProj : PlayerLikeProjectile
 
             var cen = targetPos;
             Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), cen, delta.SafeNormalize(default).RotatedByRandom(MathHelper.Pi * 3) / 16f * Main.rand.NextFloat(160, 400) * Main.rand.NextFloat(-1, 1), ModContent.ProjectileType<SteelSAProjectile>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Main.rand.Next(-25, 26), cen.X, cen.Y);
-
         }
         Projectile.rotation = Projectile.velocity.ToRotation() + 4 * (MathF.Sin(MathHelper.SmoothStep(0, 1, Projectile.ai[2] / 5f) * MathHelper.PiOver2) + .25f) * .75f * MathF.Sign(Projectile.velocity.X);
         base.Attack();
     }
+
     public override void ModifyDrawPlayer(Player drawPlayer)
     {
         var fPlr = FractalPlayer;
@@ -1560,6 +1601,7 @@ public class IronSwordPlrProj : PlayerLikeProjectile
             drawPlayer.direction = fPlr.OldDirection[index];
         base.ModifyDrawPlayer(drawPlayer);
     }
+
     public override void Idle()
     {
         var target = FractalPlayer.OldPos[9];
@@ -1567,6 +1609,7 @@ public class IronSwordPlrProj : PlayerLikeProjectile
             Projectile.Center = Vector2.Lerp(Projectile.Center, target, 0.5f);
         base.Idle();
     }
+
     public override void OnKill(int timeLeft)
     {
         foreach (var proj in Main.projectile)
@@ -1578,4 +1621,3 @@ public class IronSwordPlrProj : PlayerLikeProjectile
         base.OnKill(timeLeft);
     }
 }
-

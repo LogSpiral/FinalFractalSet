@@ -1,23 +1,12 @@
-﻿using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
-using FinalFractalSet.REAL_NewVersions.Wood;
-using Terraria.Audio;
-using Microsoft.Xna.Framework;
-using FinalFractalSet.Weapons;
-using Terraria;
-using System.ComponentModel;
-using System.Xml;
-using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee;
-using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Core;
+﻿using FinalFractalSet.Weapons;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingContents;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingEffects;
+using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee;
+using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Core;
 using LogSpiralLibrary.CodeLibrary.Utilties;
 using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
+using System.ComponentModel;
+using Terraria.Audio;
 
 namespace FinalFractalSet.REAL_NewVersions.Stone
 {
@@ -28,6 +17,7 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
             base.SetDefaults();
             Item.damage = 30;
         }
+
         public override void AddRecipes()
         {
             var recipe = CreateRecipe();
@@ -49,7 +39,9 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
             recipe.ReplaceResult(this);
             recipe.Register();
         }
+
         public override bool AltFunctionUse(Player player) => true;
+
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
             if (player.HasBuff<StoneBuffBoost>())
@@ -57,10 +49,12 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
             base.ModifyWeaponDamage(player, ref damage);
         }
     }
+
     public class DyingStoneSword_NewVer_Proj : MeleeSequenceProj
     {
         public override bool LabeledAsCompleted => true;
         public override string Texture => base.Texture.Replace("_Proj", "");
+
         public override void InitializeStandardInfo(StandardInfo standardInfo, VertexDrawStandardInfo vertexStandard)
         {
             standardInfo.standardColor = Color.DeepSkyBlue * .25f;
@@ -71,16 +65,18 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
             vertexStandard.alphaFactor = 2f;
             base.InitializeStandardInfo(standardInfo, vertexStandard);
         }
+
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (player.HasBuff<StoneBuffBoost>())
+            if (Player.HasBuff<StoneBuffBoost>())
             {
                 target.AddBuff(ModContent.BuffType<StoneBuff>(), Main.rand.Next(30, 90));
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center + Vector2.UnitY * 32, -Vector2.UnitY + Vector2.UnitX * Main.rand.NextFloat(-.5f, .5f), ModContent.ProjectileType<SharpStoneTears>(), Projectile.damage / 4, Projectile.knockBack, player.whoAmI, 0f, Main.rand.NextFloat() * 0.5f + 0.5f);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center + Vector2.UnitY * 32, -Vector2.UnitY + Vector2.UnitX * Main.rand.NextFloat(-.5f, .5f), ModContent.ProjectileType<SharpStoneTears>(), Projectile.damage / 4, Projectile.knockBack, Player.whoAmI, 0f, Main.rand.NextFloat() * 0.5f + 0.5f);
             }
             base.OnHitNPC(target, hit, damageDone);
         }
     }
+
     public class CrystalStoneSword_NewVer : MeleeSequenceItem<CrystalStoneSword_NewVer_Proj>
     {
         public override void SetDefaults()
@@ -88,6 +84,7 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
             base.SetDefaults();
             Item.damage = 70;
         }
+
         public override void AddRecipes()
         {
             var recipe = CreateRecipe();
@@ -107,7 +104,9 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
             recipe.ReplaceResult(this);
             recipe.Register();
         }
+
         public override bool AltFunctionUse(Player player) => true;
+
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
             if (player.HasBuff<StoneBuffBoost>())
@@ -115,10 +114,12 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
             base.ModifyWeaponDamage(player, ref damage);
         }
     }
+
     public class CrystalStoneSword_NewVer_Proj : MeleeSequenceProj
     {
         public override bool LabeledAsCompleted => true;
         public override string Texture => base.Texture.Replace("_Proj", "");
+
         public override void InitializeStandardInfo(StandardInfo standardInfo, VertexDrawStandardInfo vertexStandard)
         {
             standardInfo.standardColor = Color.DeepSkyBlue * .5f;
@@ -129,21 +130,24 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
             vertexStandard.alphaFactor = 2f;
             base.InitializeStandardInfo(standardInfo, vertexStandard);
         }
+
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (player.HasBuff<StoneBuffBoost>())
+            if (Player.HasBuff<StoneBuffBoost>())
             {
                 target.AddBuff(ModContent.BuffType<StoneBuff>(), Main.rand.Next(60, 120));
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center + Vector2.UnitY * 32, -Vector2.UnitY + Vector2.UnitX * Main.rand.NextFloat(-.5f, .5f), ModContent.ProjectileType<SharpStoneTears>(), Projectile.damage / 2, Projectile.knockBack, player.whoAmI, 0f, Main.rand.NextFloat() * 0.5f + 0.5f);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center + Vector2.UnitY * 32, -Vector2.UnitY + Vector2.UnitX * Main.rand.NextFloat(-.5f, .5f), ModContent.ProjectileType<SharpStoneTears>(), Projectile.damage / 2, Projectile.knockBack, Player.whoAmI, 0f, Main.rand.NextFloat() * 0.5f + 0.5f);
             }
             base.OnHitNPC(target, hit, damageDone);
         }
     }
+
     public class StoneSpecialAttack : FinalFractalSetAction
     {
         public const string CanvasName = "FinalFractalSet:StoneSpecial";
-        static AirDistortEffect _airDistort = new(12, 1.5f);
-        static DyeEffect _dye = new(ItemID.FogboundDye);
+        private static AirDistortEffect _airDistort = new(12, 1.5f);
+        private static DyeEffect _dye = new(ItemID.FogboundDye);
+
         public override void Load()
         {
             RenderCanvasSystem.RegisterCanvasFactory(CanvasName, () => new([[_airDistort], [_dye]]));
@@ -157,10 +161,12 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
         public override Vector2 offsetOrigin => base.offsetOrigin;
         public override float offsetDamage => base.offsetDamage;
         public override bool Attacktive => Factor < .75f;
+
         public override void OnEndSingle()
         {
             base.OnEndSingle();
         }
+
         public override void OnStartAttack()
         {
             float r = Main.rand.NextFloat(0, MathHelper.TwoPi);
@@ -183,7 +189,6 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
                     velocity = Main.npc[indexs[n]].Center - cen;
                     velocity = velocity.SafeNormalize(default) * 16;
                 }
-
 
                 for (int k = 0; k < 20; k++)
                     Dust.NewDustPerfect(cen, MyDustId.GreyStone, Main.rand.NextVector2Circular(4, 4), 0, default, Main.rand.NextFloat(1, 2)).noGravity = true;
@@ -209,14 +214,13 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
                         velocity = velocity.SafeNormalize(default) * 16;
                     }
 
-
                     for (int k = 0; k < 20; k++)
                         Dust.NewDustPerfect(cen, MyDustId.GreyStone, Main.rand.NextVector2Circular(4, 4), 0, default, Main.rand.NextFloat(1, 2)).noGravity = true;
                     Projectile.NewProjectile(Owner.GetSource_FromThis(), cen, velocity, ModContent.ProjectileType<StoneSAProjectile>(), CurrentDamage, Projectile.knockBack, Projectile.owner);
                 }
             }
             var u = UltraSwoosh.NewUltraSwoosh(CanvasName, 60, 120, Owner.Center, (1.7f, -.2f));
-            u.negativeDir = !flip;
+            u.negativeDir = !Flip;
             u.rotation = Rotation;
             u.xScaler = 2;
             u.aniTexIndex = 3;
@@ -226,25 +230,28 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
 
             base.OnStartAttack();
         }
+
         public override void OnCharge()
         {
-
             base.OnCharge();
         }
+
         public override void OnStartSingle()
         {
             base.OnStartSingle();
         }
-        public override void Update(bool triggered)
-        {
 
-            flip = Owner.direction == 1;
-            base.Update(triggered);
+        public override void UpdateStatus(bool triggered)
+        {
+            Flip = Owner.direction == 1;
+            base.UpdateStatus(triggered);
         }
+
         [ElementCustomData]
         [DefaultValue(false)]
         public bool Upgraded;
     }
+
     public class StoneSAProjectile : ModProjectile
     {
         public override string Texture => base.Texture.Replace("StoneSAProjectile", "DyingStoneSword_NewVer");
@@ -272,11 +279,13 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
             Projectile.width = Projectile.height = 80;
             base.OnHitNPC(target, hit, damageDone);
         }
+
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<StoneBuff>(), 60);
             base.OnHitPlayer(target, info);
         }
+
         public override void AI()
         {
             if (ultraStab != null)
@@ -296,15 +305,18 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
             Dust.NewDustPerfect(Projectile.Center, MyDustId.GreyStone, Main.rand.NextVector2Unit(), 0, default, Main.rand.NextFloat(.5f, 1.5f)).noGravity = true;
             base.AI();
         }
+
         public override void OnKill(int timeLeft)
         {
             ultraStab.timeLeft = 0;
             base.OnKill(timeLeft);
         }
-        UltraStab ultraStab;
+
+        private UltraStab ultraStab;
+
         public override void OnSpawn(IEntitySource source)
         {
-            if (Main.netMode == NetmodeID.Server) return;
+            if (Main.dedServ) return;
             ultraStab = UltraStab.NewUltraStab(StoneSpecialAttack.CanvasName, 30, 250, Projectile.Center);
             ultraStab.negativeDir = Main.rand.NextBool(2);
             ultraStab.rotation = 0;
@@ -314,11 +326,13 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
             ultraStab.autoUpdate = false;
             base.OnSpawn(source);
         }
+
         public override bool PreDraw(ref Color lightColor)
         {
             return false;
         }
     }
+
     public class StoneBuff : ModBuff
     {
         public override void SetStaticDefaults()
@@ -326,7 +340,9 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
             Main.debuff[Type] = true;
             base.SetStaticDefaults();
         }
+
         public override string Texture => $"Terraria/Images/Buff_{BuffID.WitheredArmor}";
+
         public override void Update(NPC npc, ref int buffIndex)
         {
             npc.lifeRegen -= 10;
@@ -335,6 +351,7 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
                 Dust.NewDustPerfect(npc.Center, MyDustId.GreyStone, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 2));
             base.Update(npc, ref buffIndex);
         }
+
         public override void Update(Player player, ref int buffIndex)
         {
             player.velocity *= .9f;
@@ -342,9 +359,11 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
             base.Update(player, ref buffIndex);
         }
     }
+
     public class StoneBuffBoost : ModBuff
     {
         public override string Texture => $"Terraria/Images/Buff_{BuffID.Stoned}";
+
         public override void Update(Player player, ref int buffIndex)
         {
             player.endurance += 10;

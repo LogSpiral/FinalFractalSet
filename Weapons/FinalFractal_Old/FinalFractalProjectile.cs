@@ -1,22 +1,19 @@
+using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
+using LogSpiralLibrary.CodeLibrary.Utilties;
 using System;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework.Graphics;
+using System.IO;
+using Terraria.Audio;
 using static Terraria.ModLoader.ModContent;
 using static Terraria.Utils;
-using Terraria.GameContent;
-using System.IO;
-using LogSpiralLibrary;
-using LogSpiralLibrary.CodeLibrary.DataStructures;
-using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
-using Terraria.Audio;
-using LogSpiralLibrary.CodeLibrary.Utilties;
 
 namespace FinalFractalSet.Weapons.FinalFractal_Old
 {
     public class FinalFractalProjectile : ModProjectile
     {
         public override bool IsLoadingEnabled(Mod mod) => true;
-        Projectile projectile => Projectile;
+
+        private Projectile projectile => Projectile;
 
         public override void SetDefaults()
         {
@@ -32,11 +29,13 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 30;
         }
+
         private float drawColor
         {
             get => projectile.ai[0];
             set { projectile.ai[0] = value; }
         }
+
         public override void AI()
         {
             projectile.localAI[0]++;
@@ -53,21 +52,27 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                 case 6:
                     drawColor = Main.rgbToHsl(new Color(108, 134, 230)).X;
                     break;
+
                 case 1:
                     drawColor = Main.rgbToHsl(new Color(178, 165, 226)).X;
                     break;
+
                 case 2:
                     drawColor = Main.rgbToHsl(new Color(182, 109, 190)).X;
                     break;
+
                 case 3:
                     drawColor = Main.rgbToHsl(new Color(99, 74, 187)).X;
                     break;
+
                 case 4:
                     drawColor = Main.rgbToHsl(new Color(173, 214, 193)).X;
                     break;
+
                 case 5:
                     drawColor = Main.rgbToHsl(new Color(100, 203, 189)).X;
                     break;
+
                 default:
 
                     break;
@@ -85,6 +90,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             num3 *= 0.6f;
             Lighting.AddLight((int)((projectile.position.X + projectile.width / 2) / 16f), (int)((projectile.position.Y + projectile.height / 2) / 16f), num, num2, num3);
         }
+
         public override Color? GetAlpha(Color lightColor)
         {
             if (projectile.localAI[1] >= 15f)
@@ -98,6 +104,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             int num7 = (int)((projectile.localAI[1] - 5f) / 10f * 255f);
             return new Color(num7, num7, num7, num7);
         }
+
         public override void OnKill(int timeLeft)
         {
             for (int n = 0; n < 3; n++)
@@ -105,6 +112,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), projectile.Center + new Vector2(64, 0).RotatedBy(projectile.rotation - MathHelper.PiOver4 + MathHelper.TwoPi / 3 * n + MathHelper.Pi), new Vector2(-1, 0).RotatedBy(projectile.rotation - MathHelper.PiOver4 + MathHelper.TwoPi / 3 * n + MathHelper.Pi), ProjectileType<FinalFractalShadow>(), projectile.damage, 0, projectile.owner, 1f, 3f);
             }
         }
+
         public override bool PreDraw(ref Color lightColor)
         {
             if (LogSpiralLibraryMod.FinalFractalTailEffect == null) return false; if (LogSpiralLibraryMod.ColorfulEffect == null) return false;
@@ -135,7 +143,6 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
 
                 if (bars.Count > 2)
                 {
-
                     // 按照顺序连接三角形
                     triangleList.Add(bars[0]);
                     var vertex = new CustomVertexInfo((bars[0].Position + bars[1].Position) * 0.5f + Vector2.Normalize(projectile.velocity) * 30, Color.White,
@@ -152,7 +159,6 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                         triangleList.Add(bars[i + 2]);
                         triangleList.Add(bars[i + 3]);
                     }
-
 
                     spriteBatch.End();
                     spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.Default, RasterizerState.CullNone);
@@ -172,7 +178,6 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                     Main.graphics.GraphicsDevice.SamplerStates[2] = SamplerState.PointWrap;
                     LogSpiralLibraryMod.FinalFractalTailEffect.CurrentTechnique.Passes[0].Apply();
 
-
                     Main.graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, triangleList.ToArray(), 0, triangleList.Count / 3);
 
                     Main.graphics.GraphicsDevice.RasterizerState = originalState;
@@ -182,6 +187,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             }
             return false;
         }
+
         private void DrawProjWithStarryTrail(SpriteBatch spriteBatch)
         {
             Color color = new Color(255, 255, 255, Color.White.A - projectile.alpha);
@@ -251,20 +257,25 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             }
         }
     }
+
     public class FinalFractalShadow : ModProjectile
     {
         public override bool IsLoadingEnabled(Mod mod) => true;
-        Projectile projectile => Projectile;
+
+        private Projectile projectile => Projectile;
+
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.immune[projectile.owner] = 0;
             base.OnHitNPC(target, hit, damageDone);
         }
+
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (info.PvP) target.immune = false;
             base.OnHitPlayer(target, info);
         }
+
         public override void SetDefaults()
         {
             projectile.width = 16;
@@ -279,31 +290,39 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 30;
         }
+
         private const int startTime = 5;
         private const int flyTime = 5;
+
         private Vector2 oldvec
         {
             get => Projectile.oldVelocity;
             set { projectile.oldVelocity = value; }
         }
+
         private int timer;
+
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             timer = reader.ReadInt32();
         }
+
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(timer);
         }
+
         public override bool ShouldUpdatePosition()
         {
             return timer > startTime;
         }
+
         private float drawColor
         {
             get => projectile.ai[0];
             set { projectile.ai[0] = value; }
         }
+
         public override void AI()
         {
             float[] array = projectile.localAI;
@@ -323,21 +342,27 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                 case 6:
                     drawColor = Main.rgbToHsl(new Color(108, 134, 230)).X;
                     break;
+
                 case 1:
                     drawColor = Main.rgbToHsl(new Color(178, 165, 226)).X;
                     break;
+
                 case 2:
                     drawColor = Main.rgbToHsl(new Color(182, 109, 190)).X;
                     break;
+
                 case 3:
                     drawColor = Main.rgbToHsl(new Color(99, 74, 187)).X;
                     break;
+
                 case 4:
                     drawColor = Main.rgbToHsl(new Color(173, 214, 193)).X;
                     break;
+
                 case 5:
                     drawColor = Main.rgbToHsl(new Color(100, 203, 189)).X;
                     break;
+
                 default:
 
                     break;
@@ -380,6 +405,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                 projectile.velocity = projectile.velocity.RotatedBy(MathHelper.TwoPi / 60 * projectile.timeLeft / 300f);
             }
         }
+
         public override bool PreDraw(ref Color lightColor)
         {
             if (LogSpiralLibraryMod.FinalFractalTailEffect == null) return false; if (LogSpiralLibraryMod.ColorfulEffect == null) return false;
@@ -410,7 +436,6 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
 
                 if (bars.Count > 2)
                 {
-
                     // 按照顺序连接三角形
                     triangleList.Add(bars[0]);
                     var vertex = new CustomVertexInfo((bars[0].Position + bars[1].Position) * 0.5f + Vector2.Normalize(projectile.velocity) * 30, Color.White,
@@ -427,7 +452,6 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                         triangleList.Add(bars[i + 2]);
                         triangleList.Add(bars[i + 3]);
                     }
-
 
                     spriteBatch.End();
                     spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.Default, RasterizerState.CullNone);
@@ -468,7 +492,6 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                         LogSpiralLibraryMod.ColorfulEffect.CurrentTechnique.Passes[0].Apply();
                     }
 
-
                     Main.graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, triangleList.ToArray(), 0, triangleList.Count / 3);
 
                     Main.graphics.GraphicsDevice.RasterizerState = originalState;
@@ -481,6 +504,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, tex.Frame(), Color.White, projectile.rotation, tex.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
+
         private void DrawProjWithStarryTrail(SpriteBatch spriteBatch)
         {
             Color color = new Color(255, 255, 255, Color.White.A - projectile.alpha);
@@ -550,21 +574,25 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             }
         }
     }
+
     public class FinalFractalDimensionalSwoosh : ModProjectile
     {
         public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
-        Projectile projectile => Projectile;
+
+        private Projectile projectile => Projectile;
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.immune[projectile.owner] = 0;
             base.OnHitNPC(target, hit, damageDone);
         }
+
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (info.PvP) target.immune = false;
             base.OnHitPlayer(target, info);
         }
+
         public override void SetDefaults()
         {
             projectile.width = 32;
@@ -583,21 +611,25 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 30;
         }
+
         private int timer = 0;
         private int timer2 = 0;
         private float drawColor;
+
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             timer = reader.ReadInt32();
             timer2 = reader.ReadInt32();
             drawColor = reader.ReadSingle();
         }
+
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(timer);
             writer.Write(timer2);
             writer.Write(drawColor);
         }
+
         public override void AI()
         {
             switch (Projectile.frame)
@@ -605,78 +637,103 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                 case 0:
                     drawColor = 0.0664557f;
                     break;
+
                 case 1:
                     drawColor = 0.9329502f;
                     break;
+
                 case 2:
                     drawColor = 0.6392276f;
                     break;
+
                 case 3:
                     drawColor = 0.7272727f;
                     break;
+
                 case 4:
                     drawColor = 0.6984127f;
                     break;
+
                 case 5:
                     drawColor = 0.9936204f;
                     break;
+
                 case 6:
                     drawColor = 0.6428571f;
                     break;
+
                 case 7:
                     drawColor = 0.2643678f;
                     break;
+
                 case 8:
                     drawColor = 0.05653451f;
                     break;
+
                 case 9:
                     drawColor = 0.6860465f;
                     break;
+
                 case 10:
                     drawColor = 0.1390169f;
                     break;
+
                 case 11:
                     drawColor = 0.7558479f;
                     break;
+
                 case 12:
                     drawColor = 0.84573f;
                     break;
+
                 case 13:
                     drawColor = 0.4966667f;
                     break;
+
                 case 14:
                     drawColor = 0.2311828f;
                     break;
+
                 case 15:
                     drawColor = 0.09360731f;
                     break;
+
                 case 16:
                     drawColor = 0.5325521f;
                     break;
+
                 case 17:
                     drawColor = 0.9331396f;
                     break;
+
                 case 18:
                     drawColor = 0.5114943f;
                     break;
+
                 case 19:
                     drawColor = 0.6161616f;
                     break;
+
                 case 20:
                     drawColor = 0.7021858f;
                     break;
+
                 case 21:
                     drawColor = 0.5621212f;
                     break;
+
                 case 22:
                     drawColor = 0.06666667f;
                     break;
+
                 case 23:
                     drawColor = 0.3822844f;
                     break;
+
                 case 24:
                     drawColor = 0.6319444f;
                     break;
+
                 default:
 
                     break;
@@ -721,6 +778,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                 }
             }
         }
+
         public override bool PreDraw(ref Color lightColor)
         {
             if (LogSpiralLibraryMod.FinalFractalTailEffect == null) return false; if (LogSpiralLibraryMod.ColorfulEffect == null) return false;
@@ -770,7 +828,6 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
 
                 if (bars.Count > 2)
                 {
-
                     // 按照顺序连接三角形
                     triangleList.Add(bars[0]);
                     var vertex = new CustomVertexInfo((bars[0].Position + bars[1].Position) * 0.5f + Vector2.Normalize(projectile.velocity) * 30, Color.White,
@@ -787,7 +844,6 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                         triangleList.Add(bars[i + 2]);
                         triangleList.Add(bars[i + 3]);
                     }
-
 
                     spriteBatch.End();
                     spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.Default, RasterizerState.CullNone);
@@ -806,7 +862,6 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                     Main.graphics.GraphicsDevice.SamplerStates[1] = SamplerState.PointWrap;
                     Main.graphics.GraphicsDevice.SamplerStates[2] = SamplerState.PointWrap;
                     LogSpiralLibraryMod.FinalFractalTailEffect.CurrentTechnique.Passes[0].Apply();
-
 
                     Main.graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, triangleList.ToArray(), 0, triangleList.Count / 3);
 
@@ -841,7 +896,6 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
 
                 if (bars.Count > 2)
                 {
-
                     // 按照顺序连接三角形
                     triangleList.Add(bars[0]);
                     var vertex = new CustomVertexInfo((bars[0].Position + bars[1].Position) * 0.5f + Vector2.Normalize(projectile.velocity) * 30, Color.White,
@@ -858,7 +912,6 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                         triangleList.Add(bars[i + 2]);
                         triangleList.Add(bars[i + 3]);
                     }
-
 
                     spriteBatch.End();
                     spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.Default, RasterizerState.CullNone);
@@ -879,7 +932,6 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                     Main.graphics.GraphicsDevice.SamplerStates[2] = SamplerState.PointWrap;
                     LogSpiralLibraryMod.ColorfulEffect.CurrentTechnique.Passes[0].Apply();
 
-
                     Main.graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, triangleList.ToArray(), 0, triangleList.Count / 3);
 
                     Main.graphics.GraphicsDevice.RasterizerState = originalState;
@@ -890,10 +942,12 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             return false;
         }
     }
+
     public class FinalFractalDimensionalSwoosh2 : ModProjectile
     {
         public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
-        Projectile projectile => Projectile;
+
+        private Projectile projectile => Projectile;
 
         public override void SetDefaults()
         {
@@ -906,17 +960,21 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             projectile.alpha = 255;
             projectile.friendly = true;
         }
+
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.immune[projectile.owner] = 0;
             base.OnHitNPC(target, hit, damageDone);
         }
+
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (info.PvP) target.immune = false;
             base.OnHitPlayer(target, info);
         }
+
         private int timer = 0;
+
         public override void AI()
         {
             Main.projFrames[projectile.type] = 24;
@@ -997,6 +1055,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             num3 *= 0.6f;
             Lighting.AddLight((int)((projectile.position.X + projectile.width / 2) / 16f), (int)((projectile.position.Y + projectile.height / 2) / 16f), num, num2, num3);
         }
+
         public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item10, projectile.position);
@@ -1017,6 +1076,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                 num3 = num798;
             }
         }
+
         public override Color? GetAlpha(Color lightColor)
         {
             if (projectile.localAI[1] >= 15f)
@@ -1030,6 +1090,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             int num7 = (int)((projectile.localAI[1] - 5f) / 10f * 255f);
             return new Color(num7, num7, num7, num7);
         }
+
         public override bool PreDraw(ref Color lightColor)
         {
             if (LogSpiralLibraryMod.FinalFractalTailEffect == null) return false; if (LogSpiralLibraryMod.ColorfulEffect == null) return false;
@@ -1048,10 +1109,12 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             return false;
         }
     }
+
     public class Zenith_FirstFractal : ModProjectile
     {
         public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
-        Projectile projectile => Projectile;
+
+        private Projectile projectile => Projectile;
 
         public override void SetDefaults()
         {
@@ -1065,8 +1128,10 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             projectile.alpha = 255;
             projectile.friendly = true;
         }
+
         private float drawColor;
         private int timer;
+
         public override void AI()
         {
             float[] array = projectile.localAI;
@@ -1083,21 +1148,27 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                 case 6:
                     drawColor = Main.rgbToHsl(new Color(108, 134, 230)).X;
                     break;
+
                 case 1:
                     drawColor = Main.rgbToHsl(new Color(178, 165, 226)).X;
                     break;
+
                 case 2:
                     drawColor = Main.rgbToHsl(new Color(182, 109, 190)).X;
                     break;
+
                 case 3:
                     drawColor = Main.rgbToHsl(new Color(99, 74, 187)).X;
                     break;
+
                 case 4:
                     drawColor = Main.rgbToHsl(new Color(173, 214, 193)).X;
                     break;
+
                 case 5:
                     drawColor = Main.rgbToHsl(new Color(100, 203, 189)).X;
                     break;
+
                 default:
 
                     break;
@@ -1115,6 +1186,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             num3 *= 0.6f;
             Lighting.AddLight((int)((projectile.position.X + projectile.width / 2) / 16f), (int)((projectile.position.Y + projectile.height / 2) / 16f), num, num2, num3);
         }
+
         public override Color? GetAlpha(Color lightColor)
         {
             if (projectile.localAI[1] >= 15f)
@@ -1128,6 +1200,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             int num7 = (int)((projectile.localAI[1] - 5f) / 10f * 255f);
             return new Color(num7, num7, num7, num7);
         }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             for (int n = 0; n < 6; n++)
@@ -1136,6 +1209,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             }
             return true;
         }
+
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             for (int n = 0; n < 6; n++)
@@ -1145,6 +1219,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             target.immune[projectile.owner] = 0;
             base.OnHitNPC(target, hit, damageDone);
         }
+
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (info.PvP)
@@ -1157,6 +1232,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             }
             base.OnHitPlayer(target, info);
         }
+
         public override bool PreDraw(ref Color lightColor)
         {
             if (LogSpiralLibraryMod.FinalFractalTailEffect == null) return false; if (LogSpiralLibraryMod.ColorfulEffect == null) return false;
@@ -1203,6 +1279,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, tex.Frame(), Color.White, projectile.rotation, tex.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
+
         private void DrawProjWithStarryTrail(SpriteBatch spriteBatch)
         {
             Color color = new Color(255, 255, 255, Color.White.A - projectile.alpha);
@@ -1272,9 +1349,11 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             }
         }
     }
+
     public class Zenith_FirstFractals : ModProjectile
     {
         public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
+
         public override void SetDefaults()
         {
             projectile.width = 16;
@@ -1288,11 +1367,13 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             projectile.alpha = 255;
             projectile.friendly = true;
         }
+
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.immune[projectile.owner] = 0;
             base.OnHitNPC(target, hit, damageDone);
         }
+
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (info.PvP) target.immune = false;
@@ -1304,6 +1385,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             get => projectile.ai[0];
             set { projectile.ai[0] = value; }
         }
+
         public override void AI()
         {
             float[] array = projectile.localAI;
@@ -1320,21 +1402,27 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                 case 6:
                     drawColor = Main.rgbToHsl(new Color(108, 134, 230)).X;
                     break;
+
                 case 1:
                     drawColor = Main.rgbToHsl(new Color(178, 165, 226)).X;
                     break;
+
                 case 2:
                     drawColor = Main.rgbToHsl(new Color(182, 109, 190)).X;
                     break;
+
                 case 3:
                     drawColor = Main.rgbToHsl(new Color(99, 74, 187)).X;
                     break;
+
                 case 4:
                     drawColor = Main.rgbToHsl(new Color(173, 214, 193)).X;
                     break;
+
                 case 5:
                     drawColor = Main.rgbToHsl(new Color(100, 203, 189)).X;
                     break;
+
                 default:
 
                     break;
@@ -1352,7 +1440,8 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             num3 *= 0.6f;
             Lighting.AddLight((int)((projectile.position.X + projectile.width / 2) / 16f), (int)((projectile.position.Y + projectile.height / 2) / 16f), num, num2, num3);
         }
-        Projectile projectile => Projectile;
+
+        private Projectile projectile => Projectile;
 
         public override Color? GetAlpha(Color lightColor)
         {
@@ -1367,6 +1456,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             int num7 = (int)((projectile.localAI[1] - 5f) / 10f * 255f);
             return new Color(num7, num7, num7, num7);
         }
+
         public override bool PreDraw(ref Color lightColor)
         {
             if (LogSpiralLibraryMod.FinalFractalTailEffect == null) return false; if (LogSpiralLibraryMod.ColorfulEffect == null) return false;
@@ -1412,6 +1502,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, tex.Frame(), Color.White, projectile.rotation, tex.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
+
         private void DrawProjWithStarryTrail(SpriteBatch spriteBatch)
         {
             Color color = new Color(255, 255, 255, Color.White.A - projectile.alpha);
@@ -1481,15 +1572,18 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             }
         }
     }
+
     public class FinalFractalDimensionalSwoosh3 : ModProjectile
     {
         public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
+
         private Vector2 P;
         private Vector2 M;
         private float T;
         private const float MT = 180;
         private const float d = 128;
         private float h;
+
         public override void SetDefaults()
         {
             projectile.DamageType = DamageClass.Melee;
@@ -1502,18 +1596,22 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             projectile.friendly = true;
             projectile.extraUpdates = 3;
         }
+
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.immune[projectile.owner] = 0;
             base.OnHitNPC(target, hit, damageDone);
         }
+
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             if (info.PvP) target.immune = false;
             base.OnHitPlayer(target, info);
         }
+
         private float drawColor;
         private int timer;
+
         public override Color? GetAlpha(Color lightColor)
         {
             if (projectile.localAI[1] >= 15f)
@@ -1527,6 +1625,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             int num7 = (int)((projectile.localAI[1] - 5f) / 10f * 255f);
             return new Color(num7, num7, num7, num7);
         }
+
         public override bool PreDraw(ref Color lightColor)
         {
             if (LogSpiralLibraryMod.FinalFractalTailEffect == null) return false; if (LogSpiralLibraryMod.ColorfulEffect == null) return false;
@@ -1539,7 +1638,8 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             //spriteBatch.Draw(tex, vector71, rectangle29, new Color(255 - projectile.alpha, 255 - projectile.alpha, 255 - projectile.alpha, 255 - projectile.alpha), projectile.rotation, tex.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
-        Projectile projectile => Projectile;
+
+        private Projectile projectile => Projectile;
 
         private void DrawProjWithStarryTrail(SpriteBatch spriteBatch)
         {
@@ -1609,6 +1709,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                 spriteBatch.Draw(value9, position, new Rectangle?(rectangle2), color, rotation, origin3, projectile.scale, SpriteEffects.None, 0);
             }
         }
+
         public override void AI()
         {
             projectile.frame = (int)projectile.ai[1];
@@ -1621,78 +1722,103 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                 case 0:
                     drawColor = 0.0664557f;
                     break;
+
                 case 1:
                     drawColor = 0.9329502f;
                     break;
+
                 case 2:
                     drawColor = 0.6392276f;
                     break;
+
                 case 3:
                     drawColor = 0.7272727f;
                     break;
+
                 case 4:
                     drawColor = 0.6984127f;
                     break;
+
                 case 5:
                     drawColor = 0.9936204f;
                     break;
+
                 case 6:
                     drawColor = 0.6428571f;
                     break;
+
                 case 7:
                     drawColor = 0.2643678f;
                     break;
+
                 case 8:
                     drawColor = 0.05653451f;
                     break;
+
                 case 9:
                     drawColor = 0.6860465f;
                     break;
+
                 case 10:
                     drawColor = 0.1390169f;
                     break;
+
                 case 11:
                     drawColor = 0.7558479f;
                     break;
+
                 case 12:
                     drawColor = 0.84573f;
                     break;
+
                 case 13:
                     drawColor = 0.4966667f;
                     break;
+
                 case 14:
                     drawColor = 0.2311828f;
                     break;
+
                 case 15:
                     drawColor = 0.09360731f;
                     break;
+
                 case 16:
                     drawColor = 0.5325521f;
                     break;
+
                 case 17:
                     drawColor = 0.9331396f;
                     break;
+
                 case 18:
                     drawColor = 0.5114943f;
                     break;
+
                 case 19:
                     drawColor = 0.6161616f;
                     break;
+
                 case 20:
                     drawColor = 0.7021858f;
                     break;
+
                 case 21:
                     drawColor = 0.5621212f;
                     break;
+
                 case 22:
                     drawColor = 0.06666667f;
                     break;
+
                 case 23:
                     drawColor = 0.3822844f;
                     break;
+
                 case 24:
                     drawColor = 0.6319444f;
                     break;
+
                 default:
 
                     break;

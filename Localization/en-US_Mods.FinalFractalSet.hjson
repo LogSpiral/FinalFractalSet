@@ -371,3 +371,35 @@ Buffs: {
 		Description: Make the enermies stoned.
 	}
 }
+
+Sequence: {
+	MeleeAction: {
+		FractalChargingWing.DisplayName: FractalChargingWing
+		Category.FinalFractal: FinalFractal
+		FractalCloudMowingSword.DisplayName: FractalCloudMowingSword
+		FractalJuilaSet.DisplayName: FractalJuilaSet
+		FractalSnowFlake.DisplayName: FractalSnowFlake
+		FractalStrom.DisplayName: FractalStrom
+		FractalTreeStab.DisplayName: FractalTreeStab
+
+		SteelSpecialAttack: {
+			DisplayName: SteelSpecialAttack
+			Upgraded.Label: Upgraded
+		}
+
+		PureFractalCharging.DisplayName: PureFractalCharging
+
+		StoneSpecialAttack: {
+			DisplayName: StoneSpecialAttack
+			Upgraded.Label: Upgraded
+		}
+
+		WoodSpecialAttack: {
+			DisplayName: WoodSpecialAttack
+			Upgraded.Label: Upgraded
+		}
+
+		FirstZenithRainAttack.DisplayName: FirstZenithRainAttack
+		FirstZenithSpecialAttack.DisplayName: FirstZenithSpecialAttack
+	}
+}

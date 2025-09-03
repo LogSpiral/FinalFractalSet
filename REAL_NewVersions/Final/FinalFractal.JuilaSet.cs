@@ -7,6 +7,7 @@ using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 
 namespace FinalFractalSet.REAL_NewVersions.Final;
+
 public class FractalJuilaSetProj : FinalFractalAssistantProjectile
 {
     public override void SetDefaults()
@@ -21,6 +22,7 @@ public class FractalJuilaSetProj : FinalFractalAssistantProjectile
         Projectile.localNPCHitCooldown = 0;
         base.SetDefaults();
     }
+
     /// <summary>
     /// 全图判定神人弹幕!!
     /// </summary>
@@ -46,12 +48,14 @@ public class FractalJuilaSetProj : FinalFractalAssistantProjectile
         spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);*/
         return false;
     }
+
     public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
     {
         Projectile.hide = true;
         behindNPCsAndTiles.Add(index);
         base.DrawBehind(index, behindNPCsAndTiles, behindNPCs, behindProjectiles, overPlayers, overWiresUI);
     }
+
     public override void OnKill(int timeLeft)
     {
         if (Main.netMode != NetmodeID.Server)
@@ -61,12 +65,14 @@ public class FractalJuilaSetProj : FinalFractalAssistantProjectile
         }
         base.OnKill(timeLeft);
     }
+
     public override void OnSpawn(IEntitySource source)
     {
         if (Main.netMode != NetmodeID.Server)
             SkyManager.Instance.Activate("FinalFractalSet:JuilaSetScene");
         base.OnSpawn(source);
     }
+
     public override void AI()
     {
         if (Projectile.timeLeft < 270)
@@ -76,6 +82,7 @@ public class FractalJuilaSetProj : FinalFractalAssistantProjectile
         }
         base.AI();
     }
+
     public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
     {
         var unit = Main.rand.NextVector2Unit();
@@ -88,32 +95,33 @@ public class FractalJuilaSetProj : FinalFractalAssistantProjectile
         base.OnHitNPC(target, hit, damageDone);
     }
 }
+
 public class JuilaSetSystem : ModSystem
 {
     public static Effect FractalEffect => LogSpiralLibrary.ModAsset.Fractal.Value;
     public static RenderTarget2D render;
     public static RenderTarget2D renderSwap;
+
     public override void Load()
     {
-        if (Main.netMode == NetmodeID.Server) return;
+        if (Main.dedServ) return;
 
         Main.OnResolutionChanged += RebuildRenderTarget;
         Main.RunOnMainThread(() => RebuildRenderTarget(Main.instance.Window.ClientBounds.Size()));
-
 
         SkyManager.Instance["FinalFractalSet:JuilaSetScene"] = new JuilaSetScene();
 
         var data = new JuilaScreenVortexData(ModAsset.VortexTransform, "VortexTransform");
         Filters.Scene["FinalFractalSet:JuilaSetVortex"] = new Filter(data, EffectPriority.VeryHigh);
 
-
         base.Load();
     }
 
     public static bool PendingActive;
+
     public override void PreUpdateEntities()
     {
-        if (Main.netMode == NetmodeID.Server) return;
+        if (Main.dedServ) return;
 
         string name = "FinalFractalSet:JuilaSetVortex";
         if (!Filters.Scene[name].IsActive() && PendingActive)
@@ -127,7 +135,6 @@ public class JuilaSetSystem : ModSystem
         }
         base.PreUpdateEntities();
     }
-
 
     private static void RebuildRenderTarget(Vector2 obj)
     {
@@ -145,7 +152,7 @@ public class JuilaSetSystem : ModSystem
 
     public override void Unload()
     {
-        if (Main.netMode == NetmodeID.Server) return;
+        if (Main.dedServ) return;
 
         Main.RunOnMainThread(() =>
         {
@@ -213,6 +220,7 @@ public class JuilaSetSystem : ModSystem
             DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
     }
 }
+
 public class JuilaSetScene : CustomSky
 {
     public static bool Active;
@@ -236,7 +244,6 @@ public class JuilaSetScene : CustomSky
 
     public override void Reset()
     {
-
     }
 
     public override void Update(GameTime gameTime)
@@ -244,15 +251,17 @@ public class JuilaSetScene : CustomSky
         Opacity = MathHelper.Lerp(Opacity, Active ? 1 : 0, 0.05f);
     }
 }
+
 public class JuilaScreenVortexData : ScreenShaderData
 {
     public JuilaScreenVortexData(string passName) : base(passName)
     {
     }
+
     public JuilaScreenVortexData(Asset<Effect> shader, string passName) : base(shader, passName)
     {
-
     }
+
     public static Vector2 VortexCenter;
     public static float VortexFactor;
 
@@ -270,6 +279,7 @@ public class JuilaScreenVortexData : ScreenShaderData
         Main.graphics.GraphicsDevice.SamplerStates[0] = SamplerState.PointWrap;
         base.Apply();
     }
+
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);

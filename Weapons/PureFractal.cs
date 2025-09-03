@@ -1,19 +1,19 @@
-﻿using Terraria.Localization;
-using System.Collections.Generic;
-using System;
-using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
-using static Terraria.ModLoader.ModContent;
-using System.IO;
-using System.Reflection;
-using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
+﻿using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingContents;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingEffects;
+using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using Terraria.Localization;
+using static Terraria.ModLoader.ModContent;
 
 namespace FinalFractalSet.Weapons
 {
     public class PureFractal_Old : ModItem
     {
         public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
+
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             var time = ((float)Math.Sin(LogSpiralLibraryMod.ModTime / 60f * MathHelper.TwoPi) + 1) * .5f;
@@ -24,14 +24,17 @@ namespace FinalFractalSet.Weapons
         }
 
         public Texture2D tex => TextureAssets.Item[Item.type].Value;
+
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             Item.ShaderItemEffectInventory(spriteBatch, position, origin, LogSpiralLibraryMod.Misc[1].Value, Color.Lerp(new Color(0, 162, 232), new Color(34, 177, 76), (float)Math.Sin(MathHelper.Pi / 60 * LogSpiralLibraryMod.ModTime) / 2 + 0.5f), scale);
         }
+
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
             Item.ShaderItemEffectInWorld(spriteBatch, LogSpiralLibraryMod.Misc[1].Value, Color.Lerp(new Color(0, 162, 232), new Color(34, 177, 76), (float)Math.Sin(MathHelper.Pi / 60 * LogSpiralLibraryMod.ModTime) / 2 + 0.5f), rotation);
         }
+
         public override void SetDefaults()
         {
             Item.useStyle = ItemUseStyleID.Swing;
@@ -52,6 +55,7 @@ namespace FinalFractalSet.Weapons
             Item.noUseGraphic = true;
             Item.noMelee = true;
         }
+
         //public override void AddRecipes() => CreateRecipe().AddIngredient(ItemID.Zenith).AddIngredient<FirstFractal_CIVE>().AddTile(TileID.LunarCraftingStation).Register();
         public override void AddRecipes()
         {
@@ -61,6 +65,7 @@ namespace FinalFractalSet.Weapons
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.Register();
         }
+
         public static bool GetZenithTarget(Vector2 searchCenter, float maxDistance, Player player, out int npcTargetIndex)
         {
             npcTargetIndex = 0;
@@ -86,6 +91,7 @@ namespace FinalFractalSet.Weapons
             npcTargetIndex = num.Value;
             return true;
         }
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true, true);
@@ -122,12 +128,15 @@ namespace FinalFractalSet.Weapons
             return false;
         }
     }
+
     public class PureFractalProj : ModProjectile
     {
         public const string CanvasName = "FinalFractalSet:PureFractalProj";
-        static readonly IRenderEffect[][] _renderEffect =
+
+        private static readonly IRenderEffect[][] _renderEffect =
             [[new AirDistortEffect(4,1.05f, 0, 0.5f)],
             [new BloomEffect(0, 1f, 1, 3, true,2,true)]];
+
         public override void Load()
         {
             RenderCanvasSystem.RegisterCanvasFactory(CanvasName, () => new(_renderEffect));
@@ -135,7 +144,7 @@ namespace FinalFractalSet.Weapons
         }
 
         //public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
-        static Color GetColorInfo(int frame) => frame switch
+        private static Color GetColorInfo(int frame) => frame switch
         {
             0 => Color.Brown,
             1 => Color.HotPink,
@@ -165,7 +174,8 @@ namespace FinalFractalSet.Weapons
             25 => Color.Violet,
             _ => Color.White
         };
-        static Texture2D GetPureFractalHeatMaps_Internal(int frame) => (frame switch
+
+        private static Texture2D GetPureFractalHeatMaps_Internal(int frame) => (frame switch
         {
             0 => ModAsset.bar_0,
             1 => ModAsset.bar_1,
@@ -195,15 +205,17 @@ namespace FinalFractalSet.Weapons
             25 => ModAsset.bar_25,
             _ => LogSpiralLibraryMod.HeatMap[1]
         }).Value;
-        static Texture2D GetPureFractalHeatMaps(int frame)
+
+        private static Texture2D GetPureFractalHeatMaps(int frame)
         {
             if (HeatMapTextures[frame] == null)
                 RefreshData();
             return HeatMapTextures[frame];
         }
-        static Texture2D GetPureFractalProjTexs_Internal(int frame)
+
+        private static Texture2D GetPureFractalProjTexs_Internal(int frame)
         {
-            if (Main.netMode == NetmodeID.Server) return null;
+            if (Main.dedServ) return null;
             if (frame > 21)
                 return (frame switch
                 {
@@ -242,20 +254,22 @@ namespace FinalFractalSet.Weapons
                 Main.instance.LoadItem(type);
             return TextureAssets.Item[type].Value;
         }
-        static Texture2D GetPureFractalProjTexs(int frame)
+
+        private static Texture2D GetPureFractalProjTexs(int frame)
         {
             if (ItemTextures[frame] == null)
                 RefreshData();
             return ItemTextures[frame];
         }
+
         public static Texture2D[] ItemTextures = new Texture2D[26];
         public static Texture2D[] HeatMapTextures = new Texture2D[26];
         public static Color[] PureFractalColors = new Color[26];
         public static float[] PureFractalWeaponLength = new float[26];
 
-        static void RefreshData()
+        private static void RefreshData()
         {
-            if (Main.netMode == NetmodeID.Server) return;
+            if (Main.dedServ) return;
             for (int n = 0; n < 26; n++)
             {
                 PureFractalColors[n] = GetColorInfo(n);
@@ -264,18 +278,22 @@ namespace FinalFractalSet.Weapons
                 PureFractalWeaponLength[n] = ItemTextures[n].Size().Length();
             }
         }
+
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write((byte)projectile.frame);
             writer.Write(projectile.localAI[0]);
         }
+
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             projectile.frame = reader.ReadByte();
             projectile.localAI[0] = reader.ReadSingle();
         }
-        Projectile projectile => Projectile;
-        Color newColor => PureFractalColors[Projectile.frame];
+
+        private Projectile projectile => Projectile;
+        private Color newColor => PureFractalColors[Projectile.frame];
+
         public override void PostAI()
         {
             Vector2 value1 = Main.player[projectile.owner].position - Main.player[projectile.owner].oldPosition;
@@ -293,7 +311,7 @@ namespace FinalFractalSet.Weapons
             projectile.oldRot[0] = projectile.rotation;
             projectile.oldSpriteDirection[0] = projectile.spriteDirection;
 
-            if (Main.netMode == NetmodeID.Server) return;
+            if (Main.dedServ) return;
             if (swooshes[0] == null)
             {
                 for (int n = 0; n < 4; n++)
@@ -345,6 +363,7 @@ namespace FinalFractalSet.Weapons
                 }
             }
         }
+
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
@@ -387,10 +406,12 @@ namespace FinalFractalSet.Weapons
             }
             projectile.Opacity = Utils.GetLerpValue(0f, 5f, projectile.localAI[0], true) * Utils.GetLerpValue(120f, 115f, projectile.localAI[0], true);//修改透明度
         }
-        UltraSwoosh[] swooshes = new UltraSwoosh[4];
+
+        private UltraSwoosh[] swooshes = new UltraSwoosh[4];
+
         public override void OnSpawn(IEntitySource source)
         {
-            if (Main.netMode == NetmodeID.Server) return;
+            if (Main.dedServ) return;
             for (int n = 0; n < 4; n++)
             {
                 var u = swooshes[n] = UltraSwoosh.NewUltraSwoosh(CanvasName, 30, 1, Main.player[projectile.owner].Center, (-1.125f, 0.7125f));
@@ -401,15 +422,17 @@ namespace FinalFractalSet.Weapons
             }
             base.OnSpawn(source);
         }
+
         public override void OnKill(int timeLeft)
         {
-            if (Main.netMode == NetmodeID.Server) return;
+            if (Main.dedServ) return;
             for (int n = 0; n < 4; n++)
             {
                 swooshes[n].timeLeft = 0;
             }
             base.OnKill(timeLeft);
         }
+
         public void DrawSword()
         {
             var max = 0;
@@ -428,15 +451,15 @@ namespace FinalFractalSet.Weapons
             {
                 var _fac = 1 - (float)n / max;
                 //_fac *= _fac * _fac;
-                var _color = newColor * MathF.Sqrt(_fac);//newColor 
+                var _color = newColor * MathF.Sqrt(_fac);//newColor
                 _color.A = 0;
                 Main.spriteBatch.Draw(currentTex, projectile.oldPos[n - 1] - Main.screenPosition, null, _color * multiValue, projectile.oldRot[n - 1] - MathHelper.PiOver4 + (spEffect == 0 ? 0 : MathHelper.PiOver2), currentTex.Size() * new Vector2(spEffect == 0 ? 0 : 1, 1), size, spEffect, 0);
                 projectile.DrawPrettyStarSparkle(Main.spriteBatch, 0, projectile.oldPos[n - 1] + (projectile.oldRot[n - 1] - MathHelper.PiOver2).ToRotationVector2() * _scaler * size - Main.screenPosition, Color.White, _color);
-
             }
             Main.spriteBatch.Draw(currentTex, projectile.oldPos[0] - Main.screenPosition, null, Color.White * multiValue, projectile.oldRot[0] - MathHelper.PiOver4 + (spEffect == 0 ? 0 : MathHelper.PiOver2), currentTex.Size() * new Vector2(spEffect == 0 ? 0 : 1, 1), size, spEffect, 0);
             projectile.DrawPrettyStarSparkle(Main.spriteBatch, 0, projectile.oldPos[0] + (projectile.oldRot[0] - MathHelper.PiOver2).ToRotationVector2() * _scaler * size - Main.screenPosition, Color.White, newColor);
         }
+
         public void DrawSwoosh()
         {
             var ShaderSwooshUL = LogSpiralLibraryMod.ShaderSwooshUL;
@@ -463,7 +486,6 @@ namespace FinalFractalSet.Weapons
 
                 for (int i = 0; i < num11 + 5; i++)
                 {
-
                     if (Main.rand.NextBool(9))
                     {
                         int _num = Main.rand.Next(1, 4);
@@ -483,6 +505,7 @@ namespace FinalFractalSet.Weapons
             }
 
             #region 快乐顶点绘制_1(在原来的基础上叠加，亮瞎了)
+
             if (LogSpiralLibraryMod.ShaderSwooshUL == null) return;
             if (LogSpiralLibraryMod.RenderEffect == null) return;
             if (Main.GameViewMatrix == null) return;
@@ -491,8 +514,11 @@ namespace FinalFractalSet.Weapons
             var model = Matrix.CreateTranslation(new Vector3(-Main.screenPosition.X, -Main.screenPosition.Y, 0));
             RasterizerState originalState = Main.graphics.GraphicsDevice.RasterizerState;
             SamplerState sampler = SamplerState.LinearWrap;
-            #endregion
+
+            #endregion 快乐顶点绘制_1(在原来的基础上叠加，亮瞎了)
+
             #region 快乐顶点绘制_2(现在才进入正题)
+
             float _scaler = PureFractalWeaponLength[projectile.frame];
             var bars = new List<CustomVertexInfo>();
             var multiValue = 1 - projectile.localAI[0] / 120f;
@@ -546,15 +572,19 @@ namespace FinalFractalSet.Weapons
                 Main.graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, _triangleList.ToArray(), 0, _triangleList.Count / 3);
                 Main.graphics.GraphicsDevice.RasterizerState = originalState;
             }
-            #endregion
+
+            #endregion 快乐顶点绘制_2(现在才进入正题)
+
             return;
         }
+
         public override bool PreDraw(ref Color lightColor)
         {
             //DrawSwoosh();
             DrawSword();
             return false;
         }
+
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             Rectangle _lanceHitboxBounds = new Rectangle(0, 0, 300, 300);
@@ -580,6 +610,7 @@ namespace FinalFractalSet.Weapons
             _lanceHitboxBounds.Y = (int)projectile.position.Y - _lanceHitboxBounds.Height / 2;
             return _lanceHitboxBounds.Intersects(targetHitbox) && Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center - value3 * scaleFactor, projectile.Center + value3 * scaleFactor, 20f, ref num2);
         }
+
         public override void SetDefaults()
         {
             projectile.width = 32;
@@ -595,7 +626,6 @@ namespace FinalFractalSet.Weapons
             projectile.manualDirectionChange = true;
             projectile.localNPCHitCooldown = 3;
             projectile.penetrate = -1;
-
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -603,12 +633,11 @@ namespace FinalFractalSet.Weapons
             lightColor = Color.White * projectile.Opacity;
             return lightColor;
         }
+
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 60;
             RefreshData();
         }
     }
-
-
 }

@@ -1,26 +1,14 @@
 ﻿using FinalFractalSet.Weapons;
-using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
-using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee.ExtendedMelee;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Core;
 using LogSpiralLibrary.CodeLibrary.Utilties;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection.PortableExecutable;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using Terraria;
-using Terraria.Audio;
 using Terraria.Utilities;
-using static Terraria.Localization.NetworkText;
 
 namespace FinalFractalSet.REAL_NewVersions.Wood
 {
@@ -31,6 +19,7 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
             base.SetDefaults();
             Item.damage = 15;
         }
+
         public override void AddRecipes()
         {
             var recipe = CreateRecipe();
@@ -51,12 +40,15 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
             recipe.Register();
             base.AddRecipes();
         }
+
         public override bool AltFunctionUse(Player player) => true;
     }
+
     public class WitheredWoodSword_NewVer_Proj : MeleeSequenceProj
     {
         public override bool LabeledAsCompleted => true;
         public override string Texture => base.Texture.Replace("_Proj", "");
+
         public override void InitializeStandardInfo(StandardInfo standardInfo, VertexDrawStandardInfo vertexStandard)
         {
             standardInfo.standardColor = Color.SandyBrown * .25f;
@@ -69,6 +61,7 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
             base.InitializeStandardInfo(standardInfo, vertexStandard);
         }
     }
+
     public class LivingWoodSword_NewVer : MeleeSequenceItem<LivingWoodSword_NewVer_Proj>
     {
         public override void SetDefaults()
@@ -76,7 +69,9 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
             base.SetDefaults();
             Item.damage = 50;
         }
+
         public override bool AltFunctionUse(Player player) => true;
+
         public override void AddRecipes()
         {
             var recipe = CreateRecipe();
@@ -88,10 +83,12 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
             recipe.Register();
         }
     }
+
     public class LivingWoodSword_NewVer_Proj : MeleeSequenceProj
     {
         public override bool LabeledAsCompleted => true;
         public override string Texture => base.Texture.Replace("_Proj", "");
+
         public override void InitializeStandardInfo(StandardInfo standardInfo, VertexDrawStandardInfo vertexStandard)
         {
             standardInfo.standardColor = Color.LimeGreen * .5f;
@@ -103,12 +100,14 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
 
             base.InitializeStandardInfo(standardInfo, vertexStandard);
         }
+
         [SequenceDelegate]
-        static void SpawnThorn(MeleeAction action)
+        private static void SpawnThorn(MeleeAction action)
         {
             Projectile.NewProjectile(action.Projectile.GetProjectileSource_FromThis(), action.Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(1, 16), Main.rand.NextBool(4) ? ProjectileID.NettleBurstRight : ProjectileID.VilethornBase, action.CurrentDamage / 2, action.Projectile.knockBack, Main.myPlayer);
         }
     }
+
     public class WoodSpecialAttack : PunctureInfo
     {
         [ElementCustomData]
@@ -123,6 +122,7 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
             base.OnBurst(fallFac);
         }
     }
+
     public class WoodSAProjectile : ModProjectile
     {
         public override void SetDefaults()
@@ -137,6 +137,7 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
             Projectile.width = 32;
             base.SetDefaults();
         }
+
         public override void AI()
         {
             try
@@ -148,7 +149,8 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
                     while (point.Y + t < Main.maxTilesY && t < 100)
                     {
                         t++;
-                        var tile = Main.tile[point.X, point.Y + t];
+
+                        var tile = Framing.GetTileSafely(point.X, point.Y + t);
                         if (tile.HasTile && Main.tileSolid[tile.TileType])
                             break;
                     }
@@ -156,7 +158,7 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
                     while (point.Y + t > 0 && t > -100)
                     {
                         t--;
-                        var tile = Main.tile[point.X, point.Y + t];
+                        var tile = Framing.GetTileSafely(point.X, point.Y + t);
                         if (!tile.HasTile)
                             break;
                         if (!Main.tileSolid[tile.type])
@@ -168,7 +170,6 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
             }
             catch
             {
-
             }
             Projectile.ai[2]--;
             Projectile.friendly = Projectile.ai[2] <= 0;
@@ -185,11 +186,13 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
 
             base.AI();
         }
+
         public override void OnKill(int timeLeft)
         {
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + Vector2.UnitY * 12, default, ModContent.ProjectileType<ThornTree_Proj>(), Projectile.damage * 2 / 3, Projectile.knockBack, Projectile.owner, Projectile.ai[0] + 1);
             base.OnKill(timeLeft);
         }
+
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Projectile.ai[2] = 15;
@@ -197,8 +200,10 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + Vector2.UnitY * 12, default, ModContent.ProjectileType<ThornTree_Proj>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner, Projectile.ai[0]);
             base.OnHitNPC(target, hit, damageDone);
         }
+
         public override string Texture => base.Texture.Replace("WoodSAProjectile", "WitheredWoodSword_NewVer");
     }
+
     public class WitheredTree_NewVer : ModProjectile
     {
         public override void SetDefaults()
@@ -212,15 +217,19 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
         }
+
         public override string Texture => "Terraria/Images/Item_1";
+
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
         }
+
         public override void OnKill(int timeLeft)
         {
             tree.SpawnProjectile(Projectile, Projectile.Center, new Vector2(0, -1), tree.root, -.15f);
         }
+
         public override void AI()
         {
             Projectile.ai[1]++;
@@ -229,23 +238,28 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
                 tree.SpawnDust(Projectile.Center, new Vector2(0, -1));
             }
         }
+
         private LightTree tree;
+
         public override void OnSpawn(IEntitySource source)
         {
             tree = new LightTree(Main.rand);
             tree.Generate(Projectile.Center, new Vector2(0, -.5f), new Vector2(0, -2048) + Projectile.Center, ((int)Projectile.ai[0] % 2 == 0 ? 128 : 256) * (tree.rand() * .25f + .75f), Projectile.ai[0] > 1);
         }
+
         public override bool PreDraw(ref Color lightColor)
         {
             tree?.Draw(Main.spriteBatch, Projectile.Center - Main.screenPosition, new Vector2(0, -1), Lighting.GetColor((Projectile.Center / 16f).ToPoint()), 16f, Projectile.ai[1] / 2f);
             return false;
         }
+
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             tree?.Check(targetHitbox);
             return false;
         }
     }
+
     public class WitheredWood_NewVer : ModProjectile
     {
         public override string Texture => "Terraria/Images/Item_1";
@@ -261,11 +275,14 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
             Projectile.penetrate = 1;
             Projectile.tileCollide = false;
         }
+
         public LightTree tree;
+
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
         }
+
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             if (tree?.Check(targetHitbox, Projectile.Center, Projectile.rotation.ToRotationVector2(), 10) == true)
@@ -283,6 +300,7 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
             }
             return false;
         }
+
         public override void AI()
         {
             Projectile.velocity += new Vector2(0, .5f);
@@ -299,6 +317,7 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
             Projectile.oldPos[0] = Projectile.Center;
             Projectile.oldRot[0] = Projectile.rotation;
         }
+
         public override bool PreDraw(ref Color lightColor)
         {
             for (int n = 9; n > -1; n--)
@@ -329,20 +348,25 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
         }
+
         public override string Texture => "Terraria/Images/Item_1";
+
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
         }
+
         public override void OnKill(int timeLeft)
         {
         }
-        ThornTree thornTree;
-        ThornTree thornTreeTiny;
-        List<CustomVertexInfo> vertexs;
-        List<Vector4> endNodes;
-        float Factor => (60 - Projectile.timeLeft) / 60f;
-        bool huge;
+
+        private ThornTree thornTree;
+        private ThornTree thornTreeTiny;
+        private List<CustomVertexInfo> vertexs;
+        private List<Vector4> endNodes;
+        private float Factor => (60 - Projectile.timeLeft) / 60f;
+        private bool huge;
+
         public override void AI()
         {
             //Projectile.ai[1]++;
@@ -351,7 +375,6 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
             vertexs.AddRange(thornTreeTiny.GetTreeVertex(huge ? -MathHelper.Pi / 4 : -MathHelper.Pi / 3, Projectile.Center + Vector2.UnitX * 8, out var anotherNodes, k));
             endNodes.AddRange(anotherNodes);
 
-
             if (Projectile.timeLeft == 45 && Projectile.ai[0] > 1)
             {
                 foreach (var vec in endNodes)
@@ -359,10 +382,10 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
                     for (int n = 0; n < 5; n++)
                         Dust.NewDustPerfect(new Vector2(vec.X, vec.Y), MyDustId.GreenGrass);
                     Gore.NewGore(new Vector2(vec.X, vec.Y), -vec.Z.ToRotationVector2() * 4, GoreID.TreeLeaf_Normal, 1);
-
                 }
             }
         }
+
         public override void OnSpawn(IEntitySource source)
         {
             float stdSize = 64;
@@ -408,6 +431,7 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
             thornTreeTiny.BuildTree(Main.rand, 8);
             //vertexs = thornTree.GetTreeVertex(-MathHelper.Pi / 3 * 2, Projectile.Center);
         }
+
         public override bool PreDraw(ref Color lightColor)
         {
             if (vertexs == null)
@@ -453,6 +477,7 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
             }
             return false;
         }
+
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             if (vertexs == null) return false;
@@ -465,6 +490,7 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
             return false;
         }
     }
+
     public class ThornTree
     {
         public struct TreeGenerateInfo
@@ -486,34 +512,35 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
             /// </summary>
             public float fixedRotation;
         }
-        class Node(float length, float width, float rotation, bool main)
+
+        private class Node(float length, float width, float rotation, bool main)
         {
             /// <summary>
             /// 子节点
             /// </summary>
-            HashSet<Node> Children;
+            private HashSet<Node> Children;
 
             /// <summary>
             /// 节点始端到末端的长度
             /// </summary>
-            float length = length;
+            private float length = length;
 
             /// <summary>
             /// 节点末端的宽度
             /// </summary>
-            float width = width;
+            private float width = width;
 
             /// <summary>
             /// 相对于父节点的旋转量
             /// </summary>
-            float rotation = rotation;
+            private float rotation = rotation;
 
             /// <summary>
             /// 是否处于主干
             /// </summary>
-            bool mainBranch = main;
+            private bool mainBranch = main;
 
-            float getNormalRandom(UnifiedRandom random, float factor) => (float)random.GaussianRandom(factor, factor * .25 * .33);
+            private float getNormalRandom(UnifiedRandom random, float factor) => (float)random.GaussianRandom(factor, factor * .25 * .33);
 
             public void Generate(UnifiedRandom random, TreeGenerateInfo info, int maxTier, out int depth)
             {
@@ -556,8 +583,6 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
                 if (MathF.Abs(rotation) < MathHelper.PiOver2)
                     nodePoint += MathF.Sign(rotation) * (normalUnit - (parentRotation + MathHelper.PiOver2).ToRotationVector2()) * parentWidth * .5f;
 
-
-
                 float u = MathHelper.Clamp(factor, 0, 1);
                 float realWidth = width * u * u;
                 normalUnit *= .5f;
@@ -581,12 +606,11 @@ namespace FinalFractalSet.REAL_NewVersions.Wood
                 else
                     EndNodes.Add(new Vector4(nodePoint, realRotation, (float)Main.rand.GaussianRandom(1, 0.16f)));
             }
-
         }
 
-        Node mainNode;
-        TreeGenerateInfo genInfo;
-        int depth;
+        private Node mainNode;
+        private TreeGenerateInfo genInfo;
+        private int depth;
 
         public ThornTree(float length, float width, float rotation, TreeGenerateInfo info)
         {

@@ -1,21 +1,12 @@
 ﻿using FinalFractalSet.REAL_NewVersions.Pure;
 using FinalFractalSet.REAL_NewVersions.Zenith;
-using FinalFractalSet.Weapons;
 using FinalFractalSet.Weapons.FinalFractal_Old;
-using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingEffects;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee;
-using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee.ExtendedMelee;
-using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Core;
-using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.System;
 using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using Terraria;
-using Terraria.Audio;
 using Terraria.Localization;
-using Terraria.ModLoader.IO;
 
 namespace FinalFractalSet.REAL_NewVersions.Final;
 
@@ -27,10 +18,12 @@ public class FinalFractal_NewVer : MeleeSequenceItem<FinalFractal_NewVer_Proj>
         Item.rare = ItemRarityID.Purple;
         Item.damage = 350;
     }
+
     public override void AddRecipes()
     {
         CreateRecipe().AddIngredient<PureFractal_NewVer>().AddIngredient<FirstZenith_NewVer>().AddTile(TileID.LunarCraftingStation).Register();
     }
+
     public override void ModifyTooltips(List<TooltipLine> tooltips)
     {
         for (int n = 1; n < 4; n++)
@@ -39,16 +32,20 @@ public class FinalFractal_NewVer : MeleeSequenceItem<FinalFractal_NewVer_Proj>
         }
         base.ModifyTooltips(tooltips);
     }
+
     public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
     {
         Item.ShaderItemEffectInventory(spriteBatch, position, origin, LogSpiralLibraryMod.Misc[0].Value, Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * LogSpiralLibraryMod.ModTime) / 2 + 0.5f), scale);
     }
+
     public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
     {
         Item.ShaderItemEffectInWorld(spriteBatch, LogSpiralLibraryMod.Misc[0].Value, Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * LogSpiralLibraryMod.ModTime) / 2 + 0.5f), rotation);
     }
+
     public override bool AltFunctionUse(Player player) => true;
 }
+
 public class FinalFractal_NewVer_Proj : MeleeSequenceProj
 {
     public override bool LabeledAsCompleted => true;
@@ -79,9 +76,10 @@ public class FinalFractal_NewVer_Proj : MeleeSequenceProj
         vertexStandard.canvasName = CanvasName;
         base.InitializeStandardInfo(standardInfo, vertexStandard);
     }
+
     // 给左键第一斩用
     [SequenceDelegate]
-    static void FinalFractalChop(MeleeAction action)
+    private static void FinalFractalChop(MeleeAction action)
     {
         Projectile.NewProjectile(
             action.Projectile.GetSource_FromThis(),
@@ -95,7 +93,7 @@ public class FinalFractal_NewVer_Proj : MeleeSequenceProj
 
     // 左键第二斩
     [SequenceDelegate]
-    static void FinalFractalCut(MeleeAction action)
+    private static void FinalFractalCut(MeleeAction action)
     {
         Projectile.NewProjectile(
             action.Projectile.GetSource_FromThis(),
@@ -108,14 +106,12 @@ public class FinalFractal_NewVer_Proj : MeleeSequenceProj
 
         PureFractal_NewVer_Proj.ShootPurefractalProj_Lots(action);
 
-
         VectorMethods.GetClosestVectorsFromNPC(action.Owner.Center, 3, 2048, out var indexs, out _);
         for (int n = 0; n < 3; n++)
             FirstZenith_NewVer_Proj.ShootFirstZenithViaPosition(action, indexs[n] == -1 ? Main.MouseWorld : Main.npc[indexs[n]].Center, indexs[n] == -1);
-
     }
 
-    static void ShootSinglgDash(MeleeAction action, float angle)
+    private static void ShootSinglgDash(MeleeAction action, float angle)
     {
         Vector2 unit = (action.Rotation + angle).ToRotationVector2();
         Projectile.NewProjectile(action.Projectile.GetSource_FromThis(),
@@ -124,7 +120,7 @@ action.Projectile.damage, action.Projectile.knockBack, Main.myPlayer, 0, Main.ra
     }
 
     [SequenceDelegate]
-    static void FinalFractalStab(MeleeAction action)
+    private static void FinalFractalStab(MeleeAction action)
     {
         int count = 3;
         float angleMax = MathHelper.Pi / 8;
@@ -137,4 +133,3 @@ action.Projectile.damage, action.Projectile.knockBack, Main.myPlayer, 0, Main.ra
         }
     }
 }
-
