@@ -5,7 +5,7 @@
 
 	<!-- General -->
 	<PropertyGroup>
-		
+	  <LangVersion>preview</LangVersion>
 	</PropertyGroup>
 	<ItemGroup>
 	  <PackageReference Include="Solaestas.tModLoader.ModBuilder" Version="1.6.1" />
@@ -15,6 +15,12 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\LogSpiralLibrary\LogSpiralLibrary.csproj" />
+	  <ModReference Include="lib\*.dll" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Reference Include="NetSimplified">
+	    <HintPath>lib\NetSimplified.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 
 	<!-- References -->

@@ -2,10 +2,12 @@
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingContents;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingEffects;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee;
+using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee.Core;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Core;
 using LogSpiralLibrary.CodeLibrary.Utilties;
 using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
 using System.ComponentModel;
+using System.IO;
 using Terraria.Audio;
 
 namespace FinalFractalSet.REAL_NewVersions.Stone
@@ -145,8 +147,8 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
     public class StoneSpecialAttack : FinalFractalSetAction
     {
         public const string CanvasName = "FinalFractalSet:StoneSpecial";
-        private static AirDistortEffect _airDistort = new(12, 1.5f);
-        private static DyeEffect _dye = new(ItemID.FogboundDye);
+        private static readonly AirDistortEffect _airDistort = new(12, 1.5f);
+        private static readonly DyeEffect _dye = new(ItemID.FogboundDye);
 
         public override void Load()
         {
@@ -155,32 +157,33 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
         }
 
         public override float CompositeArmRotation => base.CompositeArmRotation;
-        public override float offsetRotation => base.offsetRotation + MathHelper.SmoothStep(MathHelper.Pi * Owner.direction, 0, MathHelper.Clamp((1 - Factor) / .25f, 0, 1));
-        public override float offsetSize => base.offsetSize;
-        public override Vector2 offsetCenter => base.offsetCenter;
-        public override Vector2 offsetOrigin => base.offsetOrigin;
-        public override float offsetDamage => base.offsetDamage;
+        public override float OffsetRotation => base.OffsetRotation + MathHelper.SmoothStep(MathHelper.Pi * Owner.direction, 0, MathHelper.Clamp((1 - Factor) / .25f, 0, 1));
+        public override float OffsetSize => base.OffsetSize;
+        public override Vector2 OffsetCenter => base.OffsetCenter;
+        public override Vector2 OffsetOrigin => base.OffsetOrigin;
+        public override float OffsetDamage => base.OffsetDamage;
         public override bool Attacktive => Factor < .75f;
-
-        public override void OnEndSingle()
-        {
-            base.OnEndSingle();
-        }
 
         public override void OnStartAttack()
         {
             float r = Main.rand.NextFloat(0, MathHelper.TwoPi);
-            VectorMethods.GetClosestVectorsFromNPC(Owner.Center, 3, 1024, out var indexs, out _);
-            SoundEngine.PlaySound(MySoundID.Scythe);
+            int[] indexs = [-1, -1, -1];
+            if (IsLocalProjectile)
+                VectorMethods.GetClosestVectorsFromNPC(Owner.Center, 3, 1024, out indexs, out _);
+            SoundEngine.PlaySound(MySoundID.Scythe, Owner.Center);
             for (int n = 0; n < 3; n++)
             {
                 Vector2 cen = Owner.Center + (r + MathHelper.TwoPi / 3 * n).ToRotationVector2() * 128;
+                for (int k = 0; k < 20; k++)
+                    Dust.NewDustPerfect(cen, MyDustId.GreyStone, Main.rand.NextVector2Circular(4, 4), 0, default, Main.rand.NextFloat(1, 2)).noGravity = true;
+
+                if (!IsLocalProjectile) continue;
                 Vector2 velocity = default;
                 if (indexs[n] == -1)
                 {
-                    if (Owner is Player plr)
+                    if (Owner is Player)
                     {
-                        velocity = plr.GetModPlayer<LogSpiralLibraryPlayer>().targetedMousePosition - cen;
+                        velocity = Main.MouseWorld - cen;
                         velocity = velocity.SafeNormalize(default) * 16;
                     }
                 }
@@ -189,22 +192,27 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
                     velocity = Main.npc[indexs[n]].Center - cen;
                     velocity = velocity.SafeNormalize(default) * 16;
                 }
-
-                for (int k = 0; k < 20; k++)
-                    Dust.NewDustPerfect(cen, MyDustId.GreyStone, Main.rand.NextVector2Circular(4, 4), 0, default, Main.rand.NextFloat(1, 2)).noGravity = true;
                 Projectile.NewProjectile(Owner.GetSource_FromThis(), cen, velocity, ModContent.ProjectileType<StoneSAProjectile>(), CurrentDamage, Projectile.knockBack, Projectile.owner);
+
+
             }
             if (Upgraded)
             {
                 for (int n = 0; n < 3; n++)
                 {
                     Vector2 cen = Owner.Center + (r + MathHelper.TwoPi / 3 * n + MathHelper.Pi / 3).ToRotationVector2() * 144;
+
+                    for (int k = 0; k < 20; k++)
+                        Dust.NewDustPerfect(cen, MyDustId.GreyStone, Main.rand.NextVector2Circular(4, 4), 0, default, Main.rand.NextFloat(1, 2)).noGravity = true;
+
+                    if (!IsLocalProjectile) continue;
+
                     Vector2 velocity = default;
                     if (indexs[n] == -1)
                     {
-                        if (Owner is Player plr)
+                        if (Owner is Player)
                         {
-                            velocity = plr.GetModPlayer<LogSpiralLibraryPlayer>().targetedMousePosition - cen;
+                            velocity = Main.MouseWorld - cen;
                             velocity = velocity.SafeNormalize(default) * 16;
                         }
                     }
@@ -214,8 +222,6 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
                         velocity = velocity.SafeNormalize(default) * 16;
                     }
 
-                    for (int k = 0; k < 20; k++)
-                        Dust.NewDustPerfect(cen, MyDustId.GreyStone, Main.rand.NextVector2Circular(4, 4), 0, default, Main.rand.NextFloat(1, 2)).noGravity = true;
                     Projectile.NewProjectile(Owner.GetSource_FromThis(), cen, velocity, ModContent.ProjectileType<StoneSAProjectile>(), CurrentDamage, Projectile.knockBack, Projectile.owner);
                 }
             }
@@ -231,16 +237,6 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
             base.OnStartAttack();
         }
 
-        public override void OnCharge()
-        {
-            base.OnCharge();
-        }
-
-        public override void OnStartSingle()
-        {
-            base.OnStartSingle();
-        }
-
         public override void UpdateStatus(bool triggered)
         {
             Flip = Owner.direction == 1;
@@ -250,6 +246,17 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
         [ElementCustomData]
         [DefaultValue(false)]
         public bool Upgraded;
+
+        public override void NetSendInitializeElement(BinaryWriter writer)
+        {
+            base.NetSendInitializeElement(writer);
+            writer.Write(Upgraded);
+        }
+        public override void NetReceiveInitializeElement(BinaryReader reader)
+        {
+            base.NetReceiveInitializeElement(reader);
+            Upgraded = reader.ReadBoolean();
+        }
     }
 
     public class StoneSAProjectile : ModProjectile
@@ -288,6 +295,17 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
 
         public override void AI()
         {
+            if (!Main.dedServ && ultraStab == null) 
+            {
+                ultraStab = UltraStab.NewUltraStab(StoneSpecialAttack.CanvasName, 30, 250, Projectile.Center);
+                ultraStab.negativeDir = Main.rand.NextBool(2);
+                ultraStab.rotation = 0;
+                ultraStab.xScaler = 4f;
+                ultraStab.Update();
+                ultraStab.timeLeft = 30;
+                ultraStab.autoUpdate = false;
+            }
+
             if (ultraStab != null)
             {
                 ultraStab.center = Projectile.Center;
@@ -308,29 +326,13 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
 
         public override void OnKill(int timeLeft)
         {
-            ultraStab.timeLeft = 0;
+            ultraStab?.timeLeft = 0;
             base.OnKill(timeLeft);
         }
 
         private UltraStab ultraStab;
 
-        public override void OnSpawn(IEntitySource source)
-        {
-            if (Main.dedServ) return;
-            ultraStab = UltraStab.NewUltraStab(StoneSpecialAttack.CanvasName, 30, 250, Projectile.Center);
-            ultraStab.negativeDir = Main.rand.NextBool(2);
-            ultraStab.rotation = 0;
-            ultraStab.xScaler = 4f;
-            ultraStab.Update();
-            ultraStab.timeLeft = 30;
-            ultraStab.autoUpdate = false;
-            base.OnSpawn(source);
-        }
-
-        public override bool PreDraw(ref Color lightColor)
-        {
-            return false;
-        }
+        public override bool PreDraw(ref Color lightColor) => false;
     }
 
     public class StoneBuff : ModBuff

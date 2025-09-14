@@ -190,7 +190,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
 
         private void DrawProjWithStarryTrail(SpriteBatch spriteBatch)
         {
-            Color color = new Color(255, 255, 255, Color.White.A - projectile.alpha);
+            Color color = new(255, 255, 255, Color.White.A - projectile.alpha);
             Vector2 vector = projectile.velocity;
             float num2 = vector.Length();
             if (num2 == 0f)
@@ -201,7 +201,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             {
                 vector *= 5f / num2;
             }
-            Vector2 origin = new Vector2(projectile.ai[0], projectile.ai[1]);
+            Vector2 origin = new(projectile.ai[0], projectile.ai[1]);
             Vector2 center = Main.player[projectile.owner].Center;
             float num3 = GetLerpValue(0f, 120f, Vector2.Distance(origin, center), true);
             float num4 = 60f;
@@ -221,8 +221,8 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             Vector2 value2 = projectile.Center + vector;
             Texture2D value4 = LogSpiralLibraryMod.Misc[16].Value;
             Rectangle rectangle = value4.Frame(1, 1, 0, 0, 0, 0);
-            Vector2 origin2 = new Vector2(rectangle.Width / 2f, 10f);
-            Vector2 value5 = new Vector2(0f, projectile.gfxOffY);
+            Vector2 origin2 = new(rectangle.Width / 2f, 10f);
+            Vector2 value5 = new(0f, projectile.gfxOffY);
             float num7 = (float)Main.time / 60f;
             Vector2 value6 = value2 + projectile.velocity * projectile.scale;
             Color color2 = value * scale;
@@ -507,7 +507,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
 
         private void DrawProjWithStarryTrail(SpriteBatch spriteBatch)
         {
-            Color color = new Color(255, 255, 255, Color.White.A - projectile.alpha);
+            Color color = new(255, 255, 255, Color.White.A - projectile.alpha);
             Vector2 vector = projectile.velocity;
             float num2 = vector.Length();
             if (num2 == 0f)
@@ -518,7 +518,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             {
                 vector *= 5f / num2;
             }
-            Vector2 origin = new Vector2(projectile.ai[0], projectile.ai[1]);
+            Vector2 origin = new(projectile.ai[0], projectile.ai[1]);
             Vector2 center = Main.player[projectile.owner].Center;
             float num3 = GetLerpValue(0f, 120f, Vector2.Distance(origin, center), true);
             float num4 = 60f;
@@ -538,8 +538,8 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             Vector2 value2 = projectile.Center + vector;
             Texture2D value4 = LogSpiralLibraryMod.Misc[16].Value;
             Rectangle rectangle = value4.Frame(1, 1, 0, 0, 0, 0);
-            Vector2 origin2 = new Vector2(rectangle.Width / 2f, 10f);
-            Vector2 value5 = new Vector2(0f, projectile.gfxOffY);
+            Vector2 origin2 = new(rectangle.Width / 2f, 10f);
+            Vector2 value5 = new(0f, projectile.gfxOffY);
             float num7 = (float)Main.time / 60f;
             Vector2 value6 = value2 + projectile.velocity * projectile.scale;
             Color color2 = value * scale;
@@ -1282,7 +1282,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
 
         private void DrawProjWithStarryTrail(SpriteBatch spriteBatch)
         {
-            Color color = new Color(255, 255, 255, Color.White.A - projectile.alpha);
+            Color color = new(255, 255, 255, Color.White.A - projectile.alpha);
             Vector2 vector = projectile.velocity;
             float num2 = vector.Length();
             if (num2 == 0f)
@@ -1293,7 +1293,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             {
                 vector *= 5f / num2;
             }
-            Vector2 origin = new Vector2(projectile.ai[0], projectile.ai[1]);
+            Vector2 origin = new(projectile.ai[0], projectile.ai[1]);
             Vector2 center = Main.player[projectile.owner].Center;
             float num3 = GetLerpValue(0f, 120f, Vector2.Distance(origin, center), true);
             float num4 = 60f;
@@ -1313,8 +1313,8 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             Vector2 value2 = projectile.Center + vector;
             Texture2D value4 = LogSpiralLibraryMod.Misc[17].Value;
             Rectangle rectangle = value4.Frame(1, 1, 0, 0, 0, 0);
-            Vector2 origin2 = new Vector2(rectangle.Width / 2f, 10f);
-            Vector2 value5 = new Vector2(0f, projectile.gfxOffY);
+            Vector2 origin2 = new(rectangle.Width / 2f, 10f);
+            Vector2 value5 = new(0f, projectile.gfxOffY);
             float num7 = (float)Main.time / 60f;
             Vector2 value6 = value2 + projectile.velocity * projectile.scale;
             Color color2 = value * scale;
@@ -1505,7 +1505,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
 
         private void DrawProjWithStarryTrail(SpriteBatch spriteBatch)
         {
-            Color color = new Color(255, 255, 255, Color.White.A - projectile.alpha);
+            Color color = new(255, 255, 255, Color.White.A - projectile.alpha);
             Vector2 vector = projectile.velocity;
             float num2 = vector.Length();
             if (num2 == 0f)
@@ -1516,7 +1516,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             {
                 vector *= 5f / num2;
             }
-            Vector2 origin = new Vector2(projectile.ai[0], projectile.ai[1]);
+            Vector2 origin = new(projectile.ai[0], projectile.ai[1]);
             Vector2 center = Main.player[projectile.owner].Center;
             float num3 = GetLerpValue(0f, 120f, Vector2.Distance(origin, center), true);
             float num4 = 60f;
@@ -1536,8 +1536,8 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             Vector2 value2 = projectile.Center + vector;
             Texture2D value4 = LogSpiralLibraryMod.Misc[17].Value;
             Rectangle rectangle = value4.Frame(1, 1, 0, 0, 0, 0);
-            Vector2 origin2 = new Vector2(rectangle.Width / 2f, 10f);
-            Vector2 value5 = new Vector2(0f, projectile.gfxOffY);
+            Vector2 origin2 = new(rectangle.Width / 2f, 10f);
+            Vector2 value5 = new(0f, projectile.gfxOffY);
             float num7 = (float)Main.time / 60f;
             Vector2 value6 = value2 + projectile.velocity * projectile.scale;
             Color color2 = value * scale;
@@ -1643,7 +1643,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
 
         private void DrawProjWithStarryTrail(SpriteBatch spriteBatch)
         {
-            Color color = new Color(255, 255, 255, Color.White.A - projectile.alpha);
+            Color color = new(255, 255, 255, Color.White.A - projectile.alpha);
             Vector2 vector = projectile.velocity;
             float num2 = vector.Length();
             if (num2 == 0f)
@@ -1654,7 +1654,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             {
                 vector *= 5f / num2;
             }
-            Vector2 origin = new Vector2(projectile.ai[0], projectile.ai[1]);
+            Vector2 origin = new(projectile.ai[0], projectile.ai[1]);
             Vector2 center = Main.player[projectile.owner].Center;
             float num3 = GetLerpValue(0f, 120f, Vector2.Distance(origin, center), true);
             float num4 = 60f;
@@ -1674,8 +1674,8 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             Vector2 value2 = projectile.Center + vector;
             Texture2D value4 = LogSpiralLibraryMod.Misc[17].Value;
             Rectangle rectangle = value4.Frame(1, 1, 0, 0, 0, 0);
-            Vector2 origin2 = new Vector2(rectangle.Width / 2f, 10f);
-            Vector2 value5 = new Vector2(0f, projectile.gfxOffY);
+            Vector2 origin2 = new(rectangle.Width / 2f, 10f);
+            Vector2 value5 = new(0f, projectile.gfxOffY);
             float num7 = (float)Main.time / 60f;
             Vector2 value6 = value2 - projectile.velocity * projectile.scale;
             Color color2 = value * scale;

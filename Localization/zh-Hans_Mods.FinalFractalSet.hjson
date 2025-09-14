@@ -16,27 +16,6 @@ Configs: {
 			// Tooltip: ""
 		}
 	}
-
-	WoodSpecialAttack.Upgraded.Label: 升级
-	StoneSpecialAttack.Upgraded.Label: 升级
-	SteelSpecialAttack.Upgraded.Label: 升级
-}
-
-MeleeAction: {
-	WoodSpecialAttack.DisplayName: 朽木穿刺
-	StoneSpecialAttack.DisplayName: 枯石幻影剑
-	SteelSpecialAttack.DisplayName: 锈钢瞬闪
-	FirstZenithSpecialAttack.DisplayName: 天穹次元斩
-	FirstZenithRainAttack.DisplayName: 天穹剑雨
-	FractalChargingWing.DisplayName: 分形之翼
-	FractalCloudMowingSword.DisplayName: 分形断云
-	FractalCut.DisplayName: 分形横斩
-	FractalSnowFlake.DisplayName: 分形雪花
-	FractalStrom.DisplayName: 分形风暴
-	FractalTreeStab.DisplayName: 分形勾股树
-	PureFractalCharging.DisplayName: 纯粹蓄力
-	Category.FinalFractal: 最终分形
-	FractalJuilaSet.DisplayName: 余弦茱莉亚集合
 }
 
 Items: {
@@ -378,32 +357,31 @@ Buffs: {
 
 Sequence: {
 	MeleeAction: {
-		// FractalChargingWing.DisplayName: FractalChargingWing
-		// Category.FinalFractal: FinalFractal
-		// FractalCloudMowingSword.DisplayName: FractalCloudMowingSword
-		// FractalJuilaSet.DisplayName: FractalJuilaSet
-		// FractalSnowFlake.DisplayName: FractalSnowFlake
-		// FractalStrom.DisplayName: FractalStrom
-		// FractalTreeStab.DisplayName: FractalTreeStab
+		FirstZenithSpecialAttack.DisplayName: 天穹次元斩
+		FirstZenithRainAttack.DisplayName: 天穹剑雨
+		FractalChargingWing.DisplayName: 分形之翼
+		FractalCloudMowingSword.DisplayName: 分形断云
+		FractalCut.DisplayName: 分形横斩
+		FractalSnowFlake.DisplayName: 分形雪花
+		FractalStrom.DisplayName: 分形风暴
+		FractalTreeStab.DisplayName: 分形勾股树
+		PureFractalCharging.DisplayName: 纯粹蓄力
+		Category.FinalFractal: 最终分形
+		FractalJuilaSet.DisplayName: 余弦茱莉亚集合
 
 		SteelSpecialAttack: {
-			// DisplayName: SteelSpecialAttack
-			// Upgraded.Label: Upgraded
+			DisplayName: 锈钢瞬闪
+			Upgraded.Label: 升级
 		}
 
-		// PureFractalCharging.DisplayName: PureFractalCharging
-
 		StoneSpecialAttack: {
-			// DisplayName: StoneSpecialAttack
-			// Upgraded.Label: Upgraded
+			DisplayName: 枯石幻影剑
+			Upgraded.Label: 升级
 		}
 
 		WoodSpecialAttack: {
-			// DisplayName: WoodSpecialAttack
-			// Upgraded.Label: Upgraded
+			DisplayName: 朽木穿刺
+			Upgraded.Label: 升级
 		}
-
-		// FirstZenithRainAttack.DisplayName: FirstZenithRainAttack
-		// FirstZenithSpecialAttack.DisplayName: FirstZenithSpecialAttack
 	}
 }

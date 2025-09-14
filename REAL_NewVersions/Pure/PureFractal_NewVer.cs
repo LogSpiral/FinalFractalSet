@@ -1,13 +1,17 @@
 ﻿using FinalFractalSet.Weapons;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingEffects;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee;
+using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee.Core;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee.ExtendedMelee;
 using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
+using NetSimplified;
+using NetSimplified.Syncing;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.Graphics.Shaders;
 
 namespace FinalFractalSet.REAL_NewVersions.Pure
 {
@@ -69,6 +73,7 @@ namespace FinalFractalSet.REAL_NewVersions.Pure
             vertexStandard.timeLeft = 15;
             vertexStandard.alphaFactor = 2f;
             vertexStandard.canvasName = CanvasName;
+            vertexStandard.SetDyeShaderID(ItemID.VortexDye);
         }
 
         public override bool LabeledAsCompleted => true;
@@ -94,7 +99,7 @@ namespace FinalFractalSet.REAL_NewVersions.Pure
             float num6 = Main.mouseX + Main.screenPosition.X - vector.X;
             float num7 = Main.mouseY + Main.screenPosition.Y - vector.Y;
             int num166 = (plr.itemAnimationMax - plr.itemAnimation) / plr.itemTime;
-            Vector2 velocity_ = new Vector2(num6, num7);
+            Vector2 velocity_ = new(num6, num7);
             Vector2 value7 = Main.MouseWorld - plr.MountedCenter;
             if (num166 == 1 || num166 == 2)
             {
@@ -132,10 +137,88 @@ namespace FinalFractalSet.REAL_NewVersions.Pure
         public override void OnDeactive()
         {
             base.OnDeactive();
+            if (IsLocalProjectile)
+                RotatingBladeShootActionSyncing.Get(Projectile.owner).Send(runLocally: true);
+        }
+
+        public override void OnStartAttack()
+        {
+            base.OnStartAttack();
+            var action = this;
+            SoundEngine.PlaySound(SoundID.Item84, Owner.Center);
+            for (int n = 0; n < 20; n++)
+            {
+                MiscMethods.FastDust(action.Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 32), action.StandardInfo.standardColor, Main.rand.NextFloat(1, 4));
+            }
+            if (!IsLocalProjectile) return;
+            float m = 8 + 8 * action.Counter;
+            for (int n = 0; n < m; n++)
+            {
+                float t = n / m;
+                Projectile.NewProjectileDirect(action.Projectile.GetProjectileSource_FromThis(),
+                    action.Owner.Center, default, ModContent.ProjectileType<PureFractalRotatingBlade>(),
+                    action.CurrentDamage / 4, action.Projectile.damage, Main.myPlayer, t, action.Counter);
+            }
+        }
+    }
+
+    [AutoSync]
+    [Obsolete]
+    public class RotatingBladeSyncing : NetModule
+    {
+        public ushort projectileWhoAmI;
+        public byte status;
+        public Vector2 velocity;
+        public byte hitCooldown;
+        public byte extraUpdates;
+        public byte timeLeft;
+        public int damage;
+
+        public static RotatingBladeSyncing Get(Projectile projectile)
+        {
+            return new RotatingBladeSyncing()
+            {
+                projectileWhoAmI = (ushort)projectile.whoAmI,
+                status = (byte)projectile.ai[2],
+                velocity = projectile.velocity,
+                hitCooldown = (byte)projectile.localNPCHitCooldown,
+                extraUpdates = (byte)projectile.extraUpdates,
+                timeLeft = (byte)projectile.timeLeft,
+                damage = projectile.damage,
+            };
+        }
+
+        public override void Receive()
+        {
+            var proj = Main.projectile[projectileWhoAmI];
+            proj.ai[2] = status;
+            proj.velocity = velocity;
+            proj.localNPCHitCooldown = hitCooldown;
+            proj.extraUpdates = extraUpdates;
+            proj.timeLeft = timeLeft;
+            proj.damage = damage;
+
+            if (Main.dedServ)
+                Get(proj).Send(-1, Sender);
+        }
+    }
+
+    [AutoSync]
+    public class RotatingBladeShootActionSyncing : NetModule
+    {
+        public int projOwner;
+        public static RotatingBladeShootActionSyncing Get(int owner)
+        {
+            var packet = NetModuleLoader.Get<RotatingBladeShootActionSyncing>();
+            packet.projOwner = owner;
+            return packet;
+        }
+        public override void Receive()
+        {
             int type = ModContent.ProjectileType<PureFractalRotatingBlade>();
             foreach (var proj in Main.projectile)
             {
-                if (proj.type == type)
+                if (proj.type == type && proj.owner == projOwner)
                 {
                     proj.ai[2] = 2;
                     proj.velocity = proj.rotation.ToRotationVector2() * 16;
@@ -145,30 +228,10 @@ namespace FinalFractalSet.REAL_NewVersions.Pure
                     proj.damage *= 4;
                 }
             }
-        }
-
-        public override void OnStartAttack()
-        {
-            base.OnStartAttack();
-            var action = this;
-            SoundEngine.PlaySound(SoundID.Item84);
-            for (int n = 0; n < 20; n++)
-            {
-                MiscMethods.FastDust(action.Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 32), action.StandardInfo.standardColor, Main.rand.NextFloat(1, 4));
-            }
-            float m = 8 + 8 * action.Counter;
-            for (int n = 0; n < m; n++)
-            {
-                float t = n / m;
-                var proj = Projectile.NewProjectileDirect(action.Projectile.GetProjectileSource_FromThis(),
-                    action.Owner.Center, default, ModContent.ProjectileType<PureFractalRotatingBlade>(),
-                    action.CurrentDamage / 4, action.Projectile.damage, Main.myPlayer, t, action.Counter);
-                proj.netUpdate = true;
-                proj.frame = Main.rand.Next(26);
-            }
+            if (Main.dedServ)
+                Get(projOwner).Send(-1, Sender);
         }
     }
-
     public class PureFractalRotatingBlade : ModProjectile
     {
         //ai0控制每个弹幕的偏移量
@@ -348,16 +411,21 @@ namespace FinalFractalSet.REAL_NewVersions.Pure
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            Projectile.frame = reader.ReadInt32();
+            Projectile.frame = reader.ReadByte();
             Projectile.frameCounter = reader.ReadInt32();
             base.ReceiveExtraAI(reader);
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(Projectile.frame);
+            writer.Write((byte)Projectile.frame);
             writer.Write(Projectile.frameCounter);
             base.SendExtraAI(writer);
+        }
+
+        public override void OnSpawn(IEntitySource source)
+        {
+            Projectile.frame = Main.rand.Next(26);
         }
     }
 

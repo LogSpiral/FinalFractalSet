@@ -16,27 +16,6 @@ Configs: {
 			Tooltip: ""
 		}
 	}
-
-	WoodSpecialAttack.Upgraded.Label: Upgraded
-	StoneSpecialAttack.Upgraded.Label: Upgraded
-	SteelSpecialAttack.Upgraded.Label: Upgraded
-}
-
-MeleeAction: {
-	WoodSpecialAttack.DisplayName: Withered Wood Puncture
-	StoneSpecialAttack.DisplayName: Dying Stone Phantomsword
-	SteelSpecialAttack.DisplayName: Rusty Steel Dashing
-	FirstZenithSpecialAttack.DisplayName: Zenith Dimension Cut
-	FirstZenithRainAttack.DisplayName: Zenith Rain
-	FractalChargingWing.DisplayName: FractalChargingWing
-	FractalCloudMowingSword.DisplayName: FractalCloudMowingSword
-	FractalCut.DisplayName: FractalCut
-	FractalSnowFlake.DisplayName: FractalSnowFlake
-	FractalStrom.DisplayName: FractalStrom
-	FractalTreeStab.DisplayName: FractalTreeStab
-	PureFractalCharging.DisplayName: PureFractalCharging
-	Category.FinalFractal: FinalFractal
-	FractalJuilaSet.DisplayName: FractalJuilaSet
 }
 
 Items: {
@@ -374,32 +353,31 @@ Buffs: {
 
 Sequence: {
 	MeleeAction: {
+		FirstZenithSpecialAttack.DisplayName: Zenith Dimension Cut
+		FirstZenithRainAttack.DisplayName: Zenith Rain
 		FractalChargingWing.DisplayName: FractalChargingWing
-		Category.FinalFractal: FinalFractal
 		FractalCloudMowingSword.DisplayName: FractalCloudMowingSword
-		FractalJuilaSet.DisplayName: FractalJuilaSet
+		FractalCut.DisplayName: FractalCut
 		FractalSnowFlake.DisplayName: FractalSnowFlake
 		FractalStrom.DisplayName: FractalStrom
 		FractalTreeStab.DisplayName: FractalTreeStab
+		PureFractalCharging.DisplayName: PureFractalCharging
+		Category.FinalFractal: FinalFractal
+		FractalJuilaSet.DisplayName: FractalJuilaSet
 
 		SteelSpecialAttack: {
-			DisplayName: SteelSpecialAttack
+			DisplayName: Rusty Steel Dashing
 			Upgraded.Label: Upgraded
 		}
 
-		PureFractalCharging.DisplayName: PureFractalCharging
-
 		StoneSpecialAttack: {
-			DisplayName: StoneSpecialAttack
+			DisplayName: Dying Stone Phantomsword
 			Upgraded.Label: Upgraded
 		}
 
 		WoodSpecialAttack: {
-			DisplayName: WoodSpecialAttack
+			DisplayName: Withered Wood Puncture
 			Upgraded.Label: Upgraded
 		}
-
-		FirstZenithRainAttack.DisplayName: FirstZenithRainAttack
-		FirstZenithSpecialAttack.DisplayName: FirstZenithSpecialAttack
 	}
 }

@@ -1,6 +1,9 @@
-﻿using FinalFractalSet.REAL_NewVersions.Zenith;
+﻿using FinalFractalSet.REAL_NewVersions.Pure;
+using FinalFractalSet.REAL_NewVersions.Zenith;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee.ExtendedMelee;
 using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
+using NetSimplified;
+using NetSimplified.Syncing;
 using System;
 using Terraria.Audio;
 
@@ -21,7 +24,7 @@ public class FractalCloudMowingSword : StormInfo
 
     public override float Factor => 1 - MathF.Pow(1 - base.Factor, 2);
 
-    public override float offsetSize => IsColliding ? 4 : 1;
+    public override float OffsetSize => IsColliding ? 4 : 1;
 
     public override bool Attacktive => base.Attacktive;
 
@@ -79,12 +82,13 @@ public class FractalStrom : StormInfo
 
     public override void OnAttack()
     {
-        if (Timer % Math.Max(TimerMax / 9, 1) == 0)
-        {
-            var velocity = Main.rand.NextVector2Unit() * 32;
-            Projectile.NewProjectile(Projectile.GetSource_FromThis(),
-            Owner.Center - velocity * 30, velocity, ModContent.ProjectileType<FractalDash>(), CurrentDamage, Projectile.knockBack, Projectile.owner, 0, Main.rand.NextFloat(), 1);
-        }
+        if (IsLocalProjectile)
+            if (Timer % Math.Max(TimerMax / 9, 1) == 0)
+            {
+                var velocity = Main.rand.NextVector2Unit() * 32;
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(),
+                Owner.Center - velocity * 30, velocity, ModContent.ProjectileType<FractalDash>(), CurrentDamage, Projectile.knockBack, Projectile.owner, 0, Main.rand.NextFloat(), 1);
+            }
         base.OnAttack();
     }
 
@@ -103,8 +107,9 @@ public class FractalTreeStab : PunctureInfo
 
     public override void OnBurst(float fallFac)
     {
-        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center + Vector2.UnitY * 8 + Vector2.UnitX * 16 * Owner.direction, default, ModContent.ProjectileType<PythagoreanTreeProj>(),
-            CurrentDamage, Projectile.knockBack, Projectile.owner);
+        if (IsLocalProjectile)
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center + Vector2.UnitY * 8 + Vector2.UnitX * 16 * Owner.direction, default, ModContent.ProjectileType<PythagoreanTreeProj>(),
+                CurrentDamage, Projectile.knockBack, Projectile.owner);
         base.OnBurst(fallFac);
     }
 }
@@ -116,52 +121,64 @@ public class FractalChargingWing : ChargingInfo
     public override void OnDeactive()
     {
         base.OnDeactive();
-        int type = ModContent.ProjectileType<FractalChargingWingProj>();
-        foreach (var proj in Main.projectile)
-        {
-            if (proj.type == type && proj.ai[2] < 2)
-            {
-                proj.ai[2] = 2;
-                proj.frameCounter = 0;
-            }
-        }
+        FractalChargingWingShootActionSyncing.Get(Projectile.owner).Send(runLocally: true);
     }
 
     public override void OnStartAttack()
     {
         base.OnStartAttack();
         var action = this;
-        SoundEngine.PlaySound(SoundID.Item84);
+        SoundEngine.PlaySound(SoundID.Item84, Owner.Center);
         for (int n = 0; n < 20; n++)
         {
             MiscMethods.FastDust(action.Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 32), action.StandardInfo.standardColor, Main.rand.NextFloat(1, 4));
         }
+        if (!IsLocalProjectile) return;
         float m = 4 * action.Counter;
         //m = Math.Min(m, 12);
         for (int n = 0; n < m; n++)
         {
             float t = (n + 1f) / m;
-            var proj = Projectile.NewProjectileDirect(action.Projectile.GetProjectileSource_FromThis(),
+            Projectile.NewProjectileDirect(action.Projectile.GetProjectileSource_FromThis(),
                 action.Owner.Center, default, ModContent.ProjectileType<FractalChargingWingProj>(),
                 action.CurrentDamage, action.Projectile.damage / 4, Main.myPlayer, t, action.Counter);
-            proj.netUpdate = true;
-            proj.frame = 25;
 
-            proj = Projectile.NewProjectileDirect(action.Projectile.GetProjectileSource_FromThis(),
-    action.Owner.Center, default, ModContent.ProjectileType<FractalChargingWingProj>(),
-    action.CurrentDamage, action.Projectile.damage / 4, Main.myPlayer, t + 1, action.Counter);
-
-            proj.netUpdate = true;
-            proj.frame = 25;
+            Projectile.NewProjectileDirect(action.Projectile.GetProjectileSource_FromThis(),
+                action.Owner.Center, default, ModContent.ProjectileType<FractalChargingWingProj>(),
+                action.CurrentDamage, action.Projectile.damage / 4, Main.myPlayer, t + 1, action.Counter);
         }
     }
 }
-
+[AutoSync]
+public class FractalChargingWingShootActionSyncing : NetModule
+{
+    public int projOwner;
+    public static FractalChargingWingShootActionSyncing Get(int owner)
+    {
+        var packet = NetModuleLoader.Get<FractalChargingWingShootActionSyncing>();
+        packet.projOwner = owner;
+        return packet;
+    }
+    public override void Receive()
+    {
+        int type = ModContent.ProjectileType<FractalChargingWingProj>();
+        foreach (var proj in Main.projectile)
+        {
+            if (proj.type == type && proj.ai[2] < 2 && proj.owner == projOwner)
+            {
+                proj.ai[2] = 2;
+                proj.frameCounter = 0;
+            }
+        }
+        if (Main.dedServ)
+            Get(projOwner).Send(-1, Sender);
+    }
+}
 public class FractalSnowFlake : FinalFractalSetAction
 {
     public override string Category => "FinalFractal";
     public override bool Attacktive => Factor < .1f;
-    public override float offsetRotation => -Rotation - MathHelper.PiOver2;
+    public override float OffsetRotation => -Rotation - MathHelper.PiOver2;
 
     public override bool Collide(Rectangle rectangle) => false;
 
@@ -175,16 +192,17 @@ public class FractalSnowFlake : FinalFractalSetAction
         for (int n = 0; n < 40; n++)
         {
             MiscMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 32), StandardInfo.standardColor, Main.rand.NextFloat(1, 4));
-            MiscMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 4) + (Rotation + offsetRotation).ToRotationVector2() * Main.rand.NextFloat(0, 64), StandardInfo.standardColor, Main.rand.NextFloat(1, 2));
+            MiscMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 4) + (Rotation + OffsetRotation).ToRotationVector2() * Main.rand.NextFloat(0, 64), StandardInfo.standardColor, Main.rand.NextFloat(1, 2));
         }
-        SoundEngine.PlaySound(SoundID.Item92);
+        SoundEngine.PlaySound(SoundID.Item92, Owner.Center);
         base.OnStartAttack();
     }
 
     public override void OnStartSingle()
     {
-        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center, default,
-            ModContent.ProjectileType<FractalSnowFlakeProj>(), CurrentDamage, Projectile.knockBack, Projectile.owner);
+        if (IsLocalProjectile)
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center, default,
+                ModContent.ProjectileType<FractalSnowFlakeProj>(), CurrentDamage, Projectile.knockBack, Projectile.owner);
         for (int n = 0; n < 60; n++)
         {
             var unit = Main.rand.NextVector2Unit();
@@ -200,7 +218,8 @@ public class FractalJuilaSet : PunctureInfo
 
     public override void OnBurst(float fallFac)
     {
-        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center, default, ModContent.ProjectileType<FractalJuilaSetProj>(), CurrentDamage, Projectile.knockBack, Projectile.owner);
+        if (IsLocalProjectile)
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center, default, ModContent.ProjectileType<FractalJuilaSetProj>(), CurrentDamage, Projectile.knockBack, Projectile.owner);
         base.OnBurst(fallFac);
     }
 }

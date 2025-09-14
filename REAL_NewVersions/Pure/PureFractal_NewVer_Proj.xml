@@ -32,11 +32,11 @@
             <Action ModifyData="(1.00|12.00|1.00|1.00|0|1.00)" Cycle="5" ChargingRotation="3.10" StartRotation="3.10" AutoNext="False" name="FinalFractalSet/PureFractalCharging" />
           </Wraper>
         </Group>
-        <Group>
+        <!--<Group>
           <Wraper>
             <Action ModifyData="(1.50|0.50|1.00|3.25|0|1.00)" Cycle="2" mode="1" name="LogSpiralLibrary/SwooshInfo" />
           </Wraper>
-        </Group>
+        </Group>-->
       </Sequence>
     </Wraper>
   </Group>

@@ -90,7 +90,7 @@ namespace FinalFractalSet.Weapons
                 float num84 = num82 / 2f;
                 float scaleFactor3 = 12f + Main.rand.NextFloat() * 2f;
                 Vector2 vector34 = vector33 * scaleFactor3;
-                Vector2 vector35 = new Vector2(0f, 0f);
+                Vector2 vector35 = new(0f, 0f);
                 Vector2 vector36 = vector34;
                 int num85 = 0;
                 while (num85 < num84)
@@ -249,7 +249,7 @@ namespace FinalFractalSet.Weapons
                 float num84 = num82 / 2f;
                 float scaleFactor3 = 12f + Main.rand.NextFloat() * 2f;
                 Vector2 vector34 = vector33 * scaleFactor3;
-                Vector2 vector35 = new Vector2(0f, 0f);
+                Vector2 vector35 = new(0f, 0f);
                 Vector2 vector36 = vector34;
                 int num85 = 0;
                 while (num85 < num84)
@@ -691,7 +691,7 @@ namespace FinalFractalSet.Weapons
             }
             if (Player.whoAmI == Main.myPlayer)
             {
-                Player.velocity += (Player.GetModPlayer<LogSpiralLibraryPlayer>().targetedMousePosition - Player.Center).SafeNormalize(default) * UpgradeValue(16, 24) * new Vector2(1, 0.25f);
+                Player.velocity += (Main.MouseWorld - Player.Center).SafeNormalize(default) * UpgradeValue(16, 24) * new Vector2(1, 0.25f);
                 NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, Player.whoAmI);
                 NetMessage.SendData(MessageID.ShotAnimationAndSound, -1, -1, null, Player.whoAmI);
             }
@@ -897,7 +897,7 @@ namespace FinalFractalSet.Weapons
                 if (Charged)
                 {
                     projectile.damage = (int)(Player.GetWeaponDamage(Player.HeldItem) * (3 * Factor * Factor));
-                    SoundEngine.PlaySound(SoundID.Item71);
+                    SoundEngine.PlaySound(SoundID.Item71, Projectile.Center);
                 }
             }
             projectile.ai[1]++;
@@ -948,9 +948,9 @@ namespace FinalFractalSet.Weapons
         {
             Texture2D value33 = TextureAssets.Projectile[projectile.type].Value;
             Rectangle value34 = value33.Frame(1, 6, 0, projectile.frame);
-            Vector2 origin11 = new Vector2(16f, value34.Height / 2);
+            Vector2 origin11 = new(16f, value34.Height / 2);
             Color alpha4 = projectile.GetAlpha(lightColor);
-            Vector2 scale8 = new Vector2(projectile.scale);
+            Vector2 scale8 = new(projectile.scale);
             float lerpValue4 = GetLerpValue(30f, 25f, projectile.ai[0], clamped: true);
             scale8.Y *= lerpValue4;
             SpriteEffects spriteEffects = SpriteEffects.None;
@@ -1163,7 +1163,7 @@ namespace FinalFractalSet.Weapons
                         float num6 = Main.mouseX + Main.screenPosition.X - vector.X;
                         float num7 = Main.mouseY + Main.screenPosition.Y - vector.Y;
                         int num166 = (player.itemAnimationMax - player.itemAnimation) / player.itemTime;
-                        Vector2 velocity_ = new Vector2(num6, num7);
+                        Vector2 velocity_ = new(num6, num7);
                         Vector2 value7 = Main.MouseWorld - player.MountedCenter;
                         if (num166 == 1 || num166 == 2)
                         {
@@ -1195,7 +1195,7 @@ namespace FinalFractalSet.Weapons
                 if (Charged)
                 {
                     projectile.damage = (int)(Player.GetWeaponDamage(Player.HeldItem) * (3 * Factor * Factor));
-                    SoundEngine.PlaySound(SoundID.Item71);
+                    SoundEngine.PlaySound(SoundID.Item71, Projectile.Center);
                 }
             }
             projectile.ai[1]++;

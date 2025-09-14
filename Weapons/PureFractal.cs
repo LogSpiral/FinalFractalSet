@@ -98,7 +98,7 @@ namespace FinalFractalSet.Weapons
             float num6 = Main.mouseX + Main.screenPosition.X - vector.X;
             float num7 = Main.mouseY + Main.screenPosition.Y - vector.Y;
             int num166 = (player.itemAnimationMax - player.itemAnimation) / player.itemTime;
-            Vector2 velocity_ = new Vector2(num6, num7);
+            Vector2 velocity_ = new(num6, num7);
             Vector2 value7 = Main.MouseWorld - player.MountedCenter;
             if (num166 == 1 || num166 == 2)
             {
@@ -587,7 +587,7 @@ namespace FinalFractalSet.Weapons
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            Rectangle _lanceHitboxBounds = new Rectangle(0, 0, 300, 300);
+            Rectangle _lanceHitboxBounds = new(0, 0, 300, 300);
             float num2 = 0f;
             float scaleFactor = 40f;
             for (int i = 14; i < projectile.oldPos.Length; i += 15)

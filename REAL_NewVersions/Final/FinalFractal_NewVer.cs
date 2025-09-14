@@ -3,6 +3,7 @@ using FinalFractalSet.REAL_NewVersions.Zenith;
 using FinalFractalSet.Weapons.FinalFractal_Old;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingEffects;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee;
+using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee.Core;
 using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
 using System;
 using System.Collections.Generic;
@@ -74,6 +75,7 @@ public class FinalFractal_NewVer_Proj : MeleeSequenceProj
         vertexStandard.timeLeft = 45;
         vertexStandard.alphaFactor = 2f;
         vertexStandard.canvasName = CanvasName;
+        vertexStandard.SetDyeShaderID(ItemID.StardustDye);
         base.InitializeStandardInfo(standardInfo, vertexStandard);
     }
 
@@ -81,28 +83,32 @@ public class FinalFractal_NewVer_Proj : MeleeSequenceProj
     [SequenceDelegate]
     private static void FinalFractalChop(MeleeAction action)
     {
+        if (!action.IsLocalProjectile) return;
+
         Projectile.NewProjectile(
-            action.Projectile.GetSource_FromThis(),
-            action.Owner.Center,
-            action.Rotation.ToRotationVector2() * 64,
-            ModContent.ProjectileType<FinalFractalProjectile>(),//ModContent.ProjectileType<FractalStormSpawner>()
-            action.Projectile.damage,
-            action.Projectile.knockBack,
-            action.Projectile.owner);
+                action.Projectile.GetSource_FromThis(),
+                action.Owner.Center,
+                action.Rotation.ToRotationVector2() * 64,
+                ModContent.ProjectileType<FinalFractalProjectile>(),//ModContent.ProjectileType<FractalStormSpawner>()
+                action.Projectile.damage,
+                action.Projectile.knockBack,
+                action.Projectile.owner);
     }
 
     // 左键第二斩
     [SequenceDelegate]
     private static void FinalFractalCut(MeleeAction action)
     {
+        if (!action.IsLocalProjectile) return;
+
         Projectile.NewProjectile(
-            action.Projectile.GetSource_FromThis(),
-            action.Owner.Center + action.Rotation.ToRotationVector2() * 512,
-            action.Rotation.ToRotationVector2(),
-            ModContent.ProjectileType<FractalTear>(),
-            action.Projectile.damage,
-            action.Projectile.knockBack,
-            action.Projectile.owner);
+        action.Projectile.GetSource_FromThis(),
+        action.Owner.Center + action.Rotation.ToRotationVector2() * 512,
+        action.Rotation.ToRotationVector2(),
+        ModContent.ProjectileType<FractalTear>(),
+        action.Projectile.damage,
+        action.Projectile.knockBack,
+        action.Projectile.owner);
 
         PureFractal_NewVer_Proj.ShootPurefractalProj_Lots(action);
 
@@ -122,6 +128,8 @@ action.Projectile.damage, action.Projectile.knockBack, Main.myPlayer, 0, Main.ra
     [SequenceDelegate]
     private static void FinalFractalStab(MeleeAction action)
     {
+        if (!action.IsLocalProjectile) return;
+
         int count = 3;
         float angleMax = MathHelper.Pi / 8;
         ShootSinglgDash(action, 0);

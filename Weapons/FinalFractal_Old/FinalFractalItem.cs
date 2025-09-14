@@ -282,8 +282,8 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                     {
                         useDegree = (float)((int)(Player.itemAnimationMax / 3f * 2) - illusionBoundPlayer.usingFinalFractal) / (int)(Player.itemAnimationMax / 3f * 2);
                         Player.bodyFrame.Y = 168;
-                        Vector2 vec1 = new Vector2(-1.414213562373095f * 1.732050807568877f, 1.414213562373095f);
-                        Vector2 vec2 = new Vector2(1.414213562373095f * 2f, 0);
+                        Vector2 vec1 = new(-1.414213562373095f * 1.732050807568877f, 1.414213562373095f);
+                        Vector2 vec2 = new(1.414213562373095f * 2f, 0);
                         Vector2 adder = vec2 - vec1;
                         spriteBatch.Draw(TextureAssets.Projectile[projectile.type].Value, Player.Center + new Vector2(-4, 4) + new Vector2(-1.414213562373095f * 1.732050807568877f, 1.414213562373095f) * Coefficient + adder * Coefficient * (Player.itemAnimationMax - illusionBoundPlayer.usingFinalFractal * 2) / Player.itemAnimationMax - Main.screenPosition, null, Color.White, 0, new Vector2(12, 16), 1f, spriteEffects, 0);
                         if (illusionBoundPlayer.usingFinalFractal != 0)
@@ -360,8 +360,8 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                     {
                         useDegree = (float)((int)(Player.itemAnimationMax / 3f * 2) - illusionBoundPlayer.usingFinalFractal) / (int)(Player.itemAnimationMax / 3f * 2);
                         Player.bodyFrame.Y = 168;
-                        Vector2 vec1 = new Vector2(1.414213562373095f * 1.732050807568877f, 1.414213562373095f);
-                        Vector2 vec2 = new Vector2(-1.414213562373095f * 2f, 0);
+                        Vector2 vec1 = new(1.414213562373095f * 1.732050807568877f, 1.414213562373095f);
+                        Vector2 vec2 = new(-1.414213562373095f * 2f, 0);
                         Vector2 adder = vec2 - vec1;
                         spriteBatch.Draw(TextureAssets.Projectile[projectile.type].Value, Player.Center + new Vector2(4, 4) + new Vector2(1.414213562373095f * 1.732050807568877f, 1.414213562373095f) * Coefficient + adder * Coefficient * (Player.itemAnimationMax - illusionBoundPlayer.usingFinalFractal * 2) / Player.itemAnimationMax - Main.screenPosition, null, Color.White, -MathHelper.Pi, new Vector2(12, 11), 1f, spriteEffects, 0);
                         if (illusionBoundPlayer.usingFinalFractal != 0)
@@ -461,7 +461,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                     Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true, true);
                     float num6 = Main.mouseX + Main.screenPosition.X - vector.X;
                     float num7 = Main.mouseY + Main.screenPosition.Y - vector.Y;
-                    Vector2 velocity = new Vector2(num6, num7);
+                    Vector2 velocity = new(num6, num7);
                     int num167 = Main.rand.Next(26);
                     if (zenithProjCount == 4)
                         num167 = 25;
@@ -525,7 +525,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                         float num84 = num82 / 2f;
                         float scaleFactor3 = 12f + Main.rand.NextFloat() * 2f;
                         Vector2 vector34 = vector33 * scaleFactor3;
-                        Vector2 vector35 = new Vector2(0f, 0f);
+                        Vector2 vector35 = new(0f, 0f);
                         Vector2 vector36 = vector34;
                         int num85 = 0;
                         while (num85 < num84)

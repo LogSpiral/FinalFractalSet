@@ -3,10 +3,12 @@ using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingContents;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingEffects;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee;
+using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee.Core;
 using LogSpiralLibrary.CodeLibrary.Utilties;
 using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Terraria.Audio;
 
 namespace FinalFractalSet.REAL_NewVersions.Zenith
@@ -132,7 +134,7 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
                 float num84 = num82 / 2f;
                 float scaleFactor3 = 12f + Main.rand.NextFloat() * 2f;
                 Vector2 vector34 = vector33 * scaleFactor3;
-                Vector2 vector35 = new Vector2(0f, 0f);
+                Vector2 vector35 = new(0f, 0f);
                 Vector2 vector36 = vector34;
                 int num85 = 0;
                 while (num85 < num84)
@@ -159,11 +161,11 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
     public class FirstZenithSpecialAttack : FinalFractalSetAction
     {
         public override float CompositeArmRotation => base.CompositeArmRotation;
-        public override float offsetRotation => base.offsetRotation + MathHelper.SmoothStep(MathHelper.Pi * Owner.direction, 0, MathHelper.Clamp((1 - Factor) / .25f, 0, 1));
-        public override float offsetSize => base.offsetSize;
-        public override Vector2 offsetCenter => base.offsetCenter;
-        public override Vector2 offsetOrigin => base.offsetOrigin;
-        public override float offsetDamage => base.offsetDamage;
+        public override float OffsetRotation => base.OffsetRotation + MathHelper.SmoothStep(MathHelper.Pi * Owner.direction, 0, MathHelper.Clamp((1 - Factor) / .25f, 0, 1));
+        public override float OffsetSize => base.OffsetSize;
+        public override Vector2 OffsetCenter => base.OffsetCenter;
+        public override Vector2 OffsetOrigin => base.OffsetOrigin;
+        public override float OffsetDamage => base.OffsetDamage;
         public override bool Attacktive => Factor < .75f;
 
         public override void OnStartAttack()
@@ -177,15 +179,19 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
             else
                 for (int n = 0; n < 15; n++)
                     FirstZenith_NewVer_Proj.ShootFirstZenithViaPosition(this, n >= q ? Main.MouseWorld : Main.npc[indexs[n]].Center, n >= q);
-            SoundEngine.PlaySound(SoundID.Item92);
-            var u = UltraSwoosh.NewUltraSwoosh(FirstZenith_NewVer_Proj.CanvasName, 60, 150, Owner.Center, (1.7f, -.2f));
-            u.negativeDir = !Flip;
-            u.rotation = Rotation;
-            u.xScaler = 2;
-            u.aniTexIndex = 3;
-            u.baseTexIndex = 7;
-            u.ApplyStdValueToVtxEffect(StandardInfo);
+            SoundEngine.PlaySound(SoundID.Item92, Owner.Center);
 
+            if (!Main.dedServ)
+            {
+
+                var u = UltraSwoosh.NewUltraSwoosh(FirstZenith_NewVer_Proj.CanvasName, 60, 150, Owner.Center, (1.7f, -.2f));
+                u.negativeDir = !Flip;
+                u.rotation = Rotation;
+                u.xScaler = 2;
+                u.aniTexIndex = 3;
+                u.baseTexIndex = 7;
+                u.ApplyStdValueToVtxEffect(StandardInfo);
+            }
             base.OnStartAttack();
         }
 
@@ -198,20 +204,24 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
 
     public class FirstZenithRainAttack : FinalFractalSetAction
     {
-        public override float offsetRotation => MathHelper.SmoothStep(0, 1, MathF.Pow(1 - Factor, 2)) * (-MathHelper.PiOver2 - (Rotation > MathHelper.PiOver2 ? Rotation - MathHelper.TwoPi : Rotation));
+        public override float OffsetRotation => MathHelper.SmoothStep(0, 1, MathF.Pow(1 - Factor, 2)) * (-MathHelper.PiOver2 - (Rotation > MathHelper.PiOver2 ? Rotation - MathHelper.TwoPi : Rotation));
         public override bool Attacktive => Timer == 1;
 
         public override void OnAttack()
         {
-            Vector2 position = Owner.Center + new Vector2(Main.rand.NextFloat(-1280, 1280), -960);
-            Vector2 unit;
-            if (!Main.rand.NextBool(3) && Owner is Player plr)
-                unit = (plr.GetModPlayer<LogSpiralLibraryPlayer>().targetedMousePosition - position).SafeNormalize(default);
-            else
-                unit = Main.rand.NextFloat(MathHelper.Pi / 3, MathHelper.Pi / 3 * 2).ToRotationVector2();
-            Projectile.NewProjectile(Projectile.GetSource_FromThis(), position, unit * 32, ModContent.ProjectileType<FirstZenithProj>(), CurrentDamage, Projectile.knockBack, Main.myPlayer, Main.rand.NextFloat(-.01f, .01f), Main.rand.NextFloat());
+            if (IsLocalProjectile) 
+            {
+                Vector2 position = Owner.Center + new Vector2(Main.rand.NextFloat(-1280, 1280), -960);
+                Vector2 unit;
+                if (!Main.rand.NextBool(3) && Owner is Player plr)
+                    unit = (Main.MouseWorld - position).SafeNormalize(default);
+                else
+                    unit = Main.rand.NextFloat(MathHelper.Pi / 3, MathHelper.Pi / 3 * 2).ToRotationVector2();
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), position, unit * 32, ModContent.ProjectileType<FirstZenithProj>(), CurrentDamage, Projectile.knockBack, Main.myPlayer, Main.rand.NextFloat(-.01f, .01f), Main.rand.NextFloat());
 
-            MiscMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 4) + (Rotation + offsetRotation).ToRotationVector2() * Main.rand.NextFloat(0, 64), StandardInfo.standardColor, Main.rand.NextFloat(1, 2));
+            }
+
+            MiscMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 4) + (Rotation + OffsetRotation).ToRotationVector2() * Main.rand.NextFloat(0, 64), StandardInfo.standardColor, Main.rand.NextFloat(1, 2));
 
             base.OnAttack();
         }
@@ -226,9 +236,14 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
                 case Player player:
                     {
                         //SoundEngine.PlaySound(SoundID.Item71);
-                        var tarpos = player.GetModPlayer<LogSpiralLibraryPlayer>().targetedMousePosition;
-                        player.direction = Math.Sign(tarpos.X - player.Center.X);
-                        Rotation = (tarpos - Owner.Center).ToRotation();
+                        if (IsLocalProjectile) 
+                        {
+                            var tarpos = Main.MouseWorld;
+                            player.direction = Math.Sign(tarpos.X - player.Center.X);
+                            Rotation = (tarpos - Owner.Center).ToRotation();
+                            NetUpdateNeeded = true;
+                        }
+
                         break;
                     }
             }
@@ -244,11 +259,11 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
             if (Timer == 1 && Counter == CounterMax)
             {
                 Timer = 0;
-                SoundEngine.PlaySound(SoundID.Item84);
+                SoundEngine.PlaySound(SoundID.Item84, Owner.Center);
                 for (int n = 0; n < 40; n++)
                 {
                     MiscMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 32), StandardInfo.standardColor, Main.rand.NextFloat(1, 4));
-                    MiscMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 4) + (Rotation + offsetRotation).ToRotationVector2() * Main.rand.NextFloat(0, 64), StandardInfo.standardColor, Main.rand.NextFloat(1, 2));
+                    MiscMethods.FastDust(Owner.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0, 4) + (Rotation + OffsetRotation).ToRotationVector2() * Main.rand.NextFloat(0, 64), StandardInfo.standardColor, Main.rand.NextFloat(1, 2));
                 }
             }
             if (Timer < 2 && Counter == CounterMax)
@@ -259,7 +274,7 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
             if (!triggered && Timer != 0)
             {
                 Timer = 0;
-                SoundEngine.PlaySound(MySoundID.MagicStaff);
+                SoundEngine.PlaySound(MySoundID.MagicStaff, Owner.Center);
             }
         }
 
