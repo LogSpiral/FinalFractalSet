@@ -220,7 +220,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             var scale = num5 * num3;
             Vector2 value2 = projectile.Center + vector;
             Texture2D value4 = LogSpiralLibraryMod.Misc[16].Value;
-            Rectangle rectangle = value4.Frame(1, 1, 0, 0, 0, 0);
+            Rectangle rectangle = value4.Frame();
             Vector2 origin2 = new(rectangle.Width / 2f, 10f);
             Vector2 value5 = new(0f, projectile.gfxOffY);
             float num7 = (float)Main.time / 60f;
@@ -232,9 +232,9 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             Color color4 = value * scale;
             color4.A = 0;
             Vector2 value8 = value2 - vector * 0.5f;
-            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7), default), new Microsoft.Xna.Framework.Rectangle?(rectangle), color2, projectile.velocity.ToRotation() + 1.57079637f, origin2, 1.5f + num, SpriteEffects.None, 0);
-            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7 + 2.09439516f), default), new Microsoft.Xna.Framework.Rectangle?(rectangle), color3, projectile.velocity.ToRotation() + 1.57079637f, origin2, 1.1f + num, SpriteEffects.None, 0);
-            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7 + 4.18879032f), default), new Microsoft.Xna.Framework.Rectangle?(rectangle), color4, projectile.velocity.ToRotation() + 1.57079637f, origin2, 1.3f + num, SpriteEffects.None, 0);
+            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7)), new Microsoft.Xna.Framework.Rectangle?(rectangle), color2, projectile.velocity.ToRotation() + 1.57079637f, origin2, 1.5f + num, SpriteEffects.None, 0);
+            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7 + 2.09439516f)), new Microsoft.Xna.Framework.Rectangle?(rectangle), color3, projectile.velocity.ToRotation() + 1.57079637f, origin2, 1.1f + num, SpriteEffects.None, 0);
+            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7 + 4.18879032f)), new Microsoft.Xna.Framework.Rectangle?(rectangle), color4, projectile.velocity.ToRotation() + 1.57079637f, origin2, 1.3f + num, SpriteEffects.None, 0);
             for (float num9 = 0f; num9 < 1f; num9 += 0.5f)
             {
                 float num10 = num7 % 0.5f / 0.5f;
@@ -251,7 +251,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                 float rotation = projectile.rotation + projectile.localAI[1];
                 Vector2 position = projectile.Center - Main.screenPosition;
                 Texture2D value9 = LogSpiralLibraryMod.Misc[15].Value;
-                Rectangle rectangle2 = value9.Frame(1, 8, 0, 0, 0, 0);
+                Rectangle rectangle2 = value9.Frame(1, 8);
                 Vector2 origin3 = rectangle2.Size() / 2f;
                 spriteBatch.Draw(value9, position, new Rectangle?(rectangle2), color, rotation, origin3, projectile.scale, SpriteEffects.None, 0);
             }
@@ -537,7 +537,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             var scale = num5 * num3;
             Vector2 value2 = projectile.Center + vector;
             Texture2D value4 = LogSpiralLibraryMod.Misc[16].Value;
-            Rectangle rectangle = value4.Frame(1, 1, 0, 0, 0, 0);
+            Rectangle rectangle = value4.Frame();
             Vector2 origin2 = new(rectangle.Width / 2f, 10f);
             Vector2 value5 = new(0f, projectile.gfxOffY);
             float num7 = (float)Main.time / 60f;
@@ -549,9 +549,9 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             Color color4 = value * scale;
             color4.A = 0;
             Vector2 value8 = value2 - vector * 0.5f;
-            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7), default), new Microsoft.Xna.Framework.Rectangle?(rectangle), color2, projectile.rotation + MathHelper.PiOver4, origin2, 1.5f + num, SpriteEffects.None, 0);
-            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7 + 2.09439516f), default), new Microsoft.Xna.Framework.Rectangle?(rectangle), color3, projectile.rotation + MathHelper.PiOver4, origin2, 1.1f + num, SpriteEffects.None, 0);
-            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7 + 4.18879032f), default), new Microsoft.Xna.Framework.Rectangle?(rectangle), color4, projectile.rotation + MathHelper.PiOver4, origin2, 1.3f + num, SpriteEffects.None, 0);
+            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7)), new Microsoft.Xna.Framework.Rectangle?(rectangle), color2, projectile.rotation + MathHelper.PiOver4, origin2, 1.5f + num, SpriteEffects.None, 0);
+            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7 + 2.09439516f)), new Microsoft.Xna.Framework.Rectangle?(rectangle), color3, projectile.rotation + MathHelper.PiOver4, origin2, 1.1f + num, SpriteEffects.None, 0);
+            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7 + 4.18879032f)), new Microsoft.Xna.Framework.Rectangle?(rectangle), color4, projectile.rotation + MathHelper.PiOver4, origin2, 1.3f + num, SpriteEffects.None, 0);
             for (float num9 = 0f; num9 < 1f; num9 += 0.5f)
             {
                 float num10 = num7 % 0.5f / 0.5f;
@@ -568,7 +568,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                 float rotation = projectile.rotation + projectile.localAI[1];
                 Vector2 position = projectile.Center - Main.screenPosition;
                 Texture2D value9 = LogSpiralLibraryMod.Misc[15].Value;
-                Rectangle rectangle2 = value9.Frame(1, 8, 0, 0, 0, 0);
+                Rectangle rectangle2 = value9.Frame(1, 8);
                 Vector2 origin3 = rectangle2.Size() / 2f;
                 spriteBatch.Draw(value9, position, new Rectangle?(rectangle2), color, rotation, origin3, projectile.scale, SpriteEffects.None, 0);
             }
@@ -755,7 +755,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                 timer2 = 1;
                 projectile.frame = (int)projectile.ai[1];
             }
-            projectile.velocity = projectile.velocity.RotatedBy(projectile.ai[0], default);
+            projectile.velocity = projectile.velocity.RotatedBy(projectile.ai[0]);
             projectile.Opacity = GetLerpValue(0f, 12f, projectile.localAI[0], true) * GetLerpValue(num, num - 12f, projectile.localAI[0], true);
             projectile.direction = projectile.velocity.X > 0f ? 1 : -1;
             projectile.spriteDirection = projectile.direction;
@@ -770,7 +770,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                 //projectile.Center -= new Vector2((float)num4);
                 if (Main.rand.NextBool(15))
                 {
-                    Dust dust = Dust.NewDustPerfect(projectile.Center, MyDustId.CyanBubble, null, 100, Color.Lerp(Main.hslToRgb(drawColor, 1f, 0.5f), Color.White, Main.rand.NextFloat() * 0.3f), 1f);
+                    Dust dust = Dust.NewDustPerfect(projectile.Center, MyDustId.CyanBubble, null, 100, Color.Lerp(Main.hslToRgb(drawColor, 1f, 0.5f), Color.White, Main.rand.NextFloat() * 0.3f));
                     dust.scale = 0.7f;
                     dust.noGravity = true;
                     dust.velocity *= 0.5f;
@@ -791,13 +791,13 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             }
             Vector2 vector71 = projectile.position + new Vector2(projectile.width, projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
             Texture2D texture2D4 = TextureAssets.Projectile[projectile.type].Value;
-            Rectangle rectangle29 = texture2D4.Frame(25, 1, 0, projectile.frame, 0, 0);
+            Rectangle rectangle29 = texture2D4.Frame(25, 1, 0, projectile.frame);
             Color color84 = Color.White;
             Vector2 origin21 = rectangle29.Size() / 2f;
             projectile.DrawProjWithStarryTrail(spriteBatch, drawColor, Color.White);
             color84 = Color.White * projectile.Opacity * 0.9f;
             color84.A /= 2;
-            rectangle29 = texture2D4.Frame(25, 1, projectile.frame, 0, 0, 0);
+            rectangle29 = texture2D4.Frame(25, 1, projectile.frame);
             origin21 = rectangle29.Size() / 2f;
             projectile.DrawPrettyStarSparkle(spriteBatch, spriteEffects, vector71, color84, Main.hslToRgb(drawColor, 1f, 0.5f));
             spriteBatch.Draw(texture2D4, vector71, new Microsoft.Xna.Framework.Rectangle?(rectangle29), color84, projectile.rotation, origin21, projectile.scale, spriteEffects, 0);
@@ -1312,7 +1312,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             var scale = num5 * num3;
             Vector2 value2 = projectile.Center + vector;
             Texture2D value4 = LogSpiralLibraryMod.Misc[17].Value;
-            Rectangle rectangle = value4.Frame(1, 1, 0, 0, 0, 0);
+            Rectangle rectangle = value4.Frame();
             Vector2 origin2 = new(rectangle.Width / 2f, 10f);
             Vector2 value5 = new(0f, projectile.gfxOffY);
             float num7 = (float)Main.time / 60f;
@@ -1324,9 +1324,9 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             Color color4 = value * scale;
             color4.A = 0;
             Vector2 value8 = value2 - vector * 0.5f;
-            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7), default), new Microsoft.Xna.Framework.Rectangle?(rectangle), color2, projectile.velocity.ToRotation() + 1.57079637f, origin2, 1.5f + num, SpriteEffects.None, 0);
-            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7 + 2.09439516f), default), new Microsoft.Xna.Framework.Rectangle?(rectangle), color3, projectile.velocity.ToRotation() + 1.57079637f, origin2, 1.1f + num, SpriteEffects.None, 0);
-            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7 + 4.18879032f), default), new Microsoft.Xna.Framework.Rectangle?(rectangle), color4, projectile.velocity.ToRotation() + 1.57079637f, origin2, 1.3f + num, SpriteEffects.None, 0);
+            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7)), new Microsoft.Xna.Framework.Rectangle?(rectangle), color2, projectile.velocity.ToRotation() + 1.57079637f, origin2, 1.5f + num, SpriteEffects.None, 0);
+            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7 + 2.09439516f)), new Microsoft.Xna.Framework.Rectangle?(rectangle), color3, projectile.velocity.ToRotation() + 1.57079637f, origin2, 1.1f + num, SpriteEffects.None, 0);
+            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7 + 4.18879032f)), new Microsoft.Xna.Framework.Rectangle?(rectangle), color4, projectile.velocity.ToRotation() + 1.57079637f, origin2, 1.3f + num, SpriteEffects.None, 0);
             for (float num9 = 0f; num9 < 1f; num9 += 0.5f)
             {
                 float num10 = num7 % 0.5f / 0.5f;
@@ -1343,7 +1343,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                 float rotation = projectile.rotation + projectile.localAI[1];
                 Vector2 position = projectile.Center - Main.screenPosition;
                 Texture2D value9 = LogSpiralLibraryMod.Misc[15].Value;
-                Rectangle rectangle2 = value9.Frame(1, 8, 0, 0, 0, 0);
+                Rectangle rectangle2 = value9.Frame(1, 8);
                 Vector2 origin3 = rectangle2.Size() / 2f;
                 spriteBatch.Draw(value9, position, new Rectangle?(rectangle2), color, rotation, origin3, projectile.scale, SpriteEffects.None, 0);
             }
@@ -1535,7 +1535,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             var scale = num5 * num3;
             Vector2 value2 = projectile.Center + vector;
             Texture2D value4 = LogSpiralLibraryMod.Misc[17].Value;
-            Rectangle rectangle = value4.Frame(1, 1, 0, 0, 0, 0);
+            Rectangle rectangle = value4.Frame();
             Vector2 origin2 = new(rectangle.Width / 2f, 10f);
             Vector2 value5 = new(0f, projectile.gfxOffY);
             float num7 = (float)Main.time / 60f;
@@ -1547,9 +1547,9 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             Color color4 = value * scale;
             color4.A = 0;
             Vector2 value8 = value2 - vector * 0.5f;
-            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7), default), new Microsoft.Xna.Framework.Rectangle?(rectangle), color2, projectile.velocity.ToRotation() + 1.57079637f, origin2, 1.5f + num, SpriteEffects.None, 0);
-            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7 + 2.09439516f), default), new Microsoft.Xna.Framework.Rectangle?(rectangle), color3, projectile.velocity.ToRotation() + 1.57079637f, origin2, 1.1f + num, SpriteEffects.None, 0);
-            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7 + 4.18879032f), default), new Microsoft.Xna.Framework.Rectangle?(rectangle), color4, projectile.velocity.ToRotation() + 1.57079637f, origin2, 1.3f + num, SpriteEffects.None, 0);
+            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7)), new Microsoft.Xna.Framework.Rectangle?(rectangle), color2, projectile.velocity.ToRotation() + 1.57079637f, origin2, 1.5f + num, SpriteEffects.None, 0);
+            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7 + 2.09439516f)), new Microsoft.Xna.Framework.Rectangle?(rectangle), color3, projectile.velocity.ToRotation() + 1.57079637f, origin2, 1.1f + num, SpriteEffects.None, 0);
+            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7 + 4.18879032f)), new Microsoft.Xna.Framework.Rectangle?(rectangle), color4, projectile.velocity.ToRotation() + 1.57079637f, origin2, 1.3f + num, SpriteEffects.None, 0);
             for (float num9 = 0f; num9 < 1f; num9 += 0.5f)
             {
                 float num10 = num7 % 0.5f / 0.5f;
@@ -1566,7 +1566,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                 float rotation = projectile.rotation + projectile.localAI[1];
                 Vector2 position = projectile.Center - Main.screenPosition;
                 Texture2D value9 = LogSpiralLibraryMod.Misc[15].Value;
-                Rectangle rectangle2 = value9.Frame(1, 8, 0, 0, 0, 0);
+                Rectangle rectangle2 = value9.Frame(1, 8);
                 Vector2 origin3 = rectangle2.Size() / 2f;
                 spriteBatch.Draw(value9, position, new Rectangle?(rectangle2), color, rotation, origin3, projectile.scale, SpriteEffects.None, 0);
             }
@@ -1633,7 +1633,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             SpriteBatch spriteBatch = Main.spriteBatch;
             var tex = TextureAssets.Projectile[projectile.type].Value;
             DrawProjWithStarryTrail(spriteBatch);
-            var rectangle29 = tex.Frame(25, 1, projectile.frame, 0, 0, 0);
+            var rectangle29 = tex.Frame(25, 1, projectile.frame);
             Vector2 vector71 = projectile.position + new Vector2(projectile.width, projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
             //spriteBatch.Draw(tex, vector71, rectangle29, new Color(255 - projectile.alpha, 255 - projectile.alpha, 255 - projectile.alpha, 255 - projectile.alpha), projectile.rotation, tex.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
             return false;
@@ -1673,7 +1673,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             var scale = num5 * num3;
             Vector2 value2 = projectile.Center + vector;
             Texture2D value4 = LogSpiralLibraryMod.Misc[17].Value;
-            Rectangle rectangle = value4.Frame(1, 1, 0, 0, 0, 0);
+            Rectangle rectangle = value4.Frame();
             Vector2 origin2 = new(rectangle.Width / 2f, 10f);
             Vector2 value5 = new(0f, projectile.gfxOffY);
             float num7 = (float)Main.time / 60f;
@@ -1685,9 +1685,9 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             Color color4 = value * scale;
             color4.A = 0;
             Vector2 value8 = value2 - vector * 0.5f;
-            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7), default), new Microsoft.Xna.Framework.Rectangle?(rectangle), color2, projectile.velocity.ToRotation() + 1.57079637f, origin2, 1.5f + num, SpriteEffects.None, 0);
-            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7 + 2.09439516f), default), new Microsoft.Xna.Framework.Rectangle?(rectangle), color3, projectile.velocity.ToRotation() + 1.57079637f, origin2, 1.1f + num, SpriteEffects.None, 0);
-            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7 + 4.18879032f), default), new Microsoft.Xna.Framework.Rectangle?(rectangle), color4, projectile.velocity.ToRotation() + 1.57079637f, origin2, 1.3f + num, SpriteEffects.None, 0);
+            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7)), new Microsoft.Xna.Framework.Rectangle?(rectangle), color2, projectile.velocity.ToRotation() + 1.57079637f, origin2, 1.5f + num, SpriteEffects.None, 0);
+            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7 + 2.09439516f)), new Microsoft.Xna.Framework.Rectangle?(rectangle), color3, projectile.velocity.ToRotation() + 1.57079637f, origin2, 1.1f + num, SpriteEffects.None, 0);
+            spriteBatch.Draw(value4, value6 - Main.screenPosition + value5 + spinningpoint.RotatedBy((double)(6.28318548f * num7 + 4.18879032f)), new Microsoft.Xna.Framework.Rectangle?(rectangle), color4, projectile.velocity.ToRotation() + 1.57079637f, origin2, 1.3f + num, SpriteEffects.None, 0);
             for (float num9 = 0f; num9 < 1f; num9 += 0.5f)
             {
                 float num10 = num7 % 0.5f / 0.5f;
@@ -1704,7 +1704,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                 float rotation = projectile.rotation + projectile.localAI[1];
                 Vector2 position = projectile.Center - Main.screenPosition;
                 Texture2D value9 = LogSpiralLibraryMod.Misc[15].Value;
-                Rectangle rectangle2 = value9.Frame(1, 8, 0, 0, 0, 0);
+                Rectangle rectangle2 = value9.Frame(1, 8);
                 Vector2 origin3 = rectangle2.Size() / 2f;
                 spriteBatch.Draw(value9, position, new Rectangle?(rectangle2), color, rotation, origin3, projectile.scale, SpriteEffects.None, 0);
             }

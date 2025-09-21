@@ -1,5 +1,4 @@
-﻿using FinalFractalSet.REAL_NewVersions.Pure;
-using FinalFractalSet.REAL_NewVersions.Zenith;
+﻿using FinalFractalSet.REAL_NewVersions.Zenith;
 using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Melee.ExtendedMelee;
 using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
 using NetSimplified;

@@ -6,7 +6,6 @@ using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
 using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing.RenderDrawingContents;
 using LogSpiralLibrary.CodeLibrary.Utilties;
 using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
-using NetSimplified;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,8 +14,6 @@ using Terraria.Audio;
 using Terraria.Graphics;
 using Terraria.Utilities;
 using static FinalFractalSet.REAL_NewVersions.Iron.SteelSpecialAttack;
-using static LogSpiralLibrary.CodeLibrary.Utilties.Extensions.VectorMethods;
-using static Terraria.Utils;
 
 namespace FinalFractalSet.REAL_NewVersions.Final;
 
@@ -319,7 +316,7 @@ public class FractalTear : FinalFractalAssistantProjectile
             u.negativeDir = Projectile.velocity.X < 0;
             u.rotation = Projectile.velocity.ToRotation();
             u.xScaler = 3;
-            u.ColorVector = new(0.16667f, 0.33333f, 0.5f);
+            u.ColorVector = new Vector3(0.16667f, 0.33333f, 0.5f);
             u.aniTexIndex = 3;
             u.baseTexIndex = 7;
             swoosh.autoUpdate = false;
@@ -386,11 +383,11 @@ public class PythagoreanTree
             normal *= width * .5f;
             unit *= width * lengthScaler * MathHelper.Clamp(factor, 0, 1f);
             CustomVertexInfo[] rectangleVertexs = new CustomVertexInfo[6];
-            rectangleVertexs[0] = new(startCoord - normal, color, new(0, 0, 1));
-            rectangleVertexs[1] = new(startCoord + normal, color, new(1, 0, 1));
-            rectangleVertexs[2] = new(startCoord + normal + unit, color, new(1, 1, 1));
+            rectangleVertexs[0] = new CustomVertexInfo(startCoord - normal, color, new Vector3(0, 0, 1));
+            rectangleVertexs[1] = new CustomVertexInfo(startCoord + normal, color, new Vector3(1, 0, 1));
+            rectangleVertexs[2] = new CustomVertexInfo(startCoord + normal + unit, color, new Vector3(1, 1, 1));
             rectangleVertexs[3] = rectangleVertexs[2];
-            rectangleVertexs[4] = new(startCoord - normal + unit, color, new(0, 1, 1));
+            rectangleVertexs[4] = new CustomVertexInfo(startCoord - normal + unit, color, new Vector3(0, 1, 1));
             rectangleVertexs[5] = rectangleVertexs[0];
 
             foreach (var v in rectangleVertexs)
@@ -407,7 +404,7 @@ public class PythagoreanTree
                 Color c = Color.Lerp(c1, c2, .5f);
                 target = startCoord + unit + MathF.Cos(angle) * normal + MathF.Sin(angle) * unit.SafeNormalize(default) * width * .5f;
                 vertexInfos.Add(rectangleVertexs[2] with { Color = c });
-                vertexInfos.Add(new CustomVertexInfo(target, c, new(1, 0, 1)));
+                vertexInfos.Add(new CustomVertexInfo(target, c, new Vector3(1, 0, 1)));
                 vertexInfos.Add(rectangleVertexs[4] with { Color = c });
             }
             branchLeft?.AddToVertexs(vertexInfos, c1, (target + rectangleVertexs[4].Position) * .5f, startRotation + angle * .5f, factor - .5f);
@@ -449,7 +446,7 @@ public class PythagoreanTree
 
     public PythagoreanTree(float width, float length, float rotation, UnifiedRandom rand)
     {
-        _startNode = new(width, length, (float)rand.GaussianRandom(1.2f, 0.1f));
+        _startNode = new Node(width, length, (float)rand.GaussianRandom(1.2f, 0.1f));
         //Width = width;
         _rotation = rotation;
         _startNode.BuildTree(10, rand);
@@ -480,7 +477,7 @@ public class PythagoreanTreeProj : FinalFractalAssistantProjectile
             _randSeed = Main.rand.Next();
             _pendingSyncTree = true;
             Projectile.netUpdate = true;
-            tree = new PythagoreanTree(32, 256, MathHelper.Pi, new(_randSeed));
+            tree = new PythagoreanTree(32, 256, MathHelper.Pi, new UnifiedRandom(_randSeed));
         }
         if (Projectile.timeLeft is <= 60 and > 36)
         {
@@ -543,7 +540,7 @@ public class PythagoreanTreeProj : FinalFractalAssistantProjectile
             _pendingSyncTree = true;
             _randSeed = reader.ReadInt32();
             if (!Main.dedServ)
-                tree = new(32, 256, MathHelper.Pi, new(_randSeed));
+                tree = new PythagoreanTree(32, 256, MathHelper.Pi, new UnifiedRandom(_randSeed));
         }
     }
 }
@@ -583,9 +580,9 @@ public class FractalStabProj : ModProjectile
         //Vector2 unit = Projectile.ai[0].ToRotationVector2();
         float fac2 = MathHelper.SmoothStep(0, 1, MathF.Pow(t, 0.5f));
         Vector2 scaler = new(fac2, 1 / fac2);
-        Color mainColor = Main.hslToRgb(new(Projectile.ai[1], 1, 0.5f));
-        Main.EntitySpriteDraw(TextureAssets.Extra[98].Value, Projectile.Center - Main.screenPosition, null, mainColor with { A = 0 } * fac, Projectile.ai[0] + MathHelper.PiOver2, new(36), scaler * new Vector2(1, 4) * fac, 0, 0);
-        Main.EntitySpriteDraw(TextureAssets.Extra[98].Value, Projectile.Center - Main.screenPosition, null, Color.White with { A = 0 } * fac, Projectile.ai[0] + MathHelper.PiOver2, new(36), scaler * new Vector2(1, 4) * fac * .75f, 0, 0);
+        Color mainColor = Main.hslToRgb(new Vector3(Projectile.ai[1], 1, 0.5f));
+        Main.EntitySpriteDraw(TextureAssets.Extra[98].Value, Projectile.Center - Main.screenPosition, null, mainColor with { A = 0 } * fac, Projectile.ai[0] + MathHelper.PiOver2, new Vector2(36), scaler * new Vector2(1, 4) * fac, 0);
+        Main.EntitySpriteDraw(TextureAssets.Extra[98].Value, Projectile.Center - Main.screenPosition, null, Color.White with { A = 0 } * fac, Projectile.ai[0] + MathHelper.PiOver2, new Vector2(36), scaler * new Vector2(1, 4) * fac * .75f, 0);
         //Main.EntitySpriteDraw(TextureAssets.MagicPixel.Value, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, 1, 1), Color.HotPink, 0, new Vector2(.5f), 16, 0, 0);
         return false;
     }
@@ -1026,8 +1023,8 @@ public class FractalChargingWingProj : ModProjectile
         {
             float factor = MathHelper.SmoothStep(0, 1, Projectile.frameCounter / 120f - .2f);
             Color c = Main.hslToRgb(.5f + .5f * MathF.Sin(Projectile.whoAmI), 1, .5f);
-            Main.spriteBatch.Draw(TextureAssets.Extra[98].Value, Projectile.Center + Projectile.velocity * 4 - Main.screenPosition, null, c with { A = 0 } * factor, Projectile.rotation + MathHelper.PiOver2, new(36), new Vector2(1, 8 + Projectile.frameCounter * .05f) * factor, 0, 0);
-            Main.spriteBatch.Draw(TextureAssets.Extra[98].Value, Projectile.Center + Projectile.velocity * 4 - Main.screenPosition, null, Color.White with { A = 0 } * factor, Projectile.rotation + MathHelper.PiOver2, new(36), new Vector2(1, 4 + Projectile.frameCounter * .05f) * .75f * factor, 0, 0);
+            Main.spriteBatch.Draw(TextureAssets.Extra[98].Value, Projectile.Center + Projectile.velocity * 4 - Main.screenPosition, null, c with { A = 0 } * factor, Projectile.rotation + MathHelper.PiOver2, new Vector2(36), new Vector2(1, 8 + Projectile.frameCounter * .05f) * factor, 0, 0);
+            Main.spriteBatch.Draw(TextureAssets.Extra[98].Value, Projectile.Center + Projectile.velocity * 4 - Main.screenPosition, null, Color.White with { A = 0 } * factor, Projectile.rotation + MathHelper.PiOver2, new Vector2(36), new Vector2(1, 4 + Projectile.frameCounter * .05f) * .75f * factor, 0, 0);
         }
 
         return false;
@@ -1465,7 +1462,7 @@ public class WoodSwordPlrProj : PlayerLikeProjectile
             Projectile.rotation -= MathHelper.PiOver2;
             stab.weaponTex = ModAsset.LivingWoodSword_NewVer.Value;
             SoundEngine.PlaySound(MySoundID.SwooshNormal_1, Projectile.Center);
-            Player.StrikeNPCDirect(Main.npc[targetIndex], new() { Damage = Projectile.damage });
+            Player.StrikeNPCDirect(Main.npc[targetIndex], new NPC.HitInfo { Damage = Projectile.damage });
             if (Projectile.spriteDirection == -1)
                 Projectile.rotation += MathHelper.Pi;
             if (Projectile.owner == Main.myPlayer)

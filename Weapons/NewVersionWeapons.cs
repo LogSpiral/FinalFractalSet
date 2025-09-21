@@ -435,7 +435,7 @@ public class WitheredWoodSword : ModItem
         Item.channel = true;
         Item.noMelee = true;
         Item.shootSpeed = 16f;
-        Item.value = Item.sellPrice(0, 0, 0, 0);
+        Item.value = Item.sellPrice();
         Item.shoot = ProjectileType<WitheredWoodSword_Blade>();
     }
 
@@ -1323,7 +1323,7 @@ public class PureFractal : WitheredWoodSword
         Item.shootSpeed = 16f;
         Item.damage = 240;
         Item.knockBack = 6.5f;
-        Item.value = Item.sellPrice(0, 20, 0, 0);
+        Item.value = Item.sellPrice(0, 20);
         Item.crit = 10;
         Item.rare = ItemRarityID.Purple;
         Item.noUseGraphic = true;
@@ -1369,7 +1369,7 @@ public class FirstZenith : WitheredWoodSword
         Item.shootSpeed = 16f;
         Item.damage = 500;
         Item.knockBack = 6.5f;
-        Item.value = Item.sellPrice(0, 0, 0, 0);
+        Item.value = Item.sellPrice();
         Item.crit = 31;
         Item.rare = ItemRarityID.Purple;
         Item.shoot = ProjectileType<FirstZenith_Blade>();

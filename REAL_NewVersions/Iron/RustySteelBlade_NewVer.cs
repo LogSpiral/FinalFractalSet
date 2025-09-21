@@ -253,7 +253,7 @@ public class SteelSpecialAttack : FinalFractalSetAction
                 {
                     var u = _swooshes[n] = UltraSwoosh.NewUltraSwoosh(PureFractalProj.CanvasName, 30, 1, Main.player[Projectile.owner].Center, (-1.125f, 0.7125f));
                     u.negativeDir = false;
-                    u.ColorVector = new(0.1667f, 0.3333f, 0.5f);
+                    u.ColorVector = new Vector3(0.1667f, 0.3333f, 0.5f);
                     u.autoUpdate = false;
                     u.weaponTex = TextureAssets.Item[Main.player[Projectile.owner].HeldItem.type].Value;
                 }
@@ -289,8 +289,8 @@ public class SteelSpecialAttack : FinalFractalSetAction
                 {
                     float k = i / (c - 1f);
                     Color color = NewColor * MathHelper.SmoothStep(0, 1, 4 * k) * MathF.Pow(1 - .2f * n, 2);
-                    vtxs[2 * i] = new CustomVertexInfo(vecOuter[i + 45 * n], color, new(k, 1, 1));
-                    vtxs[2 * i + 1] = new CustomVertexInfo(vecInner[i + 45 * n], color, new(0, 0, 1));
+                    vtxs[2 * i] = new CustomVertexInfo(vecOuter[i + 45 * n], color, new Vector3(k, 1, 1));
+                    vtxs[2 * i + 1] = new CustomVertexInfo(vecInner[i + 45 * n], color, new Vector3(0, 0, 1));
                 }
             }
         }
@@ -322,8 +322,8 @@ public class SteelSpecialAttack : FinalFractalSetAction
                 num8 = num9;//保证半长轴最短是60
             }
             Vector2 value = mountedCenter + Projectile.velocity;//椭圆中心
-            Vector2 spinningpoint = new Vector2(1f, 0f).RotatedBy(num7, default) * new Vector2(num8, num3 * MathHelper.Lerp(2f, 1f, lerpValue));//插值生成椭圆轨迹
-            Vector2 value2 = value + spinningpoint.RotatedBy(num4, default);//加上弹幕自身旋转量
+            Vector2 spinningpoint = new Vector2(1f, 0f).RotatedBy(num7) * new Vector2(num8, num3 * MathHelper.Lerp(2f, 1f, lerpValue));//插值生成椭圆轨迹
+            Vector2 value2 = value + spinningpoint.RotatedBy(num4);//加上弹幕自身旋转量
             Vector2 value3 = (1f - Utils.GetLerpValue(0f, 0.5f, lerpValue2, true)) * new Vector2((Projectile.velocity.X > 0f ? 1 : -1) * -num8 * 0.1f, -Projectile.ai[0] * 0.3f);//坐标修改偏移量
             float num10 = num7 + num4;
             Projectile.rotation = num10 + 1.57079637f;//弹幕绘制旋转量

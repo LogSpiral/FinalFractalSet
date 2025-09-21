@@ -8,6 +8,7 @@ using LogSpiralLibrary.CodeLibrary.Utilties;
 using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
 using System.ComponentModel;
 using System.IO;
+using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
 using Terraria.Audio;
 
 namespace FinalFractalSet.REAL_NewVersions.Stone
@@ -152,7 +153,7 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
 
         public override void Load()
         {
-            RenderCanvasSystem.RegisterCanvasFactory(CanvasName, () => new([[_airDistort], [_dye]]));
+            RenderCanvasSystem.RegisterCanvasFactory(CanvasName, () => new RenderingCanvas([[_airDistort], [_dye]]));
             base.Load();
         }
 

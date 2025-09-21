@@ -49,7 +49,7 @@ namespace FinalFractalSet.Weapons
             Item.shootSpeed = 16f;
             Item.damage = 240;
             Item.knockBack = 6.5f;
-            Item.value = Item.sellPrice(0, 20, 0, 0);
+            Item.value = Item.sellPrice(0, 20);
             Item.crit = 10;
             Item.rare = ItemRarityID.Purple;
             Item.noUseGraphic = true;
@@ -74,7 +74,7 @@ namespace FinalFractalSet.Weapons
             for (int i = 0; i < 200; i++)
             {
                 NPC npc = Main.npc[i];
-                if (npc.CanBeChasedBy(player, false))
+                if (npc.CanBeChasedBy(player))
                 {
                     float num3 = Vector2.Distance(searchCenter, npc.Center);
                     if (num2 > num3)
@@ -94,7 +94,7 @@ namespace FinalFractalSet.Weapons
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true, true);
+            Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
             float num6 = Main.mouseX + Main.screenPosition.X - vector.X;
             float num7 = Main.mouseY + Main.screenPosition.Y - vector.Y;
             int num166 = (player.itemAnimationMax - player.itemAnimation) / player.itemTime;
@@ -139,7 +139,7 @@ namespace FinalFractalSet.Weapons
 
         public override void Load()
         {
-            RenderCanvasSystem.RegisterCanvasFactory(CanvasName, () => new(_renderEffect));
+            RenderCanvasSystem.RegisterCanvasFactory(CanvasName, () => new RenderingCanvas(_renderEffect));
             base.Load();
         }
 
@@ -318,7 +318,7 @@ namespace FinalFractalSet.Weapons
                 {
                     var u = swooshes[n] = UltraSwoosh.NewUltraSwoosh(CanvasName, 30, 1, Main.player[projectile.owner].Center, (-1.125f, 0.7125f));
                     u.negativeDir = false;
-                    u.ColorVector = new(0.1667f, 0.3333f, 0.5f);
+                    u.ColorVector = new Vector3(0.1667f, 0.3333f, 0.5f);
                     u.autoUpdate = false;
                     u.weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
                 }
@@ -351,15 +351,15 @@ namespace FinalFractalSet.Weapons
                 if (swoosh.heatMap == null)
                 {
                     swoosh.heatMap = HeatMapTextures[projectile.frame];
-                    swoosh.ColorVector = new(0.16667f, 0.3333f, 0.5f);
+                    swoosh.ColorVector = new Vector3(0.16667f, 0.3333f, 0.5f);
                 }
                 int c = n == m - 1 && timePassed != 60 ? Math.Min(swoosh.Counts, timePassed % 15 * 3) : swoosh.Counts;
                 for (int i = 0; i < c; i++)
                 {
                     float k = i / (c - 1f);
                     Color color = newColor * MathHelper.SmoothStep(0, 1, 4 * k) * MathF.Pow(1 - .2f * n, 2);
-                    vtxs[2 * i] = new CustomVertexInfo(vecOuter[i + 45 * n], color, new(k, 1, 1));
-                    vtxs[2 * i + 1] = new CustomVertexInfo(vecInner[i + 45 * n], color, new(0, 0, 1));
+                    vtxs[2 * i] = new CustomVertexInfo(vecOuter[i + 45 * n], color, new Vector3(k, 1, 1));
+                    vtxs[2 * i + 1] = new CustomVertexInfo(vecInner[i + 45 * n], color, new Vector3(0, 0, 1));
                 }
             }
         }
@@ -391,8 +391,8 @@ namespace FinalFractalSet.Weapons
                 num8 = num9;//保证半长轴最短是60
             }
             Vector2 value = mountedCenter + projectile.velocity;//椭圆中心
-            Vector2 spinningpoint = new Vector2(1f, 0f).RotatedBy(num7, default) * new Vector2(num8, num3 * MathHelper.Lerp(2f, 1f, lerpValue));//插值生成椭圆轨迹
-            Vector2 value2 = value + spinningpoint.RotatedBy(num4, default);//加上弹幕自身旋转量
+            Vector2 spinningpoint = new Vector2(1f, 0f).RotatedBy(num7) * new Vector2(num8, num3 * MathHelper.Lerp(2f, 1f, lerpValue));//插值生成椭圆轨迹
+            Vector2 value2 = value + spinningpoint.RotatedBy(num4);//加上弹幕自身旋转量
             Vector2 value3 = (1f - Utils.GetLerpValue(0f, 0.5f, lerpValue2, true)) * new Vector2((projectile.velocity.X > 0f ? 1 : -1) * -num8 * 0.1f, -projectile.ai[0] * 0.3f);//坐标修改偏移量
             float num10 = num7 + num4;
             projectile.rotation = num10 + 1.57079637f;//弹幕绘制旋转量
@@ -416,7 +416,7 @@ namespace FinalFractalSet.Weapons
             {
                 var u = swooshes[n] = UltraSwoosh.NewUltraSwoosh(CanvasName, 30, 1, Main.player[projectile.owner].Center, (-1.125f, 0.7125f));
                 u.negativeDir = false;
-                u.ColorVector = new(0.1667f, 0.3333f, 0.5f);
+                u.ColorVector = new Vector3(0.1667f, 0.3333f, 0.5f);
                 u.autoUpdate = false;
                 u.weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
             }
@@ -491,7 +491,7 @@ namespace FinalFractalSet.Weapons
                         int _num = Main.rand.Next(1, 4);
                         for (int k = 0; k < _num; k++)
                         {
-                            Dust dust = Dust.NewDustPerfect(center + unit * .5f * 50, 278, null, 100, Color.Lerp(newColor, Color.White, Main.rand.NextFloat() * 0.3f), 1f);
+                            Dust dust = Dust.NewDustPerfect(center + unit * .5f * 50, 278, null, 100, Color.Lerp(newColor, Color.White, Main.rand.NextFloat() * 0.3f));
                             dust.scale = 0.4f;
                             dust.fadeIn = 0.4f + Main.rand.NextFloat() * 0.3f;
                             dust.noGravity = true;

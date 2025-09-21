@@ -395,7 +395,7 @@ public class ThornTree_Proj : ModProjectile
             {
                 for (int n = 0; n < 5; n++)
                     Dust.NewDustPerfect(new Vector2(vec.X, vec.Y), MyDustId.GreenGrass);
-                Gore.NewGore(new Vector2(vec.X, vec.Y), -vec.Z.ToRotationVector2() * 4, GoreID.TreeLeaf_Normal, 1);
+                Gore.NewGore(new Vector2(vec.X, vec.Y), -vec.Z.ToRotationVector2() * 4, GoreID.TreeLeaf_Normal);
             }
         }
     }
@@ -414,7 +414,7 @@ public class ThornTree_Proj : ModProjectile
         if (altSize)
             stdSize *= .75f;
 
-        thornTree = new ThornTree(stdSize, stdSize * .25f, 0, new()
+        thornTree = new ThornTree(stdSize, stdSize * .25f, 0, new ThornTree.TreeGenerateInfo
         {
             lengthScaler = .7f,
             widthScaler = .4f,
@@ -431,7 +431,7 @@ public class ThornTree_Proj : ModProjectile
         thornTree.BuildTree(rand, 8);
         if (altSize)
             stdSize *= 1.33f;
-        thornTreeTiny = new ThornTree(stdSize, stdSize * .25f, 0, new()
+        thornTreeTiny = new ThornTree(stdSize, stdSize * .25f, 0, new ThornTree.TreeGenerateInfo
         {
             lengthScaler = .7f,
             widthScaler = .4f,

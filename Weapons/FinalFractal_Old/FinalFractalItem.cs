@@ -162,7 +162,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                 fftPlayer.holdingFinalFractal = true;
                 if (CanUseItem(player))
                 {
-                    Projectile.NewProjectile(player.GetSource_ItemUse(item), player.Center.X, player.Center.Y, 0f, -1f, item.shoot, player.GetWeaponDamage(item), 8, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(player.GetSource_ItemUse(item), player.Center.X, player.Center.Y, 0f, -1f, item.shoot, player.GetWeaponDamage(item), 8, player.whoAmI);
                 }
             }
         }
@@ -410,7 +410,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             for (int i = 0; i < 200; i++)
             {
                 NPC npc = Main.npc[i];
-                if (npc.CanBeChasedBy(this, false) && npc.Hitbox.Intersects(value))
+                if (npc.CanBeChasedBy(this) && npc.Hitbox.Intersects(value))
                 {
                     validTargets.Add(npc);
                 }
@@ -426,7 +426,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             for (int i = 0; i < 200; i++)
             {
                 NPC npc = Main.npc[i];
-                if (npc.CanBeChasedBy(this, false))
+                if (npc.CanBeChasedBy(this))
                 {
                     float num3 = Vector2.Distance(searchCenter, npc.Center);
                     if (num2 > num3)
@@ -458,7 +458,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                 {
                     var player = Main.player[projectile.owner];
                     zenithProjCount--;
-                    Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true, true);
+                    Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
                     float num6 = Main.mouseX + Main.screenPosition.X - vector.X;
                     float num7 = Main.mouseY + Main.screenPosition.Y - vector.Y;
                     Vector2 velocity = new(num6, num7);
@@ -531,7 +531,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
                         while (num85 < num84)
                         {
                             vector35 += vector36;
-                            vector36 = vector36.RotatedBy(num83, default);
+                            vector36 = vector36.RotatedBy(num83);
                             num85++;
                         }
                         Vector2 value6 = -vector35;

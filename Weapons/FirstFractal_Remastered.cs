@@ -9,6 +9,7 @@ using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
 using Terraria.Audio;
 using Terraria.Enums;
 using static Terraria.Utils;
@@ -33,7 +34,7 @@ namespace FinalFractalSet.Weapons
             Item.shootSpeed = 16f;
             Item.damage = 240;
             Item.knockBack = 6.5f;
-            Item.value = Item.sellPrice(0, 0, 0, 0);
+            Item.value = Item.sellPrice();
             Item.crit = 10;
             Item.rare = ItemRarityID.Red;
             Item.shoot = ProjectileID.FirstFractal;
@@ -48,7 +49,7 @@ namespace FinalFractalSet.Weapons
             for (int i = 0; i < 200; i++)
             {
                 NPC npc = Main.npc[i];
-                if (npc.CanBeChasedBy(this, false) && npc.Hitbox.Intersects(value))
+                if (npc.CanBeChasedBy(this) && npc.Hitbox.Intersects(value))
                 {
                     validTargets.Add(npc);
                 }
@@ -96,7 +97,7 @@ namespace FinalFractalSet.Weapons
                 while (num85 < num84)
                 {
                     vector35 += vector36;
-                    vector36 = vector36.RotatedBy(num83, default);
+                    vector36 = vector36.RotatedBy(num83);
                     num85++;
                 }
                 Vector2 value6 = -vector35;
@@ -192,7 +193,7 @@ namespace FinalFractalSet.Weapons
             Item.shootSpeed = 16f;
             Item.damage = 500;
             Item.knockBack = 6.5f;
-            Item.value = Item.sellPrice(0, 0, 0, 0);
+            Item.value = Item.sellPrice();
             Item.crit = 31;
             Item.rare = ItemRarityID.Purple;
             Item.shoot = ModContent.ProjectileType<FirstZenithProj>();
@@ -255,7 +256,7 @@ namespace FinalFractalSet.Weapons
                 while (num85 < num84)
                 {
                     vector35 += vector36;
-                    vector36 = vector36.RotatedBy(num83, default);
+                    vector36 = vector36.RotatedBy(num83);
                     num85++;
                 }
                 Vector2 value6 = -vector35;
@@ -337,7 +338,7 @@ namespace FinalFractalSet.Weapons
 
             var u = swoosh = UltraSwoosh.NewUltraSwoosh(FirstZenith_NewVer_Proj.CanvasName, 30, 1, default, (-1.125f, 0.7125f));
             u.heatMap = ModAsset.bar_19.Value;
-            u.ColorVector = new(0.16667f, 0.33333f, 0.5f);
+            u.ColorVector = new Vector3(0.16667f, 0.33333f, 0.5f);
             u.weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
             u.autoUpdate = false;
         }
@@ -365,7 +366,7 @@ namespace FinalFractalSet.Weapons
             }
             else
             {
-                projectile.velocity = projectile.velocity.RotatedBy((double)projectile.ai[0], default(Vector2));
+                projectile.velocity = projectile.velocity.RotatedBy((double)projectile.ai[0]);
                 projectile.Opacity = GetLerpValue(0f, 12f, projectile.localAI[0], true) * GetLerpValue(num, num - 12f, projectile.localAI[0], true);
                 projectile.direction = projectile.velocity.X > 0f ? 1 : -1;
                 projectile.spriteDirection = projectile.direction;
@@ -379,7 +380,7 @@ namespace FinalFractalSet.Weapons
                     //projectile.Center -= new Vector2((float)num4);
                     if (Main.rand.NextBool(15))
                     {
-                        Dust dust = Dust.NewDustPerfect(projectile.Center, MyDustId.CyanBubble, null, 100, Color.Lerp(Main.hslToRgb(drawColor, 1f, 0.5f), Color.White, Main.rand.NextFloat() * 0.3f), 1f);
+                        Dust dust = Dust.NewDustPerfect(projectile.Center, MyDustId.CyanBubble, null, 100, Color.Lerp(Main.hslToRgb(drawColor, 1f, 0.5f), Color.White, Main.rand.NextFloat() * 0.3f));
                         dust.scale = 0.7f;
                         dust.noGravity = true;
                         dust.velocity *= 0.5f;
@@ -400,7 +401,7 @@ namespace FinalFractalSet.Weapons
             {
                 var u = swoosh = UltraSwoosh.NewUltraSwoosh(FirstZenith_NewVer_Proj.CanvasName, 30, 1, default, (-1.125f, 0.7125f));
                 u.heatMap = ModAsset.bar_19.Value;
-                u.ColorVector = new(0.16667f, 0.33333f, 0.5f);
+                u.ColorVector = new Vector3(0.16667f, 0.33333f, 0.5f);
                 u.weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
                 u.autoUpdate = false;
             }
@@ -418,8 +419,8 @@ namespace FinalFractalSet.Weapons
                         float k = n / 44f;
                         Color c = Color.Violet * MathHelper.SmoothStep(0, 1, 4 * k) * lightScaler;
                         Vector2 vec = projectile.oldPos[n] + (projectile.oldRot[n]).ToRotationVector2() * 116;
-                        swoosh.VertexInfos[2 * n] = new(vec, c, new(k, 1, 1));
-                        swoosh.VertexInfos[2 * n + 1] = new(projectile.oldPos[n], c, new(0, 0, 1));
+                        swoosh.VertexInfos[2 * n] = new CustomVertexInfo(vec, c, new Vector3(k, 1, 1));
+                        swoosh.VertexInfos[2 * n + 1] = new CustomVertexInfo(projectile.oldPos[n], c, new Vector3(0, 0, 1));
                     }
                     return;
 
@@ -438,8 +439,8 @@ namespace FinalFractalSet.Weapons
                     {
                         float k = n / 44f;
                         Color c = Color.Violet * MathHelper.SmoothStep(0, 1, 4 * k) * lightScaler;
-                        swoosh.VertexInfos[2 * n] = new(vecOuter[n], c, new(k, 1, 1));
-                        swoosh.VertexInfos[2 * n + 1] = new(vecInner[n], c, new(0, 0, 1));
+                        swoosh.VertexInfos[2 * n] = new CustomVertexInfo(vecOuter[n], c, new Vector3(k, 1, 1));
+                        swoosh.VertexInfos[2 * n + 1] = new CustomVertexInfo(vecInner[n], c, new Vector3(0, 0, 1));
                     }
                     return;
             }
@@ -505,7 +506,7 @@ namespace FinalFractalSet.Weapons
             Texture2D texture2D4 = TextureAssets.Projectile[projectile.type].Value;
             var color84 = Color.White * projectile.Opacity * 0.9f;
             color84.A /= 2;
-            var rectangle29 = texture2D4.Frame(15, 1, projectile.frame, 0, 0, 0);
+            var rectangle29 = texture2D4.Frame(15, 1, projectile.frame);
             var origin = texture2D4.Size() / new Vector2(15, 1);
             origin *= spriteEffects == 0 ? new Vector2(0.1f, 0.9f) : new Vector2(0.9f, 0.9f);
             var rot = projectile.oldRot[0] + MathHelper.PiOver4;
@@ -956,8 +957,8 @@ namespace FinalFractalSet.Weapons
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
-            Main.EntitySpriteDraw(TextureAssets.Extra[98].Value, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY) - projectile.velocity * projectile.scale * 0.5f, null, projectile.GetAlpha(lightColor * 0.262745f) * 1f, projectile.rotation + (float)Math.PI / 2f, TextureAssets.Extra[98].Value.Size() / 2f, projectile.scale * 0.9f, spriteEffects, 0);
-            Main.EntitySpriteDraw(value33, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), value34, alpha4, projectile.rotation, origin11, scale8, spriteEffects, 0);
+            Main.EntitySpriteDraw(TextureAssets.Extra[98].Value, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY) - projectile.velocity * projectile.scale * 0.5f, null, projectile.GetAlpha(lightColor * 0.262745f) * 1f, projectile.rotation + (float)Math.PI / 2f, TextureAssets.Extra[98].Value.Size() / 2f, projectile.scale * 0.9f, spriteEffects);
+            Main.EntitySpriteDraw(value33, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), value34, alpha4, projectile.rotation, origin11, scale8, spriteEffects);
             return false;
         }
 
@@ -1159,7 +1160,7 @@ namespace FinalFractalSet.Weapons
                     for (int n = 0; n < max; n++)
 
                     {
-                        Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true, true);
+                        Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
                         float num6 = Main.mouseX + Main.screenPosition.X - vector.X;
                         float num7 = Main.mouseY + Main.screenPosition.Y - vector.Y;
                         int num166 = (player.itemAnimationMax - player.itemAnimation) / player.itemTime;

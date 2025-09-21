@@ -9,9 +9,9 @@ using NetSimplified.Syncing;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
 using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
-using Terraria.Graphics.Shaders;
 
 namespace FinalFractalSet.REAL_NewVersions.Pure
 {
@@ -60,7 +60,7 @@ namespace FinalFractalSet.REAL_NewVersions.Pure
 
         public override void Load()
         {
-            RenderCanvasSystem.RegisterCanvasFactory(CanvasName, () => new(_renderEffects));
+            RenderCanvasSystem.RegisterCanvasFactory(CanvasName, () => new RenderingCanvas(_renderEffects));
             base.Load();
         }
 
@@ -95,7 +95,7 @@ namespace FinalFractalSet.REAL_NewVersions.Pure
 
         private static void ShootSingle(MeleeAction action, Player plr)
         {
-            Vector2 vector = plr.RotatedRelativePoint(plr.MountedCenter, true, true);
+            Vector2 vector = plr.RotatedRelativePoint(plr.MountedCenter, true);
             float num6 = Main.mouseX + Main.screenPosition.X - vector.X;
             float num7 = Main.mouseY + Main.screenPosition.Y - vector.Y;
             int num166 = (plr.itemAnimationMax - plr.itemAnimation) / plr.itemTime;

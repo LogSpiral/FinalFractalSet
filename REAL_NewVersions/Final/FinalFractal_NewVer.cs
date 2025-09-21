@@ -7,6 +7,7 @@ using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Me
 using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
 using System;
 using System.Collections.Generic;
+using LogSpiralLibrary.CodeLibrary.DataStructures.Drawing;
 using Terraria.Localization;
 
 namespace FinalFractalSet.REAL_NewVersions.Final;
@@ -62,7 +63,7 @@ public class FinalFractal_NewVer_Proj : MeleeSequenceProj
 
     public override void Load()
     {
-        RenderCanvasSystem.RegisterCanvasFactory(CanvasName, () => new(RenderDrawInfos));
+        RenderCanvasSystem.RegisterCanvasFactory(CanvasName, () => new RenderingCanvas(RenderDrawInfos));
         base.Load();
     }
 

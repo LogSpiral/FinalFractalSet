@@ -8,7 +8,6 @@ using LogSpiralLibrary.CodeLibrary.Utilties;
 using LogSpiralLibrary.CodeLibrary.Utilties.Extensions;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using Terraria.Audio;
 
 namespace FinalFractalSet.REAL_NewVersions.Zenith
@@ -140,7 +139,7 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
                 while (num85 < num84)
                 {
                     vector35 += vector36;
-                    vector36 = vector36.RotatedBy(num83, default);
+                    vector36 = vector36.RotatedBy(num83);
                     num85++;
                 }
                 Vector2 value6 = -vector35;
@@ -350,7 +349,7 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
             stab.timeLeft = 30;
             stab.heatMap = ModAsset.bar_19.Value;
             stab.xScaler = 3;
-            stab.ColorVector = new(0.16667f, 0.33333f, 0.5f);
+            stab.ColorVector = new Vector3(0.16667f, 0.33333f, 0.5f);
             stab.weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
             stab.gather = false;
         }
@@ -366,7 +365,7 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
             projectile.localAI[0]++;
             if (projectile.localAI[0] >= 300)
                 projectile.Kill();
-            projectile.velocity = projectile.velocity.RotatedBy((double)projectile.ai[0], default(Vector2));
+            projectile.velocity = projectile.velocity.RotatedBy((double)projectile.ai[0]);
             projectile.Opacity = Utils.GetLerpValue(0f, 12f, projectile.localAI[0], true) * Utils.GetLerpValue(num, num - 12f, projectile.localAI[0], true);
             projectile.direction = projectile.velocity.X > 0f ? 1 : -1;
             projectile.spriteDirection = projectile.direction;
@@ -375,7 +374,7 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
             {
                 if (Main.rand.NextBool(15))
                 {
-                    Dust dust = Dust.NewDustPerfect(projectile.Center, MyDustId.CyanBubble, null, 100, Color.Lerp(Main.hslToRgb(drawColor, 1f, 0.5f), Color.White, Main.rand.NextFloat() * 0.3f), 1f);
+                    Dust dust = Dust.NewDustPerfect(projectile.Center, MyDustId.CyanBubble, null, 100, Color.Lerp(Main.hslToRgb(drawColor, 1f, 0.5f), Color.White, Main.rand.NextFloat() * 0.3f));
                     dust.scale = 0.7f;
                     dust.noGravity = true;
                     dust.velocity *= 0.5f;
@@ -389,7 +388,7 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
                 stab.timeLeft = 30;
                 stab.heatMap = ModAsset.bar_19.Value;
                 stab.xScaler = 3;
-                stab.ColorVector = new(0.16667f, 0.33333f, 0.5f);
+                stab.ColorVector = new Vector3(0.16667f, 0.33333f, 0.5f);
                 stab.weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
                 stab.gather = false;
             }
@@ -465,7 +464,7 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
             Texture2D texture2D4 = TextureAssets.Projectile[ModContent.ProjectileType<FirstZenithProj>()].Value;
             var color84 = Color.White * projectile.Opacity * 0.9f;
             color84.A /= 2;
-            var rectangle29 = texture2D4.Frame(15, 1, projectile.frame, 0, 0, 0);
+            var rectangle29 = texture2D4.Frame(15, 1, projectile.frame);
             var origin = texture2D4.Size() / new Vector2(15, 1);
             origin *= spriteEffects == 0 ? new Vector2(0.1f, 0.9f) : new Vector2(0.9f, 0.9f);
             var rot = projectile.velocity.ToRotation() + MathHelper.PiOver2 - MathHelper.PiOver4 * drawPlayer.direction;
