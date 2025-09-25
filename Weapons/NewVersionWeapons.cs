@@ -89,7 +89,6 @@ public class LightTree
         keyPoints = [];
         this.target = target;
         root = Build(root, pos, vel, true, hasLeaf);
-        // Main.NewText($"生成了一个{cnt}个节点的树状结构");
     }
 
     public void Generate(Vector2 pos, Vector2 vel, Vector2 target, float lengthStart, bool hasLeaf)
@@ -99,7 +98,6 @@ public class LightTree
         keyPoints = [];
         this.target = target;
         root = Build(root, pos, vel, true, hasLeaf);
-        // Main.NewText($"生成了一个{cnt}个节点的树状结构");
     }
 
     public void Generate(Vector2 pos, Vector2 vel, Vector2 target, float lengthStart, float minSize, float minLength, float minDistance, float randAngleMain, float randAngleBranch, float chance, float decreaseSize, float decreaseLength, float decreaseSizeB, float decreaseLengthB, bool hasLeaf)
@@ -109,7 +107,6 @@ public class LightTree
         keyPoints = [];
         this.target = target;
         root = Build(root, pos, vel, true, minSize, minLength, minDistance, randAngleMain, randAngleBranch, chance, decreaseSize, decreaseLength, decreaseSizeB, decreaseLengthB, hasLeaf);
-        // Main.NewText($"生成了一个{cnt}个节点的树状结构");
     }
 
     private Node Build(Node node, Vector2 pos, Vector2 vel, bool root, bool hasLeaf)
@@ -1406,7 +1403,7 @@ public class FirstZenith_Blade : VertexHammerProj
     public override float timeCount { get => base.timeCount; set => base.timeCount = value; }
     public override bool WhenVertexDraw => base.WhenVertexDraw;
     public override string Texture => base.Texture.Replace("_Blade", "_Old");
-    public override string HammerName => "初源峰巅";
+    public override string HammerName => "FirstZenith";
     public override float MaxTime => 12;
     public override float Factor => base.Factor;
     public override Vector2 CollidingSize => base.CollidingSize;

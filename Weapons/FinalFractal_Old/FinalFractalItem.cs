@@ -23,12 +23,6 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
     {
         public override bool IsLoadingEnabled(Mod mod) => FinalFractalSetConfig.OldVersionEnabled;
 
-        //public override void SetStaticDefaults()
-        //{
-        //    DisplayName.SetDefault("最终分形");
-        //    Tooltip.SetDefault("它的一部分包含着它，这就是分形。无数的刀刃回旋着，它们是它的一部分。");
-        //}
-
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             for (int n = 1; n < 4; n++)
