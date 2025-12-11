@@ -135,7 +135,7 @@ namespace FinalFractalSet.Weapons
 
         private static readonly IRenderEffect[][] _renderEffect =
             [[new AirDistortEffect(4,1.05f, 0, 0.5f)],
-            [new BloomEffect(0, 1f, 1, 3, true,2,true)]];
+            [new BloomEffect(0, 0.75f, 1, 3, true,2,true)]];
 
         public override void Load()
         {
@@ -318,7 +318,8 @@ namespace FinalFractalSet.Weapons
                 {
                     var u = swooshes[n] = UltraSwoosh.NewUltraSwoosh(CanvasName, 30, 1, Main.player[projectile.owner].Center, (-1.125f, 0.7125f));
                     u.negativeDir = false;
-                    u.ColorVector = new Vector3(0.1667f, 0.3333f, 0.5f);
+                    u.ColorVector = new Vector3(0.1f, 0.1f, 0.8f);
+                    u.baseTexIndex = 12;
                     u.autoUpdate = false;
                     u.weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
                 }
@@ -351,7 +352,7 @@ namespace FinalFractalSet.Weapons
                 if (swoosh.heatMap == null)
                 {
                     swoosh.heatMap = HeatMapTextures[projectile.frame];
-                    swoosh.ColorVector = new Vector3(0.16667f, 0.3333f, 0.5f);
+                    swoosh.ColorVector = new Vector3(0.1f, 0.1f, 0.8f);
                 }
                 int c = n == m - 1 && timePassed != 60 ? Math.Min(swoosh.Counts, timePassed % 15 * 3) : swoosh.Counts;
                 for (int i = 0; i < c; i++)
@@ -416,7 +417,7 @@ namespace FinalFractalSet.Weapons
             {
                 var u = swooshes[n] = UltraSwoosh.NewUltraSwoosh(CanvasName, 30, 1, Main.player[projectile.owner].Center, (-1.125f, 0.7125f));
                 u.negativeDir = false;
-                u.ColorVector = new Vector3(0.1667f, 0.3333f, 0.5f);
+                u.ColorVector = new Vector3(0.1f, 0.1f, 0.8f);
                 u.autoUpdate = false;
                 u.weaponTex = TextureAssets.Item[Main.player[projectile.owner].HeldItem.type].Value;
             }

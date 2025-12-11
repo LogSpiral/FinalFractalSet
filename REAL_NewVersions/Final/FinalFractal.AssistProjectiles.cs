@@ -311,14 +311,14 @@ public class FractalTear : FinalFractalAssistantProjectile
         if (Main.dedServ) return;
         if (swoosh == null)
         {
-            var u = swoosh = UltraSwoosh.NewUltraSwoosh(FinalFractal_NewVer_Proj.CanvasName, 30, 240, Projectile.Center, (-1.125f, 0.7125f));
+            var u = swoosh = UltraSwoosh.NewUltraSwoosh(FinalFractal_NewVer_Proj.CanvasName, 30, 512, Projectile.Center - Projectile.velocity * 240, (-1.125f, 0.7125f));
             u.heatMap = ModAsset.bar_19.Value;
             u.negativeDir = Projectile.velocity.X < 0;
             u.rotation = Projectile.velocity.ToRotation();
             u.xScaler = 3;
             u.ColorVector = new Vector3(0.16667f, 0.33333f, 0.5f);
-            u.aniTexIndex = 3;
-            u.baseTexIndex = 7;
+            u.aniTexIndex = 2;
+            u.baseTexIndex = 12;
             swoosh.autoUpdate = false;
             swoosh.weaponTex = TextureAssets.Item[Main.player[Projectile.owner].HeldItem.type].Value;
             //SoundEngine.PlaySound(MySoundID.Scythe, Projectile.Center);

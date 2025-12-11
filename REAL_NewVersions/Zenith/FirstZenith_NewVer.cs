@@ -73,7 +73,7 @@ namespace FinalFractalSet.REAL_NewVersions.Zenith
             standardInfo.itemType = ModContent.ItemType<FirstZenith_NewVer>();
 
             vertexStandard.scaler = 90;
-            vertexStandard.timeLeft = 15;
+            vertexStandard.timeLeft = 10;
             vertexStandard.alphaFactor = 2f;
             vertexStandard.canvasName = CanvasName;
 

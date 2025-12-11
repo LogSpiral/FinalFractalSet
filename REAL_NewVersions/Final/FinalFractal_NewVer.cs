@@ -73,7 +73,7 @@ public class FinalFractal_NewVer_Proj : MeleeSequenceProj
         standardInfo.itemType = ModContent.ItemType<FinalFractal_NewVer>();
 
         vertexStandard.scaler = 140;
-        vertexStandard.timeLeft = 45;
+        vertexStandard.timeLeft = 15;
         vertexStandard.alphaFactor = 2f;
         vertexStandard.canvasName = CanvasName;
         vertexStandard.SetDyeShaderID(ItemID.StardustDye);
@@ -101,11 +101,11 @@ public class FinalFractal_NewVer_Proj : MeleeSequenceProj
     private static void FinalFractalCut(MeleeAction action)
     {
         if (!action.IsLocalProjectile) return;
-
+        var unit = (action.Rotation + Main.rand.NextFloat(-MathHelper.Pi / 12,MathHelper.Pi / 12)).ToRotationVector2();
         Projectile.NewProjectile(
         action.Projectile.GetSource_FromThis(),
-        action.Owner.Center + action.Rotation.ToRotationVector2() * 512,
-        action.Rotation.ToRotationVector2(),
+        action.Owner.Center + unit * 512,
+        unit,
         ModContent.ProjectileType<FractalTear>(),
         action.Projectile.damage,
         action.Projectile.knockBack,
