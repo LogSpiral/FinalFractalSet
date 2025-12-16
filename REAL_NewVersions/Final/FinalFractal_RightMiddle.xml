@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Sequence name="FinalFractal_RightMiddle" AuthorName="错数螺线" Description="" FileName="FinalFractal_RightMiddle" DisplayName="最终分形_右中" ModName="FinalFractalSet" createTime="638797383420943987" lastModifyDate="638797390686983641" passWord="" Finished="False">
-  <Group>
-    <Wraper>
-      <Action ModifyData="(1.00|8.00|1.00|1.00|0|1.00)" Cycle="5" ChargingRotation="3.10" StartRotation="3.10" AutoNext="False" name="FinalFractalSet/FractalChargingWing" />
-    </Wraper>
-  </Group>
-  <Group>
-    <Wraper>
-      <Action ModifyData="(1.00|1.00|1.00|1.00|0|1.00)" Cycle="1" name="FinalFractalSet/FirstZenithSpecialAttack" />
-    </Wraper>
-  </Group>
+<Sequence>
+  <Data>
+    <DisplayName>最终分形_右中</DisplayName>
+    <AuthorName>错数螺线</AuthorName>
+    <Description />
+    <CreateTime>2025-04-08 19:45:42</CreateTime>
+    <ModifyTime>2025-12-16 13:11:20</ModifyTime>
+    <Finished>False</Finished>
+    <Hidden>True</Hidden>
+  </Data>
+  <Element FullName="FinalFractalSet/FractalChargingWing">
+    <ChargingRotation>3.10</ChargingRotation>
+    <StartRotation>3.10</StartRotation>
+    <ModifyData>
+      <TimeScaler>8.0</TimeScaler>
+    </ModifyData>
+    <CounterMax>5</CounterMax>
+  </Element>
+  <Element FullName="FinalFractalSet/FirstZenithSpecialAttack" />
 </Sequence>

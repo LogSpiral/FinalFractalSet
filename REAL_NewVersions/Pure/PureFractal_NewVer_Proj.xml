@@ -1,43 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Sequence name="PureFractal_NewVer_Proj" AuthorName="错数螺线" Description="纯粹分形执行序列" FileName="PureFractal_NewVer_Proj" DisplayName="纯粹分形" ModName="FinalFractalSet" createTime="638770362714814741" lastModifyDate="638781972364918319" passWord="" Finished="True">
-  <Group>
-    <Wraper condition="MouseLeft" IsSequence="True">
-      <Sequence>
-        <Group>
-          <Wraper>
-            <Action OnEndAttackDelegate="PureFractal_NewVer_Proj/ShootPurefractalProj_Few" ModifyData="(1.00|2.00|1.00|1.00|0|1.00)" Cycle="2" mode="0" name="LogSpiralLibrary/SwooshInfo" />
-          </Wraper>
-        </Group>
-        <Group>
-          <Wraper>
-            <Action OnEndAttackDelegate="PureFractal_NewVer_Proj/ShootPurefractalProj_Few" ModifyData="(1.00|1.50|1.00|1.00|0|1.00)" Cycle="1" mode="1" name="LogSpiralLibrary/SwooshInfo" />
-          </Wraper>
-        </Group>
-        <Group>
-          <Wraper>
-            <Action ModifyData="(1.00|1.00|1.00|1.00|0|1.00)" Cycle="1" ChargingRotation="3.10" StartRotation="-2.50" AutoNext="False" name="LogSpiralLibrary/ChargingInfo" />
-          </Wraper>
-        </Group>
-        <Group>
-          <Wraper>
-            <Action OnEndAttackDelegate="PureFractal_NewVer_Proj/ShootPurefractalProj_Lots" ModifyData="(1.50|0.80|1.00|1.00|0|1.00)" Cycle="2" mode="1" name="LogSpiralLibrary/SwooshInfo" />
-          </Wraper>
-        </Group>
-      </Sequence>
-    </Wraper>
-    <Wraper condition="MouseRight" IsSequence="True">
-      <Sequence>
-        <Group>
-          <Wraper>
-            <Action ModifyData="(1.00|12.00|1.00|1.00|0|1.00)" Cycle="5" ChargingRotation="3.10" StartRotation="3.10" AutoNext="False" name="FinalFractalSet/PureFractalCharging" />
-          </Wraper>
-        </Group>
-        <!--<Group>
-          <Wraper>
-            <Action ModifyData="(1.50|0.50|1.00|3.25|0|1.00)" Cycle="2" mode="1" name="LogSpiralLibrary/SwooshInfo" />
-          </Wraper>
-        </Group>-->
-      </Sequence>
-    </Wraper>
+<Sequence>
+  <Data>
+    <DisplayName>纯粹分形</DisplayName>
+    <AuthorName>错数螺线</AuthorName>
+    <Description>纯粹分形执行序列</Description>
+    <CreateTime>2025-03-08 13:11:11</CreateTime>
+    <ModifyTime>2025-12-16 13:11:44</ModifyTime>
+    <Hidden>True</Hidden>
+  </Data>
+  <Group FullName="ConditionalMultiGroup">
+    <Sequence condition="MouseLeft">
+      <Element FullName="LogSpiralLibrary/SwooshInfo">
+        <OnEndAttackDelegate>PureFractal_NewVer_Proj/ShootPurefractalProj_Few</OnEndAttackDelegate>
+        <ModifyData>
+          <TimeScaler>2.0</TimeScaler>
+        </ModifyData>
+        <CounterMax>2</CounterMax>
+      </Element>
+      <Element FullName="LogSpiralLibrary/SwooshInfo">
+        <mode>Slash</mode>
+        <OnEndAttackDelegate>PureFractal_NewVer_Proj/ShootPurefractalProj_Few</OnEndAttackDelegate>
+        <ModifyData>
+          <TimeScaler>1.5</TimeScaler>
+        </ModifyData>
+      </Element>
+      <Element FullName="LogSpiralLibrary/ChargingInfo">
+        <ChargingRotation>3.10</ChargingRotation>
+        <StartRotation>-2.50</StartRotation>
+      </Element>
+      <Element FullName="LogSpiralLibrary/SwooshInfo">
+        <mode>Slash</mode>
+        <OnEndAttackDelegate>PureFractal_NewVer_Proj/ShootPurefractalProj_Lots</OnEndAttackDelegate>
+        <ModifyData>
+          <Size>1.5</Size>
+          <TimeScaler>0.8</TimeScaler>
+        </ModifyData>
+        <CounterMax>2</CounterMax>
+      </Element>
+    </Sequence>
+    <Element FullName="FinalFractalSet/PureFractalCharging">
+      <ChargingRotation>3.10</ChargingRotation>
+      <StartRotation>3.10</StartRotation>
+      <ModifyData>
+        <TimeScaler>12.0</TimeScaler>
+      </ModifyData>
+      <CounterMax>5</CounterMax>
+    </Element>
   </Group>
 </Sequence>

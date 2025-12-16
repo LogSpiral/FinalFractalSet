@@ -1,43 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Sequence name="RustySteelBlade_NewVer_Proj" AuthorName="错数螺线" Description="锈蚀钢刃执行序列" FileName="RustySteelBlade_NewVer_Proj" DisplayName="锈蚀钢刃" ModName="FinalFractalSet" createTime="638770326213804340" lastModifyDate="638776408547237282" passWord="" Finished="True">
-  <Group>
-    <Wraper condition="MouseLeft" IsSequence="True">
-      <Sequence>
-        <Group>
-          <Wraper>
-            <Action mode="0" Cycle="3" ModifyData="(1.00|3.00|1.00|1.00|0|1.00)" name="LogSpiralLibrary/SwooshInfo" />
-          </Wraper>
-        </Group>
-        <Group>
-          <Wraper>
-            <Action mode="1" Cycle="4" ModifyData="(1.00|2.50|1.00|0.55|0|1.00)" name="LogSpiralLibrary/SwooshInfo" />
-          </Wraper>
-        </Group>
-        <Group>
-          <Wraper>
-            <Action mode="0" Cycle="3" ModifyData="(1.00|3.00|1.00|1.00|0|1.00)" name="LogSpiralLibrary/SwooshInfo" />
-          </Wraper>
-        </Group>
-        <Group>
-          <Wraper>
-            <Action mode="0" Cycle="1" ModifyData="(1.50|3.00|1.60|2.50|10|1.20)" name="LogSpiralLibrary/SwooshInfo" />
-          </Wraper>
-        </Group>
-      </Sequence>
-    </Wraper>
-    <Wraper condition="MouseRight" IsSequence="True">
-      <Sequence>
-        <Group>
-          <Wraper>
-            <Action Cycle="1" ModifyData="(1.00|1.00|1.00|1.00|0|1.00)" ChargingRotation="2.5" AutoNext="False" name="LogSpiralLibrary/ChargingInfo" />
-          </Wraper>
-        </Group>
-        <Group>
-          <Wraper>
-            <Action Cycle="1" ModifyData="(1.00|1.00|1.00|1.00|0|1.00)" Upgraded="False" name="FinalFractalSet/SteelSpecialAttack" />
-          </Wraper>
-        </Group>
-      </Sequence>
-    </Wraper>
+<Sequence>
+  <Data>
+    <DisplayName>锈蚀钢刃</DisplayName>
+    <AuthorName>错数螺线</AuthorName>
+    <Description>锈蚀钢刃执行序列</Description>
+    <CreateTime>2025-03-08 12:10:21</CreateTime>
+    <ModifyTime>2025-12-16 13:11:39</ModifyTime>
+    <Hidden>True</Hidden>
+  </Data>
+  <Group FullName="ConditionalMultiGroup">
+    <Sequence condition="MouseLeft">
+      <Element FullName="LogSpiralLibrary/SwooshInfo">
+        <ModifyData>
+          <TimeScaler>3.0</TimeScaler>
+        </ModifyData>
+        <CounterMax>3</CounterMax>
+      </Element>
+      <Element FullName="LogSpiralLibrary/SwooshInfo">
+        <mode>Slash</mode>
+        <ModifyData>
+          <TimeScaler>2.5</TimeScaler>
+          <Damage>0.6</Damage>
+        </ModifyData>
+        <CounterMax>4</CounterMax>
+      </Element>
+      <Element FullName="LogSpiralLibrary/SwooshInfo">
+        <ModifyData>
+          <TimeScaler>3.0</TimeScaler>
+        </ModifyData>
+        <CounterMax>3</CounterMax>
+      </Element>
+      <Element FullName="LogSpiralLibrary/SwooshInfo">
+        <ModifyData>
+          <Size>1.5</Size>
+          <TimeScaler>3.0</TimeScaler>
+          <KnockBack>1.6</KnockBack>
+          <Damage>2.5</Damage>
+          <CritAdder>10</CritAdder>
+          <CritMultiplier>1.2</CritMultiplier>
+        </ModifyData>
+      </Element>
+    </Sequence>
+    <Sequence condition="MouseRight">
+      <Element FullName="LogSpiralLibrary/ChargingInfo">
+        <ChargingRotation>2.50</ChargingRotation>
+      </Element>
+      <Element FullName="FinalFractalSet/SteelSpecialAttack" />
+    </Sequence>
   </Group>
 </Sequence>

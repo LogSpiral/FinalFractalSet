@@ -1,18 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Sequence name="FinalFractal_LeftMiddle" AuthorName="错数螺线" Description="" FileName="FinalFractal_LeftMiddle" DisplayName="最终分形_左中" ModName="FinalFractalSet" createTime="638797377229053224" lastModifyDate="638799023389662493" passWord="" Finished="False">
-  <Group>
-    <Wraper>
-      <Action OnStartAttackDelegate="FinalFractal_NewVer_Proj/FinalFractalChop" ModifyData="(1.00|1.00|1.00|1.00|0|1.00)" Cycle="1" mode="0" randAngleRange="0.00" name="LogSpiralLibrary/SwooshInfo" />
-    </Wraper>
-  </Group>
-  <Group>
-    <Wraper>
-      <Action OnEndAttackDelegate="FinalFractal_NewVer_Proj/FinalFractalCut" ModifyData="(1.00|0.70|1.00|1.00|0|1.00)" Cycle="1" name="LogSpiralLibrary/CutInfo" />
-    </Wraper>
-  </Group>
-  <Group>
-    <Wraper>
-      <Action OnEndAttackDelegate="FinalFractal_NewVer_Proj/FinalFractalStab" ModifyData="(1.00|0.70|1.00|1.00|0|1.00)" Cycle="1" KValueRange="1.00" randAngleRange="0.00" name="LogSpiralLibrary/StabInfo" />
-    </Wraper>
-  </Group>
+<Sequence>
+  <Data>
+    <DisplayName>最终分形_左中</DisplayName>
+    <AuthorName>错数螺线</AuthorName>
+    <Description />
+    <CreateTime>2025-04-08 19:35:22</CreateTime>
+    <ModifyTime>2025-12-16 13:11:29</ModifyTime>
+    <Finished>False</Finished>
+    <Hidden>True</Hidden>
+  </Data>
+  <Element FullName="LogSpiralLibrary/SwooshInfo">
+    <randAngleRange>0.00</randAngleRange>
+    <OnStartAttackDelegate>FinalFractal_NewVer_Proj/FinalFractalChop</OnStartAttackDelegate>
+  </Element>
+  <Element FullName="LogSpiralLibrary/CutInfo">
+    <OnEndAttackDelegate>FinalFractal_NewVer_Proj/FinalFractalCut</OnEndAttackDelegate>
+    <ModifyData>
+      <TimeScaler>0.7</TimeScaler>
+    </ModifyData>
+  </Element>
+  <Element FullName="LogSpiralLibrary/StabInfo">
+    <randAngleRange>0.00</randAngleRange>
+    <OnEndAttackDelegate>FinalFractal_NewVer_Proj/FinalFractalStab</OnEndAttackDelegate>
+    <ModifyData>
+      <TimeScaler>0.7</TimeScaler>
+    </ModifyData>
+  </Element>
 </Sequence>

@@ -1,38 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Sequence name="DyingStoneSword_NewVer_Proj" AuthorName="错数螺线" Description="枯石太刀执行序列" FileName="DyingStoneSword_NewVer_Proj" DisplayName="枯石太刀" ModName="FinalFractalSet" createTime="638770326303088199" lastModifyDate="638776409177584917" passWord="" Finished="True">
-  <Group>
-    <Wraper condition="MouseLeft" IsSequence="True">
-      <Sequence>
-        <Group>
-          <Wraper>
-            <Action mode="1" Cycle="2" ModifyData="(1.00|1.60|1.00|1.00|0|1.00)" name="LogSpiralLibrary/SwooshInfo" />
-          </Wraper>
-        </Group>
-        <Group>
-          <Wraper>
-            <Action Cycle="3" ModifyData="(1.00|1.00|1.00|0.75|0|1.00)" name="LogSpiralLibrary/StabInfo" />
-          </Wraper>
-        </Group>
-        <Group>
-          <Wraper>
-            <Action mode="0" Cycle="1" ModifyData="(1.50|2.00|1.00|1.50|10|1.00)" name="LogSpiralLibrary/SwooshInfo" />
-          </Wraper>
-        </Group>
-      </Sequence>
-    </Wraper>
-    <Wraper condition="MouseRight" IsSequence="True">
-      <Sequence>
-        <Group>
-          <Wraper>
-            <Action Cycle="1" ModifyData="(1.00|2.00|1.00|1.00|0|1.00)" ChargingRotation="3.1000001" AutoNext="False" name="LogSpiralLibrary/ChargingInfo" />
-          </Wraper>
-        </Group>
-        <Group>
-          <Wraper>
-            <Action Cycle="1" ModifyData="(1.00|1.00|1.00|1.00|0|1.00)" Upgraded="False" name="FinalFractalSet/StoneSpecialAttack" />
-          </Wraper>
-        </Group>
-      </Sequence>
-    </Wraper>
+<Sequence>
+  <Data>
+    <DisplayName>枯石太刀</DisplayName>
+    <AuthorName>错数螺线</AuthorName>
+    <Description>枯石太刀执行序列</Description>
+    <CreateTime>2025-03-08 12:10:30</CreateTime>
+    <ModifyTime>2025-12-16 13:13:02</ModifyTime>
+    <Hidden>True</Hidden>
+  </Data>
+  <Group FullName="ConditionalMultiGroup">
+    <Sequence condition="MouseLeft">
+      <Element FullName="LogSpiralLibrary/SwooshInfo">
+        <mode>Slash</mode>
+        <ModifyData>
+          <TimeScaler>1.6</TimeScaler>
+        </ModifyData>
+        <CounterMax>2</CounterMax>
+      </Element>
+      <Element FullName="LogSpiralLibrary/StabInfo">
+        <ModifyData>
+          <Damage>0.8</Damage>
+        </ModifyData>
+        <CounterMax>3</CounterMax>
+      </Element>
+      <Element FullName="LogSpiralLibrary/SwooshInfo">
+        <ModifyData>
+          <Size>1.5</Size>
+          <TimeScaler>2.0</TimeScaler>
+          <Damage>1.5</Damage>
+          <CritAdder>10</CritAdder>
+        </ModifyData>
+      </Element>
+    </Sequence>
+    <Sequence condition="MouseRight">
+      <Element FullName="LogSpiralLibrary/ChargingInfo">
+        <ChargingRotation>3.10</ChargingRotation>
+        <ModifyData>
+          <TimeScaler>2.0</TimeScaler>
+        </ModifyData>
+      </Element>
+      <Element FullName="FinalFractalSet/StoneSpecialAttack" />
+    </Sequence>
   </Group>
 </Sequence>

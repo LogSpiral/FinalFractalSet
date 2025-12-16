@@ -1,42 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Sequence name="LivingWoodSword_NewVer_Proj" AuthorName="错数螺线" Description="灵木叶锋执行序列" FileName="LivingWoodSword_NewVer_Proj" DisplayName="灵木叶锋" ModName="FinalFractalSet" createTime="638770298328554249" lastModifyDate="638775834144748440" passWord="" Finished="True">
-  <Group>
-    <Wraper condition="MouseLeft" IsSequence="True">
+<Sequence>
+  <Data>
+    <DisplayName>灵木叶锋</DisplayName>
+    <AuthorName>错数螺线</AuthorName>
+    <Description>灵木叶锋执行序列</Description>
+    <CreateTime>2025-03-08 11:23:52</CreateTime>
+    <ModifyTime>2025-12-16 13:09:12</ModifyTime>
+    <Hidden>True</Hidden>
+  </Data>
+  <Group FullName="ConditionalMultiGroup">
+    <Group condition="MouseLeft" FullName="ConditionalMultiGroup">
+      <Element condition="SurroundThreat" FullName="LogSpiralLibrary/RapidlyStabInfo">
+        <rangeOffsetMin>1</rangeOffsetMin>
+        <rangeOffsetMax>3</rangeOffsetMax>
+        <visualCentered>True</visualCentered>
+        <OnEndAttackDelegate>LivingWoodSword_NewVer_Proj/SpawnThorn</OnEndAttackDelegate>
+      </Element>
       <Sequence>
-        <Group>
-          <Wraper condition="SurroundThreat">
-            <Action givenCycle="4" ModifyData="(1.00|1.00|1.00|1.00|0|1.00)" visualCentered ="True" OnEndAttackDelegate="LivingWoodSword_NewVer_Proj/SpawnThorn" rangeOffsetMin="1" rangeOffsetMax="3" name="LogSpiralLibrary/RapidlyStabInfo" />
-          </Wraper>
-          <Wraper IsSequence="True">
-            <Sequence>
-              <Group>
-                <Wraper>
-                  <Action Cycle="2" ModifyData="(1.20|1.00|1.00|1.00|0|1.00)" visualCentered ="True" name="LogSpiralLibrary/StabInfo" />
-                </Wraper>
-              </Group>
-              <Group>
-                <Wraper>
-                  <Action Cycle="1" ModifyData="(1.40|1.50|1.00|1.50|5|1.00)" visualCentered ="True" name="LogSpiralLibrary/StabInfo" />
-                </Wraper>
-              </Group>
-            </Sequence>
-          </Wraper>
-        </Group>
+        <Element FullName="LogSpiralLibrary/StabInfo">
+          <visualCentered>True</visualCentered>
+          <ModifyData>
+            <Size>1.2</Size>
+          </ModifyData>
+          <CounterMax>2</CounterMax>
+        </Element>
+        <Element FullName="LogSpiralLibrary/StabInfo">
+          <visualCentered>True</visualCentered>
+          <ModifyData>
+            <Size>1.4</Size>
+            <TimeScaler>1.5</TimeScaler>
+            <Damage>1.5</Damage>
+            <CritAdder>5</CritAdder>
+          </ModifyData>
+        </Element>
       </Sequence>
-    </Wraper>
-    <Wraper condition="MouseRight" IsSequence="True">
-      <Sequence>
-        <Group>
-          <Wraper>
-            <Action Cycle="1" ModifyData="(1.00|2.00|1.00|1.00|0|1.00)" ChargingRotation="-2" AutoNext="False" name="LogSpiralLibrary/ChargingInfo" />
-          </Wraper>
-        </Group>
-        <Group>
-          <Wraper>
-            <Action Cycle="1" ModifyData="(1.00|2.00|1.00|1.00|0|1.00)" Upgraded="True" name="FinalFractalSet/WoodSpecialAttack" />
-          </Wraper>
-        </Group>
-      </Sequence>
-    </Wraper>
+    </Group>
+    <Sequence condition="MouseRight">
+      <Element FullName="LogSpiralLibrary/ChargingInfo">
+        <ChargingRotation>-2.00</ChargingRotation>
+        <ModifyData>
+          <TimeScaler>2.0</TimeScaler>
+        </ModifyData>
+      </Element>
+      <Element FullName="FinalFractalSet/WoodSpecialAttack">
+        <Upgraded>True</Upgraded>
+        <ModifyData>
+          <TimeScaler>2.0</TimeScaler>
+        </ModifyData>
+      </Element>
+    </Sequence>
   </Group>
 </Sequence>

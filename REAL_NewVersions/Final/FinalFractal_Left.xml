@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Sequence name="FinalFractal_Left" AuthorName="错数螺线" Description="" FileName="FinalFractal_Left" DisplayName="最终分形_左键" ModName="FinalFractalSet" createTime="638797380244972807" lastModifyDate="638797380878166446" passWord="" Finished="False">
-  <Group>
-    <Wraper condition="ControlUp" IsSequence="True" Mod="FinalFractalSet">FinalFractal_LeftUp</Wraper>
-    <Wraper condition="ControlDown" IsSequence="True" Mod="FinalFractalSet">FinalFractal_LeftDown</Wraper>
-    <Wraper IsSequence="True" Mod="FinalFractalSet">FinalFractal_LeftMiddle</Wraper>
+<Sequence>
+  <Data>
+    <DisplayName>最终分形_左键</DisplayName>
+    <AuthorName>错数螺线</AuthorName>
+    <Description />
+    <CreateTime>2025-04-08 19:40:24</CreateTime>
+    <ModifyTime>2025-12-16 13:11:34</ModifyTime>
+    <Finished>False</Finished>
+    <Hidden>True</Hidden>
+  </Data>
+  <Group FullName="ConditionalMultiGroup">
+    <Sequence condition="ControlUp" FullName="FinalFractalSet/MeleeAction/FinalFractal_LeftUp" />
+    <Sequence condition="ControlDown" FullName="FinalFractalSet/MeleeAction/FinalFractal_LeftDown" />
+    <Sequence FullName="FinalFractalSet/MeleeAction/FinalFractal_LeftMiddle" />
   </Group>
 </Sequence>

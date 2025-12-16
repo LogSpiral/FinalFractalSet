@@ -1,13 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Sequence name="FinalFractal_LeftUp" AuthorName="错数螺线" Description="" FileName="FinalFractal_LeftUp" DisplayName="最终分形_左上" ModName="FinalFractalSet" createTime="638797375333709628" lastModifyDate="638799271688723658" passWord="" Finished="False">
-  <Group>
-    <Wraper>
-      <Action ModifyData="(1.00|2.00|1.00|10.00|100|1.00)" Cycle="1" angleRange="2.00" xScaler="1.00" name="FinalFractalSet/FractalCloudMowingSword" />
-    </Wraper>
-  </Group>
-  <Group>
-    <Wraper>
-      <Action ModifyData="(1.00|1.50|1.00|3.05|30|2.05)" Cycle="1" name="FinalFractalSet/FractalStrom" />
-    </Wraper>
-  </Group>
+<Sequence>
+  <Data>
+    <DisplayName>最终分形_左上</DisplayName>
+    <AuthorName>错数螺线</AuthorName>
+    <Description />
+    <CreateTime>2025-04-08 19:32:13</CreateTime>
+    <ModifyTime>2025-12-16 13:11:27</ModifyTime>
+    <Finished>False</Finished>
+    <Hidden>True</Hidden>
+  </Data>
+  <Element FullName="FinalFractalSet/FractalCloudMowingSword">
+    <angleRange>2.00</angleRange>
+    <xScaler>1.00</xScaler>
+    <ModifyData>
+      <TimeScaler>2.0</TimeScaler>
+      <Damage>10.0</Damage>
+      <CritAdder>100</CritAdder>
+    </ModifyData>
+  </Element>
+  <Element FullName="FinalFractalSet/FractalStrom">
+    <ModifyData>
+      <TimeScaler>1.5</TimeScaler>
+      <Damage>3.1</Damage>
+      <CritAdder>30</CritAdder>
+      <CritMultiplier>2.1</CritMultiplier>
+    </ModifyData>
+  </Element>
 </Sequence>

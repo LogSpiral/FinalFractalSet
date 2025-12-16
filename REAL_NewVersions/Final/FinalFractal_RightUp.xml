@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Sequence name="FinalFractal_RightUp" AuthorName="错数螺线" Description="" FileName="FinalFractal_RightUp" DisplayName="最终分形_右上" ModName="FinalFractalSet" createTime="638797383071502993" lastModifyDate="638800912962049870" passWord="" Finished="False">
-  <Group>
-    <Wraper>
-      <Action ModifyData="(1.00|1.00|1.00|1.00|0|1.00)" Cycle="1" ChargingRotation="3.10" StartRotation="0.00" AutoNext="False" name="LogSpiralLibrary/ChargingInfo" />
-    </Wraper>
-  </Group>
-  <Group>
-    <Wraper>
-      <Action ModifyData="(1.00|2.00|1.00|2.50|0|1.00)" Cycle="1" name="FinalFractalSet/FractalSnowFlake" />
-    </Wraper>
-  </Group>
+<Sequence>
+  <Data>
+    <DisplayName>最终分形_右上</DisplayName>
+    <AuthorName>错数螺线</AuthorName>
+    <Description />
+    <CreateTime>2025-04-08 19:45:07</CreateTime>
+    <ModifyTime>2025-12-16 13:11:18</ModifyTime>
+    <Finished>False</Finished>
+    <Hidden>True</Hidden>
+  </Data>
+  <Element FullName="LogSpiralLibrary/ChargingInfo">
+    <ChargingRotation>3.10</ChargingRotation>
+  </Element>
+  <Element FullName="FinalFractalSet/FractalSnowFlake">
+    <ModifyData>
+      <TimeScaler>2.0</TimeScaler>
+      <Damage>2.5</Damage>
+    </ModifyData>
+  </Element>
 </Sequence>

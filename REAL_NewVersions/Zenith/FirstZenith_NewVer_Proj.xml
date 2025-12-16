@@ -1,34 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Sequence name="FirstZenith_NewVer_Proj" AuthorName="错数螺线" Description="初元天穹执行序列" FileName="FirstZenith_NewVer_Proj" DisplayName="初元天穹" ModName="FinalFractalSet" createTime="638770362745953805" lastModifyDate="638782574509940369" passWord="" Finished="True">
-  <Group>
-    <Wraper condition="MouseLeft" IsSequence="True">
-      <Sequence>
-        <Group>
-          <Wraper condition="ControlUp">
-            <Action OnHitTargetDelegate="FirstZenith_NewVer_Proj/ShootFirstZenith" randAngleRange="1.047" minKValue="1.5" KValueRange="1.5" ModifyData="(1.50|0.33|1.00|2.50|0|1.00)" Cycle="2" mode="1" name="LogSpiralLibrary/SwooshInfo" />
-          </Wraper>
-          <Wraper condition="ControlDown" IsSequence="True">
-            <Sequence>
-              <Group>
-                <Wraper>
-                  <Action ModifyData="(1.00|1.00|1.00|1.00|0|1.00)" Cycle="1" ChargingRotation="3.10" StartRotation="-0.90" AutoNext="False" name="LogSpiralLibrary/ChargingInfo" />
-                </Wraper>
-              </Group>
-              <Group>
-                <Wraper>
-                  <Action ModifyData="(1.00|1.00|1.00|1.00|0|1.00)" Cycle="1" name="FinalFractalSet/FirstZenithSpecialAttack" />
-                </Wraper>
-              </Group>
-            </Sequence>
-          </Wraper>
-          <Wraper>
-            <Action OnStartAttackDelegate="FirstZenith_NewVer_Proj/ShootFirstZenithViaStab" visualCentered ="True" randAngleRange="0.0" ModifyData="(1.50|1.00|1.00|1.00|0|1.00)" Cycle="1" name="LogSpiralLibrary/StabInfo" />
-          </Wraper>
-        </Group>
+<Sequence>
+  <Data>
+    <DisplayName>初元天穹</DisplayName>
+    <AuthorName>错数螺线</AuthorName>
+    <Description>初元天穹执行序列</Description>
+    <CreateTime>2025-03-08 13:11:14</CreateTime>
+    <ModifyTime>2025-12-16 13:11:48</ModifyTime>
+    <Hidden>True</Hidden>
+  </Data>
+  <Group FullName="ConditionalMultiGroup">
+    <Group condition="MouseLeft" FullName="ConditionalMultiGroup">
+      <Element condition="ControlUp" FullName="LogSpiralLibrary/SwooshInfo">
+        <mode>Slash</mode>
+        <minKValue>1.50</minKValue>
+        <KValueRange>1.50</KValueRange>
+        <randAngleRange>1.05</randAngleRange>
+        <OnHitTargetDelegate>FirstZenith_NewVer_Proj/ShootFirstZenith</OnHitTargetDelegate>
+        <ModifyData>
+          <Size>1.5</Size>
+          <TimeScaler>0.3</TimeScaler>
+          <Damage>2.5</Damage>
+        </ModifyData>
+        <CounterMax>2</CounterMax>
+      </Element>
+      <Sequence condition="ControlDown">
+        <Element FullName="LogSpiralLibrary/ChargingInfo">
+          <ChargingRotation>3.10</ChargingRotation>
+          <StartRotation>-0.90</StartRotation>
+        </Element>
+        <Element FullName="FinalFractalSet/FirstZenithSpecialAttack" />
       </Sequence>
-    </Wraper>
-    <Wraper condition="MouseRight">
-      <Action ModifyData="(1.00|1.00|1.00|1.00|0|1.00)" Cycle="1" name="FinalFractalSet/FirstZenithRainAttack" />
-    </Wraper>
+      <Element FullName="LogSpiralLibrary/StabInfo">
+        <visualCentered>True</visualCentered>
+        <randAngleRange>0.00</randAngleRange>
+        <OnStartAttackDelegate>FirstZenith_NewVer_Proj/ShootFirstZenithViaStab</OnStartAttackDelegate>
+        <ModifyData>
+          <Size>1.5</Size>
+        </ModifyData>
+      </Element>
+    </Group>
+    <Element condition="MouseRight" FullName="FinalFractalSet/FirstZenithRainAttack" />
   </Group>
 </Sequence>
