@@ -283,7 +283,7 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
             Projectile.timeLeft = 2;
             Projectile.damage *= 3;
             Projectile.damage /= 4;
-
+            Projectile.hide = true;
             Projectile.width = Projectile.height = 80;
             base.OnHitNPC(target, hit, damageDone);
         }
@@ -296,7 +296,7 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
 
         public override void AI()
         {
-            if (!Main.dedServ && ultraStab == null) 
+            if (!Main.dedServ && ultraStab == null)
             {
                 ultraStab = UltraStab.NewUltraStab(StoneSpecialAttack.CanvasName, 30, 250, Projectile.Center);
                 ultraStab.negativeDir = Main.rand.NextBool(2);
@@ -333,7 +333,7 @@ namespace FinalFractalSet.REAL_NewVersions.Stone
 
         private UltraStab ultraStab;
 
-        public override bool PreDraw(ref Color lightColor) => false;
+        public override bool PreDraw(Player player, ref Color lightColor) => false;
     }
 
     public class StoneBuff : ModBuff

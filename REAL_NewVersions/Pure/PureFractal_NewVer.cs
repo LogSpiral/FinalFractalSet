@@ -42,9 +42,9 @@ namespace FinalFractalSet.REAL_NewVersions.Pure
             Item.ShaderItemEffectInventory(spriteBatch, position, origin, LogSpiralLibraryMod.Misc[1].Value, Color.Lerp(new Color(0, 162, 232), new Color(34, 177, 76), (float)Math.Sin(MathHelper.Pi / 60 * LogSpiralLibraryMod.ModTime) / 2 + 0.5f), scale);
         }
 
-        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        public override void PostDrawInWorld(WorldItem item, SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Item.ShaderItemEffectInWorld(spriteBatch, LogSpiralLibraryMod.Misc[1].Value, Color.Lerp(new Color(0, 162, 232), new Color(34, 177, 76), (float)Math.Sin(MathHelper.Pi / 60 * LogSpiralLibraryMod.ModTime) / 2 + 0.5f), rotation);
+            item.ShaderItemEffectInWorld(spriteBatch, LogSpiralLibraryMod.Misc[1].Value, Color.Lerp(new Color(0, 162, 232), new Color(34, 177, 76), (float)Math.Sin(MathHelper.Pi / 60 * LogSpiralLibraryMod.ModTime) / 2 + 0.5f), rotation);
         }
 
         public override bool AltFunctionUse(Player player) => true;
@@ -240,7 +240,7 @@ namespace FinalFractalSet.REAL_NewVersions.Pure
         //frame控制弹幕贴图
         public override string Texture => "Terraria/Images/Item_0";
 
-        public override bool PreDraw(ref Color lightColor)
+        public override bool PreDraw(Player player, ref Color lightColor)
         {
             var tex = PureFractalProj.ItemTextures[Projectile.frame];
             float alpha = 1;
@@ -260,23 +260,6 @@ namespace FinalFractalSet.REAL_NewVersions.Pure
             return false;
         }
 
-        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
-        {
-            if ((int)Projectile.ai[1] is 4 or 5 && (int)Projectile.ai[2] == 1)
-            {
-                int counter = Projectile.frameCounter;
-                float factor = Projectile.ai[0] + (MathF.Sqrt(256 + counter * counter) - 16) * .01f;
-                float angle = factor * MathHelper.TwoPi;
-                if (Projectile.ai[1] == 5)
-                    angle += MathHelper.PiOver2;
-                if (MathF.Sin(angle) < 0)
-                    behindNPCs.Add(index);
-                else
-                    overPlayers.Add(index);
-            }
-            base.DrawBehind(index, behindNPCsAndTiles, behindNPCs, behindProjectiles, overPlayers, overWiresUI);
-        }
-
         public override void SetDefaults()
         {
             Projectile.DamageType = DamageClass.Melee;
@@ -292,7 +275,6 @@ namespace FinalFractalSet.REAL_NewVersions.Pure
 
         public override void AI()
         {
-            Projectile.hide = false;
             Projectile.frameCounter++;
             int counter = Projectile.frameCounter;
             Player plr = Main.player[Projectile.owner];
@@ -350,6 +332,18 @@ namespace FinalFractalSet.REAL_NewVersions.Pure
                     {
                         Projectile.timeLeft = 60;
                         float factor = Projectile.ai[0] + (MathF.Sqrt(256 + counter * counter) - 16) * .01f;
+
+                        if ((int)Projectile.ai[1] is 4 or 5)
+                        {
+                            float angle = factor * MathHelper.TwoPi;
+                            if (Projectile.ai[1] == 5)
+                                angle += MathHelper.PiOver2;
+                            if (MathF.Sin(angle) < 0)
+                                Projectile.drawLayer = ProjectileDrawLayerID.BehindNPCs;
+                            else
+                                Projectile.drawLayer = ProjectileDrawLayerID.OverPlayers;
+                        }
+
                         switch ((int)Projectile.ai[1])
                         {
                             case 1:
@@ -378,7 +372,6 @@ namespace FinalFractalSet.REAL_NewVersions.Pure
                                 }
                             case 4:
                                 {
-                                    Projectile.hide = true;
                                     float angle = factor * MathHelper.TwoPi;
                                     Vector2 offset = angle.ToRotationVector2() * 320 * new Vector2(1, MathF.Cos(counter * .01f));
                                     offset = offset.RotatedBy(counter * .005f);
@@ -389,7 +382,6 @@ namespace FinalFractalSet.REAL_NewVersions.Pure
                                 }
                             case 5:
                                 {
-                                    Projectile.hide = true;
                                     float angle = -factor * MathHelper.TwoPi;
                                     Vector2 offset = angle.ToRotationVector2() * 480 * new Vector2(MathF.Cos(counter * .01f), 1);
                                     offset = offset.RotatedBy(-counter * .005f);
@@ -482,15 +474,15 @@ namespace FinalFractalSet.REAL_NewVersions.Pure
             return false;
         }
 
-        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+        public override bool PreDrawInWorld(WorldItem item, SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
             var color = lightColor with { A = 0 };
             float factor = (float)(Math.Cos(LogSpiralLibraryMod.ModTime * .05f) * .5 + .5);
-            spriteBatch.Draw(TextureAssets.Item[Type].Value, Item.Center - Main.screenPosition, null, color * MathHelper.Lerp(.25f, .75f, factor), rotation, new Vector2(28), scale, 0, 0);
+            spriteBatch.Draw(TextureAssets.Item[Type].Value, item.Center - Main.screenPosition, null, color * MathHelper.Lerp(.25f, .75f, factor), rotation, new Vector2(28), scale, 0, 0);
 
             color *= MathHelper.Lerp(.5f, .15f, factor);
             for (int n = 0; n < 3; n++)
-                spriteBatch.Draw(TextureAssets.Item[Type].Value, Item.Center - Main.screenPosition + (MathHelper.TwoPi / 3 * n + (float)LogSpiralLibraryMod.ModTime * .1f).ToRotationVector2() * 4, null, color, rotation, new Vector2(28), scale, 0, 0);
+                spriteBatch.Draw(TextureAssets.Item[Type].Value, item.Center - Main.screenPosition + (MathHelper.TwoPi / 3 * n + (float)LogSpiralLibraryMod.ModTime * .1f).ToRotationVector2() * 4, null, color, rotation, new Vector2(28), scale, 0, 0);
 
             return false;
         }

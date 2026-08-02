@@ -331,7 +331,7 @@ public class FractalTear : FinalFractalAssistantProjectile
         base.AI();
     }
 
-    public override bool PreDraw(ref Color lightColor) => false;
+    public override bool PreDraw(Player player, ref Color lightColor) => false;
 
     public override bool ShouldUpdatePosition() => false;
 }
@@ -510,7 +510,7 @@ public class PythagoreanTreeProj : FinalFractalAssistantProjectile
         base.OnSpawn(source);
     }
 
-    public override bool PreDraw(ref Color lightColor)
+    public override bool PreDraw(Player player, ref Color lightColor)
     {
         float factor1 = MathF.Pow(Utils.GetLerpValue(120, 60, Projectile.timeLeft, true), 4.0f);
         float factor2 = MathHelper.SmoothStep(0, 1, Utils.GetLerpValue(0, 30, Projectile.timeLeft, true));
@@ -573,7 +573,7 @@ public class FractalStabProj : ModProjectile
 
     public override string Texture => "Terraria/Images/Extra_98";
 
-    public override bool PreDraw(ref Color lightColor)
+    public override bool PreDraw(Player player, ref Color lightColor)
     {
         float t = Projectile.timeLeft / 30f;
         float fac = (1 - MathF.Cos(MathHelper.TwoPi * MathF.Sqrt(t))) * .5f;
@@ -984,10 +984,11 @@ public class FractalChargingWingProj : ModProjectile
                 }
         }
         OldDataUpdates();
+        Projectile.drawLayer = Projectile.ai[0] > 1 ? ProjectileDrawLayerID.BehindNPCsAndTiles : ProjectileDrawLayerID.None;
         base.AI();
     }
 
-    public override bool PreDraw(ref Color lightColor)
+    public override bool PreDraw(Player player, ref Color lightColor)
     {
         var tex = PureFractalProj.ItemTextures[Projectile.frame];
         float alpha = 1;
@@ -1007,9 +1008,8 @@ public class FractalChargingWingProj : ModProjectile
         Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, lightColor * alpha, Projectile.rotation + MathHelper.PiOver4, tex.Size() * Vector2.UnitY, scaler, 0, 0);
         if (Projectile.ai[2] < 3)
         {
-            EmpressBladeDrawer empressBladeDrawer = default(EmpressBladeDrawer);
+            EmpressBladeDrawer empressBladeDrawer = default;
             float num12 = Main.GlobalTimeWrappedHourly % 3f / 3f;
-            Player player = Main.player[Projectile.owner];
             float num13 = MathHelper.Max(1f, player.maxMinions);
             float num14 = (float)Projectile.identity % num13 / num13 + num12;
             Color fairyQueenWeaponsColor = Projectile.GetFairyQueenWeaponsColor(0f, 0f, num14 % 1f);
@@ -1046,15 +1046,6 @@ public class FractalChargingWingProj : ModProjectile
         base.SendExtraAI(writer);
     }
 
-    public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
-    {
-        if (Projectile.ai[0] > 1)
-        {
-            behindNPCsAndTiles.Add(index);
-            Projectile.hide = true;
-        }
-        base.DrawBehind(index, behindNPCsAndTiles, behindNPCs, behindProjectiles, overPlayers, overWiresUI);
-    }
     public override void OnSpawn(IEntitySource source)
     {
         Projectile.frame = 25;
@@ -1068,7 +1059,7 @@ public class FractalSnowFlakeProj : FinalFractalAssistantProjectile
     public override void AI()
     {
         //Projectile.timeLeft = 2;
-        if (Projectile.ai[0] == 0) 
+        if (Projectile.ai[0] == 0)
         {
             var player = Main.player[Projectile.owner];
             var fplayer = player.GetModPlayer<FractalPlayer>();
@@ -1142,7 +1133,7 @@ public class FractalSnowFlakeProj : FinalFractalAssistantProjectile
         DrawSnowFlakePart(spriteBatch, Position + offset.RotatedBy(-MathHelper.TwoPi / 3), color, size, rotation - MathHelper.TwoPi / 3, angle, tier);
     }
 
-    public override bool PreDraw(ref Color lightColor)
+    public override bool PreDraw(Player player, ref Color lightColor)
     {
         //float r = MathHelper.PiOver2 * (1 + MathF.Cos(Main.GlobalTimeWrappedHourly));
         //DrawSnowFlake(Main.spriteBatch, Projectile.Center - Main.screenPosition, Color.Cyan with { A = 0 }, 256, 0, MathHelper.Pi / 3, Main.GlobalTimeWrappedHourly % 6);////
@@ -1360,7 +1351,7 @@ public abstract class PlayerLikeProjectile : FinalFractalAssistantProjectile
     public virtual void ModifyDrawPlayer(Player drawPlayer)
     { }
 
-    public override bool PreDraw(ref Color lightColor)
+    public override bool PreDraw(Player player, ref Color lightColor)
     {
         DrawPlayer();
         DrawSword();
@@ -1426,11 +1417,6 @@ public class WoodSwordPlrProj : PlayerLikeProjectile
     public override void AI()
     {
         base.AI();
-    }
-
-    public override bool PreDraw(ref Color lightColor)
-    {
-        return base.PreDraw(ref lightColor);
     }
 
     public override void DrawSword()
@@ -1502,11 +1488,6 @@ public class StoneSwordPlrProj : PlayerLikeProjectile
     public override void AI()
     {
         base.AI();
-    }
-
-    public override bool PreDraw(ref Color lightColor)
-    {
-        return base.PreDraw(ref lightColor);
     }
 
     public override void DrawSword()
@@ -1583,11 +1564,6 @@ public class IronSwordPlrProj : PlayerLikeProjectile
     public override void AI()
     {
         base.AI();
-    }
-
-    public override bool PreDraw(ref Color lightColor)
-    {
-        return base.PreDraw(ref lightColor);
     }
 
     public override void DrawSword()

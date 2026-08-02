@@ -349,7 +349,7 @@ public class SteelSpecialAttack : FinalFractalSetAction
             base.OnKill(timeLeft);
         }
 
-        public override bool PreDraw(ref Color lightColor) => false;
+        public override bool PreDraw(Player player, ref Color lightColor) => false;
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             Rectangle _lanceHitboxBounds = new(0, 0, 300, 300);

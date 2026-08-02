@@ -113,7 +113,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             }
         }
 
-        public override bool PreDraw(ref Color lightColor)
+        public override bool PreDraw(Player player, ref Color lightColor)
         {
             if (LogSpiralLibraryMod.FinalFractalTailEffect == null) return false; if (LogSpiralLibraryMod.ColorfulEffect == null) return false;
 
@@ -406,7 +406,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             }
         }
 
-        public override bool PreDraw(ref Color lightColor)
+        public override bool PreDraw(Player player, ref Color lightColor)
         {
             if (LogSpiralLibraryMod.FinalFractalTailEffect == null) return false; if (LogSpiralLibraryMod.ColorfulEffect == null) return false;
 
@@ -779,7 +779,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             }
         }
 
-        public override bool PreDraw(ref Color lightColor)
+        public override bool PreDraw(Player player, ref Color lightColor)
         {
             if (LogSpiralLibraryMod.FinalFractalTailEffect == null) return false; if (LogSpiralLibraryMod.ColorfulEffect == null) return false;
 
@@ -1091,7 +1091,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             return new Color(num7, num7, num7, num7);
         }
 
-        public override bool PreDraw(ref Color lightColor)
+        public override bool PreDraw(Player player, ref Color lightColor)
         {
             if (LogSpiralLibraryMod.FinalFractalTailEffect == null) return false; if (LogSpiralLibraryMod.ColorfulEffect == null) return false;
 
@@ -1233,7 +1233,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             base.OnHitPlayer(target, info);
         }
 
-        public override bool PreDraw(ref Color lightColor)
+        public override bool PreDraw(Player player, ref Color lightColor)
         {
             if (LogSpiralLibraryMod.FinalFractalTailEffect == null) return false; if (LogSpiralLibraryMod.ColorfulEffect == null) return false;
 
@@ -1457,7 +1457,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             return new Color(num7, num7, num7, num7);
         }
 
-        public override bool PreDraw(ref Color lightColor)
+        public override bool PreDraw(Player player, ref Color lightColor)
         {
             if (LogSpiralLibraryMod.FinalFractalTailEffect == null) return false; if (LogSpiralLibraryMod.ColorfulEffect == null) return false;
 
@@ -1626,7 +1626,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             return new Color(num7, num7, num7, num7);
         }
 
-        public override bool PreDraw(ref Color lightColor)
+        public override bool PreDraw(Player player, ref Color lightColor)
         {
             if (LogSpiralLibraryMod.FinalFractalTailEffect == null) return false; if (LogSpiralLibraryMod.ColorfulEffect == null) return false;
 

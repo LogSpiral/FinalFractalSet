@@ -682,7 +682,7 @@ public class WitheredTree : ModProjectile
         tree.Generate(Projectile.Center, new Vector2(0, -.5f), new Vector2(0, -2048) + Projectile.Center, ((int)Projectile.ai[0] % 2 == 0 ? 64 : 128) * (tree.Rand() * .25f + .75f), Projectile.ai[0] > 1);
     }
 
-    public override bool PreDraw(ref Color lightColor)
+    public override bool PreDraw(Player player, ref Color lightColor)
     {
         tree?.Draw(Main.spriteBatch, Projectile.Center - Main.screenPosition, new Vector2(0, -1), Lighting.GetColor((Projectile.Center / 16f).ToPoint()), 16f, Projectile.ai[1] / 2f);
         return false;
@@ -753,7 +753,7 @@ public class WitheredWood : ModProjectile
         Projectile.oldRot[0] = Projectile.rotation;
     }
 
-    public override bool PreDraw(ref Color lightColor)
+    public override bool PreDraw(Player player, ref Color lightColor)
     {
         //try
         //{
@@ -1300,9 +1300,9 @@ public class PureFractal : WitheredWoodSword
         Item.ShaderItemEffectInventory(spriteBatch, position, origin, LogSpiralLibraryMod.Misc[1].Value, Color.Lerp(new Color(0, 162, 232), new Color(34, 177, 76), (float)Math.Sin(MathHelper.Pi / 60 * ModTime) / 2 + 0.5f), scale);
     }
 
-    public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+    public override void PostDrawInWorld(WorldItem item,SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
     {
-        Item.ShaderItemEffectInWorld(spriteBatch, LogSpiralLibraryMod.Misc[1].Value, Color.Lerp(new Color(0, 162, 232), new Color(34, 177, 76), (float)Math.Sin(MathHelper.Pi / 60 * ModTime) / 2 + 0.5f), rotation);
+        item.ShaderItemEffectInWorld(spriteBatch, LogSpiralLibraryMod.Misc[1].Value, Color.Lerp(new Color(0, 162, 232), new Color(34, 177, 76), (float)Math.Sin(MathHelper.Pi / 60 * ModTime) / 2 + 0.5f), rotation);
     }
 
     public override void SetDefaults()
@@ -1345,9 +1345,9 @@ public class FirstZenith : WitheredWoodSword
         Item.ShaderItemEffectInventory(spriteBatch, position, origin, LogSpiralLibraryMod.Misc[0].Value, Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * ModTime) / 2 + 0.5f), scale);
     }
 
-    public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+    public override void PostDrawInWorld(WorldItem item,SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
     {
-        Item.ShaderItemEffectInWorld(spriteBatch, LogSpiralLibraryMod.Misc[0].Value, Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * ModTime) / 2 + 0.5f), rotation);
+        item.ShaderItemEffectInWorld(spriteBatch, LogSpiralLibraryMod.Misc[0].Value, Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * ModTime) / 2 + 0.5f), rotation);
     }
 
     public override void SetDefaults()
@@ -1484,16 +1484,16 @@ public class FinalFractal : WitheredWoodSword
         Item.ShaderItemEffectInventory(spriteBatch, position, origin, LogSpiralLibraryMod.Misc[0].Value, Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * ModTime) / 2 + 0.5f), scale);
     }
 
-    public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+    public override void PostDrawInWorld(WorldItem item, SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
     {
-        Item.ShaderItemEffectInWorld(spriteBatch, LogSpiralLibraryMod.Misc[0].Value, Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * ModTime) / 2 + 0.5f), rotation);
+        item.ShaderItemEffectInWorld(spriteBatch, LogSpiralLibraryMod.Misc[0].Value, Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * ModTime) / 2 + 0.5f), rotation);
     }
 
     public override void ModifyTooltips(List<TooltipLine> tooltips)
     {
         for (int n = 1; n < 4; n++)
         {
-            tooltips.Add(new TooltipLine(Mod, "PureSuggestion", Language.GetOrRegister("Mods.FinalFractalSet.FinalFractalTip." + n).Value) { OverrideColor = Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * (ModTime + 40 * n)) / 2 + 0.5f) });
+            tooltips.Add(new TooltipLine(Mod, "PureSuggestion", Language.GetOrRegister("Mods.FinalFractalSet.FinalFractalTip." + n).Value) {Color = Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * (ModTime + 40 * n)) / 2 + 0.5f) });
         }
     }
 

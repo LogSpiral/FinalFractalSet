@@ -172,9 +172,9 @@ namespace FinalFractalSet.Weapons
             Item.ShaderItemEffectInventory(spriteBatch, position, origin, LogSpiralLibraryMod.Misc[0].Value, Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * LogSpiralLibraryMod.ModTime) / 2 + 0.5f), scale);
         }
 
-        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        public override void PostDrawInWorld(WorldItem item,SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Item.ShaderItemEffectInWorld(spriteBatch, LogSpiralLibraryMod.Misc[0].Value, Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * LogSpiralLibraryMod.ModTime) / 2 + 0.5f), rotation);
+            item.ShaderItemEffectInWorld(spriteBatch, LogSpiralLibraryMod.Misc[0].Value, Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * LogSpiralLibraryMod.ModTime) / 2 + 0.5f), rotation);
         }
 
         public override void SetDefaults()
@@ -454,7 +454,7 @@ namespace FinalFractalSet.Weapons
             base.OnKill(timeLeft);
         }
 
-        public override bool PreDraw(ref Color lightColor)
+        public override bool PreDraw(Player player, ref Color lightColor)
         {
             DrawOthers();
             DrawSword();
@@ -694,7 +694,7 @@ namespace FinalFractalSet.Weapons
             {
                 Player.velocity += (Main.MouseWorld - Player.Center).SafeNormalize(default) * UpgradeValue(16, 24) * new Vector2(1, 0.25f);
                 NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, Player.whoAmI);
-                NetMessage.SendData(MessageID.ShotAnimationAndSound, -1, -1, null, Player.whoAmI);
+                NetMessage.SendData(MessageID.ItemRotationAndAnimation, -1, -1, null, Player.whoAmI);
             }
         }
 
@@ -945,7 +945,7 @@ namespace FinalFractalSet.Weapons
 
         private Projectile projectile => Projectile;
 
-        public override bool PreDraw(ref Color lightColor)
+        public override bool PreDraw(Player player, ref Color lightColor)
         {
             Texture2D value33 = TextureAssets.Projectile[projectile.type].Value;
             Rectangle value34 = value33.Frame(1, 6, 0, projectile.frame);

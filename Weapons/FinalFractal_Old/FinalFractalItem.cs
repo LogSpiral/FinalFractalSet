@@ -27,7 +27,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
         {
             for (int n = 1; n < 4; n++)
             {
-                tooltips.Add(new TooltipLine(Mod, "PureSuggestion", Language.GetOrRegister("Mods.FinalFractalSet.FinalFractalTip." + n).Value) { OverrideColor = Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * (LogSpiralLibraryMod.ModTime + 40 * n)) / 2 + 0.5f) });
+                tooltips.Add(new TooltipLine(Mod, "PureSuggestion", Language.GetOrRegister("Mods.FinalFractalSet.FinalFractalTip." + n).Value) { Color = Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * (LogSpiralLibraryMod.ModTime + 40 * n)) / 2 + 0.5f) });
             }
         }
 
@@ -124,7 +124,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
             item.ShaderItemEffectInventory(spriteBatch, position, origin, LogSpiralLibraryMod.Misc[0].Value, Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * LogSpiralLibraryMod.ModTime) / 2 + 0.5f), scale);
         }
 
-        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        public override void PostDrawInWorld(WorldItem item, SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
             item.ShaderItemEffectInWorld(spriteBatch, LogSpiralLibraryMod.Misc[0].Value, Color.Lerp(new Color(99, 74, 187), new Color(20, 120, 118), (float)Math.Sin(MathHelper.Pi / 60 * LogSpiralLibraryMod.ModTime) / 2 + 0.5f), rotation);
         }
@@ -216,7 +216,7 @@ namespace FinalFractalSet.Weapons.FinalFractal_Old
 
         private Projectile projectile => Projectile;
 
-        public override bool PreDraw(ref Color lightColor)
+        public override bool PreDraw(Player player, ref Color lightColor)
         {
             SpriteBatch spriteBatch = Main.spriteBatch;
             FinalFractalPlayer illusionBoundPlayer = Player.GetModPlayer<FinalFractalPlayer>();

@@ -20,6 +20,7 @@ public class FractalJuilaSetProj : FinalFractalAssistantProjectile
         Projectile.ignoreWater = true;
         Projectile.usesLocalNPCImmunity = true;
         Projectile.localNPCHitCooldown = 0;
+        Projectile.drawLayer = ProjectileDrawLayerID.BehindNPCsAndTiles;
         base.SetDefaults();
     }
 
@@ -28,7 +29,7 @@ public class FractalJuilaSetProj : FinalFractalAssistantProjectile
     /// </summary>
     public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => true;
 
-    public override bool PreDraw(ref Color lightColor)
+    public override bool PreDraw(Player player, ref Color lightColor)
     {
         JuilaSetScene.Active = true;
         //JuilaSetSystem.DrawFractalImage();
@@ -49,12 +50,6 @@ public class FractalJuilaSetProj : FinalFractalAssistantProjectile
         return false;
     }
 
-    public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
-    {
-        Projectile.hide = true;
-        behindNPCsAndTiles.Add(index);
-        base.DrawBehind(index, behindNPCsAndTiles, behindNPCs, behindProjectiles, overPlayers, overWiresUI);
-    }
 
     public override void OnKill(int timeLeft)
     {

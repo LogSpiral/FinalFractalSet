@@ -258,7 +258,7 @@ public class WitheredTree_NewVer : ModProjectile
         tree.Generate(Projectile.Center, new Vector2(0, -.5f), new Vector2(0, -2048) + Projectile.Center, ((int)Projectile.ai[0] % 2 == 0 ? 128 : 256) * (tree.Rand() * .25f + .75f), Projectile.ai[0] > 1);
     }
 
-    public override bool PreDraw(ref Color lightColor)
+    public override bool PreDraw(Player player, ref Color lightColor)
     {
         tree?.Draw(Main.spriteBatch, Projectile.Center - Main.screenPosition, new Vector2(0, -1), Lighting.GetColor((Projectile.Center / 16f).ToPoint()), 16f, Projectile.ai[1] / 2f);
         return false;
@@ -329,7 +329,7 @@ public class WitheredWood_NewVer : ModProjectile
         Projectile.oldRot[0] = Projectile.rotation;
     }
 
-    public override bool PreDraw(ref Color lightColor)
+    public override bool PreDraw(Player player,ref Color lightColor)
     {
         for (int n = 9; n > -1; n--)
         {
@@ -372,7 +372,7 @@ public class ThornTree_Proj : ModProjectile
     public override void AI()
     {
         if (Main.dedServ) return;
-        if (thornTree == null && Projectile.owner == Main.myPlayer) 
+        if (thornTree == null && Projectile.owner == Main.myPlayer)
         {
             _useAltSize = Main.rand.NextBool();
             _randSeed = Main.rand.Next();
@@ -453,7 +453,7 @@ public class ThornTree_Proj : ModProjectile
         //vertexs = thornTree.GetTreeVertex(-MathHelper.Pi / 3 * 2, Projectile.Center);
     }
 
-    public override bool PreDraw(ref Color lightColor)
+    public override bool PreDraw(Player player, ref Color lightColor)
     {
         if (vertexs == null)
             return false;

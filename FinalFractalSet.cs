@@ -12,6 +12,7 @@ using LogSpiralLibrary.CodeLibrary.DataStructures.SequenceStructures.Contents.Me
 using NetSimplified;
 using System.ComponentModel;
 using System.IO;
+using System.Reflection;
 using Terraria.ModLoader.Config;
 
 namespace FinalFractalSet;
@@ -27,7 +28,10 @@ public class FinalFractalSet : Mod
     public override void Load()
     {
         Instance = this;
-        AddContent<NetModuleLoader>();
+        NetModuleLoader.CurrentMod = this;
+        NetModuleLoader.LoadAutoSyncsFrom(typeof(NetModuleLoader).Assembly);
+        NetModuleLoader.LoadAutoSyncsFrom(Assembly.GetExecutingAssembly());
+        NetModuleLoader.LoadNetModules();
         base.Load();
     }
 
